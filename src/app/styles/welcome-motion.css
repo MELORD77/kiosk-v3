@@ -1,0 +1,41 @@
+@theme {
+  --color-welcome-accent: #c4a45a;
+  --animate-welcome-reveal: welcome-reveal 700ms ease-out both;
+  --animate-welcome-glow: welcome-glow 12s ease-in-out infinite;
+  --animate-welcome-orbit: welcome-orbit 32s linear infinite;
+  --animate-welcome-emblem-turn: welcome-emblem-turn 32s linear infinite;
+
+  @keyframes welcome-reveal {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes welcome-glow {
+    0%,
+    100% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes welcome-orbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes welcome-emblem-turn {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+}

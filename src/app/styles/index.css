@@ -1,0 +1,54 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './tailwind.css';
+@import './welcome-motion.css';
+@import './primitives.css';
+@import './scrollbars.css';
+@import './kiosk.css';
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    user-select: none;
+  }
+  body {
+    margin: 0;
+    font-family: 'Commissioner', system-ui, sans-serif;
+    color: var(--color-text);
+    background: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+  }
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+  a {
+    color: var(--color-primary);
+  }
+  button,
+  a,
+  input,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: var(--space-1);
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

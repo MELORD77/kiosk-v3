@@ -1,0 +1,223 @@
+{
+  "brand": {
+    "republic": "O‘zbekiston Respublikasi",
+    "ministry": "Ichki ishlar vazirligi",
+    "emblem": "Gerb"
+  },
+  "common": {
+    "home": "Bosh sahifa",
+    "back": "Orqaga",
+    "finish": "Yakunlash",
+    "retry": "Qayta urinish",
+    "language": "Til",
+    "loading": "Yuklanmoqda…"
+  },
+  "languages": {
+    "uz": "O‘zbekcha",
+    "uzc": "Ўзбекча",
+    "ru": "Русский",
+    "en": "English",
+    "uzCode": "UZ · Lotin",
+    "uzcCode": "ЎЗ · Кирилл",
+    "ruCode": "RU",
+    "enCode": "EN"
+  },
+  "welcome": {
+    "uz": "Xush kelibsiz",
+    "uzc": "Хуш келибсиз",
+    "ru": "Добро пожаловать",
+    "en": "Welcome",
+    "eyebrow": "Elektron xizmatlar kioski",
+    "emergency": "Favqulodda holatlarda · Экстренный вызов · Emergency"
+  },
+  "home": {
+    "title": "Qanday xizmat kerak?",
+    "subtitle": "Kerakli xizmatni tanlang",
+    "categories": "Xizmat bo‘limlari",
+    "services": "Xizmatlar"
+  },
+  "service": {
+    "pending": "Ushbu xizmat ekrani keyingi bosqichda tayyorlanadi."
+  },
+  "identity": {
+    "methodLabel": "Ma’lumot kiritish usuli",
+    "pinMethod": "JSHSHIR",
+    "passportMethod": "Pasport",
+    "pinTitle": "JSHSHIR raqamingizni kiriting",
+    "passportTitle": "Pasport ma’lumotlarini kiriting",
+    "pinHint": "ID-karta orqa tomonidagi 14 xonali raqam",
+    "passportHint": "Pasportning 2 harfli seriyasi va 7 xonali raqamini kiriting",
+    "pinLabel": "JSHSHIR",
+    "seriesLabel": "Pasport seriyasi",
+    "numberLabel": "Pasport raqami",
+    "pinPlaceholder": "14 ta raqam",
+    "seriesPlaceholder": "AA",
+    "numberPlaceholder": "7 ta raqam",
+    "pinError": "Aynan 14 ta raqam kiriting",
+    "seriesError": "2 ta lotin harfini kiriting",
+    "numberError": "Aynan 7 ta raqam kiriting",
+    "step": "2 bosqichdan 1-bosqich",
+    "stepCount": "1 / 2",
+    "continue": "Davom etish",
+    "clear": "Tozalash",
+    "delete": "Oxirgi belgini o‘chirish",
+    "alphabetKeyboard": "Harfli klaviatura",
+    "numberKeyboard": "Raqamli klaviatura",
+    "nextTitle": "Kiritish formati to‘g‘ri",
+    "nextDescription": "Keyingi bosqich hozircha mavjud emas. Ma’lumotlaringiz yuborilmadi."
+  },
+  "error": {
+    "title": "Nimadir xato ketdi",
+    "description": "Bosh sahifaga qaytib, qayta urinib ko‘ring."
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "description": "Bosh sahifaga qaytib, xizmatni tanlang."
+  },
+  "session": {
+    "title": "Siz shu yerdamisiz?",
+    "description": "Sessiya {{count}} soniyadan so‘ng yakunlanadi.",
+    "continue": "Davom etish"
+  },
+  "theme": {
+    "darkMode": "Tungi rejim",
+    "switchToLight": "Kunduzgi rejimga o‘tish",
+    "switchToDark": "Tungi rejimga o‘tish"
+  },
+  "settings": {
+    "title": "Dasturchi sozlamalari",
+    "theme": "Mavzu",
+    "light": "Yorug‘",
+    "dark": "Qorong‘i",
+    "system": "Tizim",
+    "orientation": "Ekran yo‘nalishi",
+    "auto": "Avtomatik",
+    "portrait": "Vertikal",
+    "landscape": "Gorizontal",
+    "demo": "Core sinovi"
+  },
+  "demo": {
+    "title": "Core sinovi",
+    "description": "Faqat ishlab chiqish uchun. Bu yerda haqiqiy xizmat yoki so‘rov mavjud emas.",
+    "scenario": "Ma’lumot holati",
+    "success": "Ma’lumot bor",
+    "empty": "Bo‘sh",
+    "error": "Xatolik",
+    "profiles": "Ekran profillari",
+    "emptyTitle": "Profil topilmadi",
+    "emptyDescription": "Bo‘sh holat namoyishi.",
+    "errorTitle": "Namunaviy xatolik",
+    "errorDescription": "Qayta urinish orqali xatolik holatini tekshiring.",
+    "formTitle": "Forma sinovi",
+    "label": "Namuna nomi",
+    "hint": "3–40 belgi. Xatolikni tekshirish uchun error yozing.",
+    "submit": "Namunani tekshirish",
+    "pending": "Tekshirilmoqda…",
+    "required": "Nomni kiriting",
+    "minLength": "Kamida 3 belgi kiriting",
+    "maxLength": "Ko‘pi bilan 40 belgi kiriting",
+    "submitError": "Namunani tekshirishda xatolik yuz berdi",
+    "submitted": "Namuna tekshirildi: {{label}}",
+    "result": "Namuna natijasi"
+  },
+  "services": {
+    "service-1": "O‘zbekiston Respublikasi hududida chet el fuqarolari va fuqaroligi bo‘lmagan shaxslarni vaqtincha turgan joyi bo‘yicha ro‘yxatga olish",
+    "service-2": "Chet el fuqarolari va fuqaroligi bo‘lmagan shaxslarni O‘zbekiston Respublikasiga taklif qilish",
+    "service-3": "O‘zbekiston Respublikasida vaqtincha bo‘lib turgan chet el fuqarolari va fuqaroligi bo‘lmagan shaxslarning viza muddatini uzaytirish",
+    "service-4": "O‘zbekiston Respublikasi fuqarolarini doimiy yashash joyi bo‘yicha ro‘yxatdan o‘tkazish, yashash joyi ro‘yxatdan o‘tkazilganligini bekor qilish",
+    "service-5": "O‘zbekiston Respublikasi fuqarolarini turgan joyi bo‘yicha ro‘yxatdan o‘tkazish",
+    "service-6": "Manzil-ma’lumot axborotlarini taqdim etish",
+    "service-7": "Yashash joyi bo‘yicha ma’lumotnoma berish",
+    "service-8": "Yashash joyida ro‘yxatdan o‘tib yashovchilar to‘g‘risida ma’lumotnoma berish",
+    "service-9": "O‘zbekiston Respublikasi fuqaroligiga mansub emaslik to‘g‘risida ma’lumotnomalar berish",
+    "service-10": "Ommaviy tadbirlarni o‘tkazish uchun ruxsatnoma",
+    "service-11": "Umumiy ovqatlanish korxonalari va ko‘ngilochar obyektlarning tungi vaqtda faoliyat yuritishni boshlaganligi yoki tugatganligi to‘g‘risida xabarnoma",
+    "service-12": "Sudlanganlik haqida ma’lumotnoma berish",
+    "service-13": "Avtotransport vositasini xavfli yuklarni tashishga qo‘yish to‘g‘risidagi guvohnoma",
+    "service-14": "Haydovchilik guvohnomasini olish bo‘yicha imtihonga ariza topshirish",
+    "service-15": "Haydovchilik guvohnomasini berish, almashtirish va yo‘qolganlari o‘rniga yangisini berish",
+    "service-16": "Avtomototransport vositalarini davlat ro‘yxatidan o‘tkazish",
+    "service-17": "Avtotransport vositalari haqida ma’lumot berish",
+    "service-18": "Avtomototransport vositalarini qayta jihozlash uchun ruxsatnoma",
+    "service-19": "Avtomototransport vositasi konstruksiyasini va (yoki) uning bir qismini o‘zgartirish bilan bog‘liq faoliyatni boshlaganlik yoki tugatganlik haqida xabarnoma",
+    "service-20": "Avtotransport vositalari oynalarining tusini o‘zgartirishga (qoraytirish) ruxsatnoma",
+    "service-21": "Avtomototransport vositalari uchun istalgan harf va raqamlar kombinatsiyasiga ega bo‘lgan ro‘yxatdan o‘tkazish davlat raqami belgilarini yagona oshirilgan to‘lov evaziga berish",
+    "service-22": "Shaxsning jazoni ijro etish muassasasidan ozod etilganligi to‘g‘risida ma’lumotnoma berish",
+    "service-23": "Tazyiq va zo‘ravonlikdan jabrlangan xotin-qizlarga himoya orderini berish",
+    "service-24": "Qo‘riqlash texnik vositalari va tizimlarini montaj qilish, sozlash, ta’mirlash hamda ularga texnik xizmat ko‘rsatish faoliyatini boshlaganlik yoki tugatganlik to‘g‘risida xabarnoma"
+  },
+  "categories": {
+    "all": "Barcha xizmatlar",
+    "mig": "Migratsiya va fuqarolik",
+    "reg": "Ro‘yxatga olish",
+    "cert": "Ma’lumotnomalar",
+    "road": "Yo‘l harakati",
+    "permit": "Ruxsatnoma va xabarnomalar",
+    "protect": "Himoya orderi"
+  },
+  "calendar": {
+    "monthYear": "{{month}} {{year}}",
+    "timezone": "Toshkent vaqti",
+    "date": "{{day}}-{{month}}, {{weekday}}",
+    "months": [
+      "yanvar",
+      "fevral",
+      "mart",
+      "aprel",
+      "may",
+      "iyun",
+      "iyul",
+      "avgust",
+      "sentabr",
+      "oktabr",
+      "noyabr",
+      "dekabr"
+    ],
+    "weekdays": [
+      "yakshanba",
+      "dushanba",
+      "seshanba",
+      "chorshanba",
+      "payshanba",
+      "juma",
+      "shanba"
+    ]
+  },
+  "footer": {
+    "emergency": "Favqulodda holatlarda qo‘ng‘iroq qiling"
+  },
+  "catalog": {
+    "categoriesErrorTitle": "Kategoriyalarni yuklab bo‘lmadi",
+    "servicesErrorTitle": "Xizmatlarni yuklab bo‘lmadi",
+    "serviceErrorTitle": "Xizmatni yuklab bo‘lmadi",
+    "errorDescription": "Ulanishni tekshiring va qayta urinib ko‘ring.",
+    "categoriesEmptyTitle": "Kategoriyalar mavjud emas",
+    "categoriesEmptyDescription": "Barcha xizmatlarni ko‘rishingiz yoki kategoriyalarni qayta yuklashingiz mumkin.",
+    "servicesEmptyTitle": "Xizmatlar topilmadi",
+    "servicesEmptyDescription": "Boshqa kategoriyani tanlang yoki keyinroq urinib ko‘ring."
+  },
+  "face": {
+    "title": "Yuz suratini olish",
+    "description": "Kamerada faqat bitta yuz ko‘rinsin.",
+    "cameraLabel": "Kamera tasviri",
+    "loading": "Kamera va yuz detektori tayyorlanmoqda…",
+    "noFace": "Yuz topilmadi. Kameraga qarang.",
+    "multipleFaces": "Bir nechta yuz aniqlandi. Kadrda faqat bir kishi bo‘lsin.",
+    "ready": "Bitta yuz aniqlandi. Surat olishingiz mumkin.",
+    "capturing": "Tekshirilmoqda va surat olinmoqda…",
+    "captured": "Surat olindi",
+    "cancelled": "Kamera to‘xtatildi",
+    "permissionDenied": "Kameraga ruxsat berilmadi. Ruxsat berib, qayta urinib ko‘ring.",
+    "cameraUnavailable": "Kamera mavjud emas yoki band.",
+    "unsupported": "Kamera uchun HTTPS yoki localhost va mos brauzer kerak.",
+    "modelError": "Yuz detektori yuklanmadi.",
+    "detectionError": "Yuzni aniqlash bajarilmadi. Qayta urinib ko‘ring.",
+    "captureError": "Surat olinmadi. Qayta urinib ko‘ring.",
+    "capture": "Surat olish",
+    "cancel": "Bekor qilish",
+    "retry": "Qayta urinish",
+    "previewDescription": "Development sinov ekrani. Surat faqat xotirada saqlanadi va yuborilmaydi.",
+    "start": "Kamerani yoqish",
+    "photoAlt": "Olingan surat"
+  }
+}

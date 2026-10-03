@@ -1,0 +1,28 @@
+[data-orientation='portrait'] {
+  --text-service-title: clamp(
+    var(--text-sm),
+    calc(0.75rem + 0.75vw),
+    var(--text-md)
+  );
+  --text-welcome-title: clamp(3rem, calc(2rem + 6vw), 6rem);
+  --text-welcome-secondary: clamp(
+    var(--text-md),
+    calc(1rem + 1.5vw),
+    var(--text-xl)
+  );
+  --text-language-name: clamp(var(--text-lg), calc(1.25rem + 2.15vw), 2.75rem);
+  --text-language-code: clamp(
+    var(--text-sm),
+    calc(0.5rem + 1.15vw),
+    var(--text-md)
+  );
+}
+@media (max-width: 720px) {
+  .kiosk-shell,
+  [data-orientation='portrait'] {
+    --text-welcome-title: 3.5rem;
+    --text-welcome-secondary: var(--text-md);
+    --text-language-name: var(--text-lg);
+    --text-language-code: var(--text-sm);
+  }
+}

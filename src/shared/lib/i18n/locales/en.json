@@ -1,0 +1,223 @@
+{
+  "brand": {
+    "republic": "Republic of Uzbekistan",
+    "ministry": "Ministry of Internal Affairs",
+    "emblem": "Emblem"
+  },
+  "common": {
+    "home": "Home",
+    "back": "Back",
+    "finish": "Finish",
+    "retry": "Retry",
+    "language": "Language",
+    "loading": "Loading…"
+  },
+  "languages": {
+    "uz": "O‘zbekcha",
+    "uzc": "Ўзбекча",
+    "ru": "Русский",
+    "en": "English",
+    "uzCode": "UZ · Lotin",
+    "uzcCode": "ЎЗ · Кирилл",
+    "ruCode": "RU",
+    "enCode": "EN"
+  },
+  "welcome": {
+    "uz": "Xush kelibsiz",
+    "uzc": "Хуш келибсиз",
+    "ru": "Добро пожаловать",
+    "en": "Welcome",
+    "eyebrow": "Electronic services kiosk",
+    "emergency": "Emergency · Favqulodda holatlarda · Экстренный вызов"
+  },
+  "home": {
+    "title": "How can we help?",
+    "subtitle": "Choose a service",
+    "categories": "Service categories",
+    "services": "Services"
+  },
+  "service": {
+    "pending": "This service screen will be prepared in the next stage."
+  },
+  "identity": {
+    "methodLabel": "Identification method",
+    "pinMethod": "PINFL",
+    "passportMethod": "Passport",
+    "pinTitle": "Enter your PINFL",
+    "passportTitle": "Enter your passport details",
+    "pinHint": "The 14 digit number on the back of your ID card",
+    "passportHint": "Enter the two letter series and seven digit passport number",
+    "pinLabel": "PINFL",
+    "seriesLabel": "Passport series",
+    "numberLabel": "Passport number",
+    "pinPlaceholder": "14 digits",
+    "seriesPlaceholder": "AA",
+    "numberPlaceholder": "7 digits",
+    "pinError": "Enter exactly 14 digits",
+    "seriesError": "Enter two Latin letters",
+    "numberError": "Enter exactly 7 digits",
+    "step": "Step 1 of 2",
+    "stepCount": "1 / 2",
+    "continue": "Continue",
+    "clear": "Clear",
+    "delete": "Delete last character",
+    "alphabetKeyboard": "Letter keyboard",
+    "numberKeyboard": "Number keyboard",
+    "nextTitle": "Input format is correct",
+    "nextDescription": "The next step is not available yet. Your details have not been sent."
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "Return to the home screen and try again."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "Return to the home screen and choose a service."
+  },
+  "session": {
+    "title": "Are you still there?",
+    "description": "Your session ends in {{count}} seconds.",
+    "continue": "Continue"
+  },
+  "theme": {
+    "darkMode": "Dark mode",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "settings": {
+    "title": "Developer settings",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "orientation": "Screen orientation",
+    "auto": "Automatic",
+    "portrait": "Portrait",
+    "landscape": "Landscape",
+    "demo": "Core demonstration"
+  },
+  "demo": {
+    "title": "Core demonstration",
+    "description": "Development only. No real service or request is available here.",
+    "scenario": "Data scenario",
+    "success": "Data available",
+    "empty": "Empty",
+    "error": "Error",
+    "profiles": "Screen profiles",
+    "emptyTitle": "No profiles found",
+    "emptyDescription": "This demonstrates an empty state.",
+    "errorTitle": "Demonstration error",
+    "errorDescription": "Use retry to check the error state.",
+    "formTitle": "Form demonstration",
+    "label": "Example label",
+    "hint": "3–40 characters. Enter error to test failure.",
+    "submit": "Check example",
+    "pending": "Checking…",
+    "required": "Enter a label",
+    "minLength": "Enter at least 3 characters",
+    "maxLength": "Enter no more than 40 characters",
+    "submitError": "The example could not be checked",
+    "submitted": "Example checked: {{label}}",
+    "result": "Example result"
+  },
+  "services": {
+    "service-1": "Registration of foreign citizens and stateless persons at their place of temporary stay in Uzbekistan",
+    "service-2": "Inviting foreign citizens and stateless persons to Uzbekistan",
+    "service-3": "Visa extension for foreign citizens and stateless persons temporarily staying in Uzbekistan",
+    "service-4": "Registering citizens of Uzbekistan at their permanent residence and cancelling residence registration",
+    "service-5": "Registering citizens of Uzbekistan at their place of stay",
+    "service-6": "Address and reference information",
+    "service-7": "Certificate of residence",
+    "service-8": "Certificate of persons registered at a residence",
+    "service-9": "Certificate of not holding citizenship of Uzbekistan",
+    "service-10": "Permit to hold public events",
+    "service-11": "Notice of starting or ending night-time operation of restaurants and entertainment venues",
+    "service-12": "Criminal record certificate",
+    "service-13": "Certificate approving a vehicle to carry dangerous goods",
+    "service-14": "Apply for the driving licence exam",
+    "service-15": "Issue or replace a driving licence, or get a new one if lost",
+    "service-16": "State registration of motor vehicles",
+    "service-17": "Information about vehicles",
+    "service-18": "Permit to re-equip a motor vehicle",
+    "service-19": "Notice of starting or ending work that changes the design of a motor vehicle or its parts",
+    "service-20": "Permit to tint vehicle windows",
+    "service-21": "Licence plates with a chosen combination of letters and numbers for a single increased fee",
+    "service-22": "Certificate of release from a penal institution",
+    "service-23": "Protection orders for women affected by harassment and violence",
+    "service-24": "Notice of starting or ending installation, setup, repair and maintenance of security systems"
+  },
+  "categories": {
+    "all": "All services",
+    "mig": "Migration and citizenship",
+    "reg": "Registration",
+    "cert": "Certificates",
+    "road": "Vehicles and driving",
+    "permit": "Permits and notices",
+    "protect": "Protection order"
+  },
+  "calendar": {
+    "monthYear": "{{month}} {{year}}",
+    "timezone": "Tashkent time",
+    "date": "{{weekday}}, {{month}} {{day}}",
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "weekdays": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ]
+  },
+  "footer": {
+    "emergency": "Call in an emergency"
+  },
+  "catalog": {
+    "categoriesErrorTitle": "Categories could not be loaded",
+    "servicesErrorTitle": "Services could not be loaded",
+    "serviceErrorTitle": "This service could not be loaded",
+    "errorDescription": "Check the connection and try again.",
+    "categoriesEmptyTitle": "No categories available",
+    "categoriesEmptyDescription": "You can still browse all services or try loading the categories again.",
+    "servicesEmptyTitle": "No services found",
+    "servicesEmptyDescription": "Choose another category or try again later."
+  },
+  "face": {
+    "title": "Face capture",
+    "description": "Keep only one face visible in the camera.",
+    "cameraLabel": "Camera preview",
+    "loading": "Preparing camera and face detector…",
+    "noFace": "No face detected. Look at the camera.",
+    "multipleFaces": "Multiple faces detected. Only one person may be in the frame.",
+    "ready": "One face detected. You can take a photo.",
+    "capturing": "Checking and capturing…",
+    "captured": "Photo captured",
+    "cancelled": "Camera stopped",
+    "permissionDenied": "Camera permission was denied. Allow access and retry.",
+    "cameraUnavailable": "Camera is unavailable or in use.",
+    "unsupported": "Camera requires HTTPS or localhost and a supported browser.",
+    "modelError": "Face detector could not be loaded.",
+    "detectionError": "Face detection failed. Please retry.",
+    "captureError": "Photo could not be captured. Please retry.",
+    "capture": "Take photo",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "previewDescription": "Development preview. Photos stay in memory and are never uploaded.",
+    "start": "Start camera",
+    "photoAlt": "Captured photo"
+  }
+}

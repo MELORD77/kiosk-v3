@@ -1,0 +1,9 @@
+node_modules
+.cache
+.playwright-mcp
+dist
+coverage
+playwright-report
+test-results
+output/playwright
+package-lock.json
