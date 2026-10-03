@@ -6,6 +6,7 @@ describe('kiosk configuration', () => {
   it('uses safe defaults and ignores unrelated environment values', () => {
     expect(parseEnv({ UNRELATED: 'value' })).toEqual({
       apiBaseUrl: undefined,
+      routerMode: 'browser',
       kioskOrientation: 'auto',
       idleTimeoutMs: 120_000,
       idleWarningMs: 15_000,
@@ -22,11 +23,27 @@ describe('kiosk configuration', () => {
       }),
     ).toEqual({
       apiBaseUrl: 'https://example.test/api/',
+      routerMode: 'browser',
       kioskOrientation: 'landscape',
       idleTimeoutMs: 60_000,
       idleWarningMs: 5_000,
     });
   });
+
+  it.each(['browser', 'hash'])('accepts %s routing', (routerMode) => {
+    expect(parseEnv({ VITE_ROUTER_MODE: routerMode }).routerMode).toBe(
+      routerMode,
+    );
+  });
+
+  it.each(['', 'history', 'HASH'])(
+    'rejects invalid routing mode %j',
+    (mode) => {
+      expect(() => parseEnv({ VITE_ROUTER_MODE: mode })).toThrow(
+        'Invalid kiosk configuration: VITE_ROUTER_MODE.',
+      );
+    },
+  );
 
   it('rejects unsafe configuration without including its value', () => {
     expect(() =>

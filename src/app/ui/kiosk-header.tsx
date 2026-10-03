@@ -38,7 +38,7 @@ export function KioskHeader() {
       <div className={styles['kiosk-brand']}>
         <img
           className={styles['kiosk-emblem']}
-          src="/logo/logo-iiv.png"
+          src={`${import.meta.env.BASE_URL}logo/logo-iiv.png`}
           alt={t('brand.emblem')}
         />
         <div>

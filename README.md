@@ -194,6 +194,27 @@ npm run preview
 
 Host `dist/` with an SPA fallback to `index.html` for page routes. Preserve normal asset handling; do not return HTML for missing JS/CSS. The demo route is absent in production. Deploying the core does not enable backend services. No deployment, commit, or push is performed without a user request.
 
+### GitHub Pages and local-network API
+
+The `Checks and Pages` workflow runs lint, FSD boundaries, typecheck, formatting, tests, and the standard production build on pushes and pull requests. On `main`, after those checks pass, it builds with `/kiosk-v3/` as the asset base and `VITE_ROUTER_MODE=hash`, verifies the production site in Chromium, and deploys to GitHub Pages. A manual workflow run on `main` also deploys. Failed checks prevent deployment.
+
+Enable **Settings → Pages → Source → GitHub Actions**. The current free account requires a public repository for Pages; changing repository visibility requires the owner's approval. The site URL is `https://melord77.github.io/kiosk-v3/`, with routes such as `/kiosk-v3/#/home`. Hash routing supports refresh without server rewrite rules. Ordinary local and reverse-proxy builds retain browser routing by default.
+
+The Pages build uses the repository Actions variable `VITE_API_BASE_URL`, falling back to the confirmed LAN origin `https://192.168.5.21:8001`. This is public frontend configuration, not a secret. `.env.local` is not uploaded or used by GitHub Actions. GitHub hosts only static frontend files; API requests are made directly from the user's browser to the LAN server, not from a GitHub runner. The kiosk must have internet access to load Pages and local-network access to reach the API.
+
+The LAN API must serve HTTPS with a certificate trusted by the kiosk browser and allow the origin `https://melord77.github.io` in its CORS policy. The browser may also ask for local-network access; grant it on the intended kiosk. Outside the LAN, the welcome screen can load but catalog requests show the existing network error and Retry state. No mock catalog, HTTP downgrade, TLS bypass, or API proxy is included.
+
+To verify the same production target locally:
+
+```powershell
+$env:VITE_ROUTER_MODE = 'hash'
+$env:VITE_API_BASE_URL = 'https://192.168.5.21:8001'
+npm run build -- --base /kiosk-v3/
+npm run test:pages
+```
+
+The Pages browser checks use test-only catalog fixtures; they verify routing, refresh, assets, session reset, both themes, and kiosk orientations. They do not prove the real LAN server's certificate trust or CORS configuration. Remove the temporary shell variables when returning to ordinary browser-routing development.
+
 ## Dependency choices
 
 Pinned versions include React 19.3.0, React Router 8.4.0 (declarative mode), TanStack Query 5.104.0, React Hook Form 7.89.0, resolvers 5.9.1, Zod 4.6.5, Zustand 5.0.15, Vite 8.3.2, Tailwind 4.3.3, tailwind-merge 3.7.0, Vitest 5.0.3, and TypeScript 6.0.3. TypeScript 7 is not used because the current TypeScript ESLint peer range excludes it. The lockfile records the full dependency tree.

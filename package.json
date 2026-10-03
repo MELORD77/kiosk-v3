@@ -18,6 +18,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:e2e": "playwright test",
+    "test:pages": "playwright test --config playwright.pages.config.ts",
     "check:boundaries": "node scripts/check-boundaries.mjs"
   },
   "dependencies": {
