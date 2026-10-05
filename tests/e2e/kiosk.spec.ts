@@ -45,6 +45,13 @@ test('design welcome, categories, identity entry, and session reset', async ({
     )
     .click();
   await expect(
+    page.getByText('About this service', { exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Enter manually', exact: true })
+    .click();
+  await expect(
     page.getByRole('button', { name: 'Passport', exact: true }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Finish', exact: true }).click();

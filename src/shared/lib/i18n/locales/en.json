@@ -46,7 +46,7 @@
     "pinTitle": "Enter your PINFL",
     "passportTitle": "Enter your passport details",
     "pinHint": "The 14 digit number on the back of your ID card",
-    "passportHint": "Enter the two letter series and seven digit passport number",
+    "passportHint": "Enter the series, passport number and birth date",
     "pinLabel": "PINFL",
     "seriesLabel": "Passport series",
     "numberLabel": "Passport number",
@@ -64,7 +64,14 @@
     "alphabetKeyboard": "Letter keyboard",
     "numberKeyboard": "Number keyboard",
     "nextTitle": "Input format is correct",
-    "nextDescription": "The next step is not available yet. Your details have not been sent."
+    "nextDescription": "The next step is not available yet. Your details have not been sent.",
+    "birthDateLabel": "Birth date",
+    "birthDatePlaceholder": "DD.MM.YYYY",
+    "birthDateError": "Enter a valid birth date in DD.MM.YYYY format",
+    "space": "Space",
+    "shift": "Shift",
+    "nextField": "Next field",
+    "requestError": "Identification could not be completed"
   },
   "error": {
     "title": "Something went wrong",
@@ -219,5 +226,39 @@
     "previewDescription": "Development preview. Photos stay in memory and are never uploaded.",
     "start": "Start camera",
     "photoAlt": "Captured photo"
+  },
+  "serviceStatus": {
+    "ACTIVE": "Available",
+    "IN_PROGRESS": "Coming soon",
+    "MAINTENANCE": "Temporarily unavailable",
+    "IN_PROGRESSDescription": "This service is being prepared. Please choose another service.",
+    "MAINTENANCEDescription": "This service is temporarily unavailable. Please try again later or choose another service."
+  },
+  "serviceFlow": {
+    "department": "Responsible department",
+    "forms": "Service format",
+    "result": "Service result",
+    "traditional": "Traditional",
+    "electronic": "Electronic",
+    "overviewTitle": "About this service",
+    "description": "Brief description",
+    "notProvided": "Information has not been provided yet",
+    "conditionsNotice": "Review the service conditions before submitting an application.",
+    "price": "Payment",
+    "free": "Free",
+    "documents": "Required documents",
+    "identityRequirement": "Identity verification",
+    "methodTitle": "Choose how to enter your details",
+    "manualTitle": "Enter manually",
+    "manualDescription": "Enter your PINFL or passport details using the on-screen keyboard.",
+    "readerTitle": "Read passport",
+    "readerDescription": "Read printed passport details with the kiosk reader.",
+    "verificationNotice": "Entering or reading details alone does not verify your identity.",
+    "readerInstruction": "Position the passport’s MRZ area toward the reader.",
+    "readerImageAlt": "Illustration of a passport reader",
+    "readerUnavailableTitle": "Reader is not connected",
+    "readerUnavailable": "Passport reading is currently unavailable. You can enter your details manually.",
+    "mrzNotice": "The reader reads printed MRZ details. It does not read the passport chip or verify your identity.",
+    "startReading": "Start reading"
   }
 }

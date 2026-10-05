@@ -1,4 +1,3 @@
-import { textFieldStyles } from '@/shared/ui/text-field';
 import { cn } from '@/shared/lib/classnames';
 import type { SelectHTMLAttributes } from 'react';
 
@@ -8,7 +7,10 @@ export function SelectField({
 }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
-      className={cn(textFieldStyles['text-field'], className)}
+      className={cn(
+        "text-field w-full min-h-[56px] bg-kiosk-surface border-2 border-solid border-kiosk-border-strong rounded-kiosk-sm text-kiosk-text py-kiosk-3 px-kiosk-4 [&[aria-invalid='true']]:border-kiosk-danger",
+        className,
+      )}
       {...props}
     />
   );

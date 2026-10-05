@@ -1,9 +1,8 @@
-import { styles } from './styles';
 import { useCallback } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useKioskSessionStore, useSessionIdle } from '@/features/kiosk-session';
-import { useKioskOrientation } from '@/shared/lib/kiosk';
+import { useFullscreenGesture, useKioskOrientation } from '@/shared/lib/kiosk';
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import { isSkeletonPreview } from '@/shared/lib/skeleton-preview';
 import { Fade } from '@/shared/ui/fade';
@@ -15,6 +14,7 @@ import { DeveloperControls } from './developer-controls';
 import { SessionWarning } from './session-warning';
 
 export function KioskLayout() {
+  useFullscreenGesture();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const client = useQueryClient();
@@ -29,10 +29,20 @@ export function KioskLayout() {
   const idle = useSessionIdle({ onTimeout: handleEndSession });
 
   return (
-    <div className={styles['kiosk-shell']} data-orientation={orientation}>
+    <div
+      className="kiosk-shell h-[100dvh] min-h-[480px] flex flex-col"
+      data-orientation={orientation}
+    >
       <KioskHeader />
-      <ScrollArea as="main" className={styles['kiosk-main']}>
-        <Fade key={pathname} kind="page" className={styles['kiosk-route']}>
+      <ScrollArea
+        as="main"
+        className="kiosk-main flex-1 min-h-0 overflow-auto flex flex-col [&_.page-container]:py-kiosk-8 [&_.page-container]:px-kiosk-page-gutter [&_.page-heading]:text-kiosk-page-heading [&_.page-subtitle]:text-kiosk-description"
+      >
+        <Fade
+          key={pathname}
+          kind="page"
+          className="kiosk-route flex-1 min-h-0 flex flex-col compact:flex-none"
+        >
           <Outlet />
         </Fade>
       </ScrollArea>

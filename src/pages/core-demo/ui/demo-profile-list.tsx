@@ -1,5 +1,3 @@
-import { styles } from './styles';
-import { layoutStyles } from '@/shared/lib/ui-styles';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
 import { StatusPanel } from '@/shared/ui/status-panel';
@@ -45,11 +43,14 @@ export function DemoProfileList({ scenario }: DemoProfileListProps) {
     );
 
   return (
-    <div className={styles['demo-profiles']}>
+    <div className="demo-profiles grid grid-cols-[repeat(2,_minmax(0,_1fr))] gap-kiosk-3 compact:grid-cols-[1fr]">
       {query.data.map((profile) => (
-        <div key={profile.id} className={styles['demo-profile']}>
+        <div
+          key={profile.id}
+          className="demo-profile min-h-[96px] p-kiosk-4 rounded-kiosk-md bg-kiosk-surface border border-solid border-kiosk-border grid gap-kiosk-2 [&_h3]:text-kiosk-md"
+        >
           <h3>{t(`settings.${profile.id}`)}</h3>
-          <p className={layoutStyles['muted']}>
+          <p className="muted text-kiosk-text-muted">
             {profile.width} × {profile.height}
           </p>
         </div>

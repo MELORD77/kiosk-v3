@@ -1,4 +1,3 @@
-import { styles } from './styles';
 import { cn } from '@/shared/lib/classnames';
 import type { HTMLAttributes } from 'react';
 
@@ -14,7 +13,7 @@ export function ScrollArea({
 }: ScrollAreaProps) {
   return (
     <Container
-      className={cn(styles['scroll-area'], className)}
+      className={cn('scroll-area overflow-auto', className)}
       tabIndex={tabIndex}
       {...props}
     />

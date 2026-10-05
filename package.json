@@ -33,6 +33,7 @@
     "react-hook-form": "7.89.0",
     "react-i18next": "17.0.15",
     "react-router": "8.4.0",
+    "react-simple-keyboard": "3.8.278",
     "react-webcam": "7.2.0",
     "tailwind-merge": "3.7.0",
     "zod": "4.6.5",

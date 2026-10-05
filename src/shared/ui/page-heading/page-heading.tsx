@@ -1,4 +1,3 @@
-import { styles } from './styles';
 import { cn } from '@/shared/lib/classnames';
 
 interface PageHeadingProps {
@@ -14,8 +13,14 @@ export function PageHeading({
 }: PageHeadingProps) {
   return (
     <div className={cn('w-full flex justify-between', className)}>
-      <h1 className={styles['page-heading']}>{title}</h1>
-      {description && <p className={styles['page-subtitle']}>{description}</p>}
+      <h1 className="page-heading text-kiosk-page-heading leading-[1.15] font-extrabold tracking-[-0.025em]">
+        {title}
+      </h1>
+      {description && (
+        <p className="page-subtitle text-kiosk-text-muted text-kiosk-description mt-kiosk-3">
+          {description}
+        </p>
+      )}
     </div>
   );
 }

@@ -13,7 +13,15 @@ test.beforeEach(async ({ page }) => {
 
 async function openIdentity(page: Page) {
   await page.goto('/services/00000000-0000-4000-8000-000000000001');
+  await enterManual(page);
   await expect(page.getByLabel('PINFL', { exact: true })).toBeVisible();
+}
+
+async function enterManual(page: Page) {
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Enter manually', exact: true })
+    .click();
 }
 
 async function holdPointer(page: Page, button: Locator) {
@@ -83,6 +91,7 @@ test('disabled feedback and session reset remain immediate', async ({
   await expect(page.getByLabel('PINFL', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: /English/ }).click();
   await page.locator('.service-card').first().click();
+  await enterManual(page);
   await expect(page.getByLabel('PINFL', { exact: true })).toHaveValue('');
 });
 

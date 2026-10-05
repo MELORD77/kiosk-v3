@@ -1,4 +1,3 @@
-import { styles } from './styles';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -22,9 +21,9 @@ export function DeveloperControls() {
   const setOrientation = useOrientationStore((state) => state.setPreference);
   if (!isEnabled) return null;
   return (
-    <details className={styles['dev-controls']}>
+    <details className="dev-controls border-t border-dashed border-t-kiosk-border py-kiosk-3 px-kiosk-page-gutter text-kiosk-xs bg-kiosk-surface-muted [&_summary]:cursor-pointer [&_summary]:min-h-[24px]">
       <summary>{t('settings.title')}</summary>
-      <div className={styles['dev-controls-content']}>
+      <div className="dev-controls-content flex flex-wrap items-end gap-kiosk-4 pt-kiosk-3 [&_label]:grid [&_label]:gap-kiosk-1">
         <label>
           {t('settings.theme')}
           <SelectField

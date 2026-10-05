@@ -6,8 +6,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiError } from '@/shared/api';
 import type * as SharedApi from '@/shared/api';
 
-import type { ServiceSummary } from '../model/service-catalog';
-import { localizedCatalogName } from '../model/service-catalog';
+import type {
+  ServiceDetail,
+  ServicePrice,
+  ServiceSummary,
+} from '../model/service-catalog';
+import {
+  localizedCatalogName,
+  servicePriceSchema,
+} from '../model/service-catalog';
 import { fetchService, useService } from './service';
 import {
   fetchServiceCategories,
@@ -32,7 +39,26 @@ const service: ServiceSummary = {
   id: '3e9a6762-6efa-4cb5-addd-b11057397e0c',
   number: 12,
   category: 'cert',
+  status: 'ACTIVE',
   lang: { uz: 'Latin', cr: 'Cyrillic', ru: 'Russian', en: 'English' },
+};
+
+const paidPrice: ServicePrice = {
+  isFree: false,
+  uzs: 8240,
+  bhm: 0.02,
+  text: {
+    uz: '1 kun uchun 8 240 so‘m',
+    cr: '1 кун учун 8 240 сўм',
+    ru: '8 240 сум за 1 день',
+    en: '8,240 UZS per day',
+  },
+  bhmText: {
+    uz: '1 kun uchun 0,02 BHM',
+    cr: '1 кун учун 0,02 БҲМ',
+    ru: '0,02 БРВ за 1 день',
+    en: '0.02 BCA per day',
+  },
 };
 
 function respond(result: unknown) {
@@ -136,12 +162,178 @@ describe('service catalog adapters', () => {
     );
   });
 
+  it.each(['ACTIVE', 'IN_PROGRESS', 'MAINTENANCE'] as const)(
+    'preserves service status %s in lists and details',
+    async (status) => {
+      const entry: ServiceSummary = { ...service, status };
+      respond([entry]);
+      await expect(fetchServices()).resolves.toEqual([entry]);
+
+      respond(entry);
+      await expect(fetchService(entry.id)).resolves.toEqual(entry);
+    },
+  );
+
+  it.each([undefined, null, 'UNKNOWN'])(
+    'rejects unsupported or missing service status %s',
+    async (status) => {
+      respond([{ ...service, status }]);
+      await expect(fetchServices()).rejects.toMatchObject({
+        kind: 'validation',
+      });
+
+      respond({ ...service, status });
+      await expect(fetchService(service.id)).rejects.toMatchObject({
+        kind: 'validation',
+      });
+    },
+  );
+
   it('maps an invalid detail ID to not found without sending a request', async () => {
     await expect(fetchService('service-1')).rejects.toMatchObject({
       kind: 'http',
       status: 404,
     });
     expect(fetcher).not.toHaveBeenCalled();
+  });
+
+  it('preserves localized service details and unavailable fields', async () => {
+    const detail: ServiceDetail = {
+      id: '615dc12d-f7c2-4639-8720-11e7d2cb9306',
+      number: 1,
+      category: 'mig',
+      status: 'ACTIVE',
+      lang: {
+        uz: 'O‘zbekiston Respublikasi hududida chet el fuqarolari va fuqaroligi bo‘lmagan shaxslarni vaqtincha turgan joyi bo‘yicha ro‘yxatga olish',
+        cr: 'Ўзбекистон Республикаси ҳудудида чет эл фуқаролари ва фуқаролиги бўлмаган шахсларни вақтинча турган жойи бўйича рўйхатга олиш',
+        ru: 'Регистрация иностранных граждан и лиц без гражданства по месту временного пребывания на территории Республики Узбекистан',
+        en: 'Registration of foreign citizens and stateless persons at their place of temporary stay in Uzbekistan',
+      },
+      department: {
+        uz: 'Migratsiya va personallashtirish departamenti',
+        cr: 'Миграция ва персоналлаштириш департаменти',
+        ru: 'Департамент миграции и персонализации',
+        en: 'Department of Migration and Personalization',
+      },
+      forms: ['TRADITIONAL', 'ELECTRONIC'],
+      result: {
+        uz: 'Qayd varag‘i',
+        cr: 'Қайд варағи',
+        ru: 'Регистрационный листок',
+        en: 'Registration slip',
+      },
+      price: paidPrice,
+      documents: null,
+      verification: null,
+    };
+    respond(detail);
+
+    await expect(fetchService(detail.id)).resolves.toEqual(detail);
+  });
+
+  it('preserves explicitly unavailable localized detail fields', async () => {
+    const detail: ServiceDetail = {
+      ...service,
+      department: null,
+      forms: [],
+      result: null,
+      price: null,
+    };
+    respond(detail);
+
+    await expect(fetchService(detail.id)).resolves.toEqual(detail);
+  });
+
+  it.each([
+    ['paid', paidPrice],
+    ['free', { ...paidPrice, isFree: true, uzs: 0, bhm: 0 }],
+    [
+      'free with unavailable BHM text',
+      {
+        isFree: true,
+        uzs: 0,
+        bhm: 0,
+        text: {
+          uz: 'Bepul',
+          cr: 'Бепул',
+          ru: 'Бесплатно',
+          en: 'Free',
+        },
+        bhmText: null,
+      },
+    ],
+    ['paid with unavailable BHM text', { ...paidPrice, bhmText: null }],
+    ['zero without free flag', { ...paidPrice, uzs: 0, bhm: 0 }],
+    ['unavailable', null],
+  ])('preserves %s prices', async (_name, price) => {
+    const detail = { ...service, price };
+    respond(detail);
+
+    await expect(fetchService(service.id)).resolves.toEqual(detail);
+  });
+
+  it.each([
+    service.lang,
+    { ...paidPrice, isFree: 'false' },
+    { ...paidPrice, uzs: '8240' },
+    { ...paidPrice, uzs: -1 },
+    { ...paidPrice, bhm: -0.02 },
+    { ...paidPrice, bhm: null },
+    { ...paidPrice, text: { uz: 'Price' } },
+    { ...paidPrice, bhmText: undefined },
+  ])('rejects malformed structured prices', async (price) => {
+    respond({ ...service, price });
+
+    await expect(fetchService(service.id)).rejects.toMatchObject({
+      kind: 'validation',
+    });
+  });
+
+  it.each([NaN, Infinity, -Infinity])(
+    'rejects non-finite price values %s',
+    (value) => {
+      expect(
+        servicePriceSchema.safeParse({ ...paidPrice, uzs: value }).success,
+      ).toBe(false);
+      expect(
+        servicePriceSchema.safeParse({ ...paidPrice, bhm: value }).success,
+      ).toBe(false);
+    },
+  );
+
+  it('preserves localized documents and verification instructions', async () => {
+    const detail: ServiceDetail = {
+      ...service,
+      documents: {
+        uz: 'Pasport',
+        cr: 'Паспорт',
+        ru: 'Паспорт',
+        en: 'Passport',
+      },
+      verification: {
+        uz: 'Shaxsni tasdiqlash',
+        cr: 'Шахсни тасдиқлаш',
+        ru: 'Подтверждение личности',
+        en: 'Identity verification',
+      },
+    };
+    respond(detail);
+
+    await expect(fetchService(detail.id)).resolves.toEqual(detail);
+  });
+
+  it.each([
+    { forms: ['UNKNOWN'] },
+    { department: { uz: 'Department' } },
+    { price: 100 },
+    { documents: { uz: 'Passport' } },
+    { verification: 'Identity verification' },
+  ])('rejects malformed service detail fields', async (invalidDetail) => {
+    respond({ ...service, ...invalidDetail });
+
+    await expect(fetchService(service.id)).rejects.toMatchObject({
+      kind: 'validation',
+    });
   });
 
   it.each([400, 404, 503])('preserves HTTP error %s', async (status) => {

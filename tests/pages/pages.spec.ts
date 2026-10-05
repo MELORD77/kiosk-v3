@@ -55,6 +55,10 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(
       page.getByRole('heading', { name: service.lang.en }),
     ).toBeVisible();
+    await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await page
+      .getByRole('button', { name: 'Enter manually', exact: true })
+      .click();
     await expect(page.getByLabel('PINFL', { exact: true })).toHaveValue('');
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
     await expect(page.locator('body')).toHaveJSProperty(

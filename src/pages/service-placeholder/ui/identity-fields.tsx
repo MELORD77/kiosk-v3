@@ -1,4 +1,3 @@
-import { styles } from './styles';
 import type { UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FormField } from '@/shared/ui/form-field';
@@ -23,6 +22,7 @@ export function IdentityFields({
   const pinError = form.formState.errors.pin?.message;
   const seriesError = form.formState.errors.passportSeries?.message;
   const numberError = form.formState.errors.passportNumber?.message;
+  const birthDateError = form.formState.errors.birthDate?.message;
 
   if (method === 'pin') {
     return (
@@ -35,8 +35,11 @@ export function IdentityFields({
           <TextField
             {...form.register('pin')}
             id="identity-pin"
-            className={styles['identity-input']}
+            className={
+              "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+            }
             inputMode="numeric"
+            pattern="[0-9]*"
             autoComplete="off"
             spellCheck={false}
             maxLength={14}
@@ -56,7 +59,10 @@ export function IdentityFields({
   }
 
   return (
-    <Fade key="passport" className={styles['identity-passport-fields']}>
+    <Fade
+      key="passport"
+      className="identity-passport-fields grid grid-cols-[minmax(0,_1fr)_minmax(0,_2fr)] gap-kiosk-3 items-start [&_.form-field:last-child]:col-span-2"
+    >
       <FormField
         id="identity-series"
         label={t('identity.seriesLabel')}
@@ -65,7 +71,9 @@ export function IdentityFields({
         <TextField
           {...form.register('passportSeries')}
           id="identity-series"
-          className={styles['identity-input']}
+          className={
+            "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+          }
           autoCapitalize="characters"
           autoComplete="off"
           spellCheck={false}
@@ -89,8 +97,11 @@ export function IdentityFields({
         <TextField
           {...form.register('passportNumber')}
           id="identity-number"
-          className={styles['identity-input']}
+          className={
+            "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+          }
           inputMode="numeric"
+          pattern="[0-9]*"
           autoComplete="off"
           spellCheck={false}
           maxLength={7}
@@ -102,6 +113,34 @@ export function IdentityFields({
           onPaste={(event) => {
             event.preventDefault();
             onEdit('passportNumber', event.clipboardData.getData('text'));
+          }}
+        />
+      </FormField>
+      <FormField
+        id="identity-birth-date"
+        label={t('identity.birthDateLabel')}
+        error={birthDateError}
+      >
+        <TextField
+          {...form.register('birthDate')}
+          id="identity-birth-date"
+          className={
+            "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+          }
+          inputMode="numeric"
+          autoComplete="off"
+          spellCheck={false}
+          maxLength={10}
+          placeholder={t('identity.birthDatePlaceholder')}
+          aria-invalid={Boolean(birthDateError)}
+          aria-describedby={
+            birthDateError ? 'identity-birth-date-error' : undefined
+          }
+          onFocus={() => onActivate('birthDate')}
+          onChange={(event) => onEdit('birthDate', event.target.value)}
+          onPaste={(event) => {
+            event.preventDefault();
+            onEdit('birthDate', event.clipboardData.getData('text'));
           }}
         />
       </FormField>

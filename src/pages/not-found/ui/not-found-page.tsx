@@ -1,6 +1,3 @@
-import { layoutStyles } from '@/shared/lib/ui-styles';
-import { styles } from './styles';
-import { cn } from '@/shared/lib/classnames';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { Button } from '@/shared/ui/button';
@@ -15,14 +12,10 @@ export function NotFoundPage() {
   if (isSkeletonPreview(search))
     return (
       <div
-        className={cn(
-          layoutStyles['page-container'],
-          layoutStyles['page-container--narrow'],
-          styles['placeholder-page'],
-        )}
+        className="page-container py-kiosk-10 px-kiosk-page-gutter page-container--narrow w-[min(100%,_1000px)] mx-auto placeholder-page flex-1 grid content-center gap-kiosk-6"
         aria-busy="true"
       >
-        <Loader className={'sr-only'} />
+        <Loader className="sr-only" />
         <StatusPanelSkeleton
           title={t('notFound.title')}
           description={t('notFound.description')}
@@ -31,13 +24,7 @@ export function NotFoundPage() {
       </div>
     );
   return (
-    <div
-      className={cn(
-        layoutStyles['page-container'],
-        layoutStyles['page-container--narrow'],
-        styles['placeholder-page'],
-      )}
-    >
+    <div className="page-container py-kiosk-10 px-kiosk-page-gutter page-container--narrow w-[min(100%,_1000px)] mx-auto placeholder-page flex-1 grid content-center gap-kiosk-6">
       <StatusPanel
         icon="not-found"
         title={t('notFound.title')}

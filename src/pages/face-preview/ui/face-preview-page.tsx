@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaceCapture } from '@/features/face-capture';
 import { useKioskSessionStore } from '@/features/kiosk-session';
-import { layoutStyles } from '@/shared/lib/ui-styles';
-import { cn } from '@/shared/lib/classnames';
+
 import { Button } from '@/shared/ui/button';
 import { PageHeading } from '@/shared/ui/page-heading';
 
@@ -26,13 +25,7 @@ export function FacePreviewPage() {
   }, [photo]);
 
   return (
-    <div
-      className={cn(
-        layoutStyles['page-container'],
-        layoutStyles['page-container--narrow'],
-        layoutStyles.stack,
-      )}
-    >
+    <div className="page-container py-kiosk-10 px-kiosk-page-gutter page-container--narrow w-[min(100%,_1000px)] mx-auto stack grid gap-kiosk-6">
       <PageHeading
         title={t('face.title')}
         description={t('face.previewDescription')}

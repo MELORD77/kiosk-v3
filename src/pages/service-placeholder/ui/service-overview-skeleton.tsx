@@ -1,0 +1,129 @@
+import { Skeleton } from '@/shared/ui/skeleton';
+import { useTranslation } from 'react-i18next';
+import { localizedCatalogName } from '@/entities/service-catalog';
+import type {
+  ServiceDetail,
+  ServiceLanguage,
+} from '@/entities/service-catalog';
+
+import { formatServicePrice } from '../model/format-service-price';
+
+interface ServiceOverviewSkeletonProps {
+  service?: ServiceDetail;
+  serviceName?: string;
+}
+
+export function ServiceOverviewSkeleton({
+  service,
+  serviceName,
+}: ServiceOverviewSkeletonProps) {
+  const { t, i18n } = useTranslation();
+  const notProvided = t('serviceFlow.notProvided');
+  function localizedDetail(value: ServiceLanguage | null | undefined) {
+    return value
+      ? localizedCatalogName(value, i18n.language).trim() || notProvided
+      : notProvided;
+  }
+  const forms = service?.forms?.length
+    ? service.forms
+        .map((form) =>
+          t(
+            `serviceFlow.${form === 'TRADITIONAL' ? 'traditional' : 'electronic'}`,
+          ),
+        )
+        .join(', ')
+    : notProvided;
+  const metadata = [
+    { key: 'department', value: localizedDetail(service?.department) },
+    { key: 'forms', value: forms },
+  ];
+  const requirements = [
+    { key: 'result', value: localizedDetail(service?.result) },
+    {
+      key: 'price',
+      value: formatServicePrice(
+        service?.price,
+        i18n.language,
+        t('serviceFlow.free'),
+        notProvided,
+      ),
+    },
+    { key: 'documents', value: localizedDetail(service?.documents) },
+    {
+      key: 'identityRequirement',
+      value: localizedDetail(service?.verification),
+    },
+  ];
+  return (
+    <div
+      className="service-flow w-full max-w-[1440px] mx-auto flex flex-col short:gap-kiosk-4 gap-kiosk-4"
+      aria-hidden="true"
+    >
+      <div className="flex items-center gap-kiosk-4 [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6">
+        <Skeleton variant="button">{t('common.back')}</Skeleton>
+      </div>
+      <div className="grid [&_h1]:font-extrabold [&_h1]:leading-[1.2] [&_p]:text-kiosk-text-muted min-w-0 gap-kiosk-2 [&_h1]:text-kiosk-2xl [&_h1]:wrap-anywhere [&_p]:text-kiosk-lg compact:[&_h1]:text-kiosk-xl compact:[&_p]:text-kiosk-md">
+        <h1>
+          <Skeleton variant="text" className="w-3/4">
+            {serviceName ?? t('common.loading')}
+          </Skeleton>
+        </h1>
+        <p>
+          <Skeleton variant="text">{t('serviceFlow.overviewTitle')}</Skeleton>
+        </p>
+      </div>
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start [[data-orientation='portrait']_&]:grid-cols-1 compact:grid-cols-1 gap-kiosk-4">
+        <div className="bg-kiosk-surface border rounded-kiosk-md p-kiosk-6 grid gap-kiosk-4 min-w-0 border-kiosk-control-border shadow-kiosk-card compact:p-kiosk-4">
+          <Skeleton className="flex items-center justify-center [&_svg]:w-full [&_svg]:h-full shrink-0 w-kiosk-12 h-kiosk-12 p-kiosk-3 rounded-kiosk-sm bg-kiosk-service-card-number text-kiosk-service-card-accent" />
+          <div className="grid [&_h2]:text-kiosk-service-title [&_h2]:font-bold [&_p]:text-kiosk-text-muted [&_p]:leading-[1.5] min-w-0 gap-kiosk-4 [&_p]:text-kiosk-lg [&_p]:wrap-anywhere compact:[&_p]:text-kiosk-md">
+            <dl className="grid gap-kiosk-4 [&_dt]:font-bold [&_dd]:text-kiosk-text-muted [&_dd]:leading-[1.5] min-w-0 [&_dt]:text-kiosk-lg [&_dt]:wrap-anywhere [&_dd]:text-kiosk-lg [&_dd]:whitespace-pre-line [&_dd]:wrap-anywhere compact:[&_dt]:text-kiosk-md compact:[&_dd]:text-kiosk-md">
+              {metadata.map(({ key, value }) => (
+                <div key={key}>
+                  <dt>
+                    <Skeleton variant="text">
+                      {t(`serviceFlow.${key}`)}
+                    </Skeleton>
+                  </dt>
+                  <dd>
+                    <Skeleton variant="text">{value}</Skeleton>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p>
+              <Skeleton variant="text">
+                {t('serviceFlow.conditionsNotice')}
+              </Skeleton>
+            </p>
+          </div>
+        </div>
+        <dl className="grid min-w-0 gap-kiosk-3">
+          {requirements.map(({ key, value }) => (
+            <div
+              key={key}
+              className="flex items-center gap-kiosk-4 p-kiosk-4 border rounded-kiosk-md bg-kiosk-surface [&_dt]:font-bold [&_dd]:text-kiosk-text-muted min-w-0 border-kiosk-control-border [&_dt]:text-kiosk-lg [&_dt]:wrap-anywhere [&_dd]:text-kiosk-lg [&_dd]:leading-[1.5] [&_dd]:whitespace-pre-line [&_dd]:wrap-anywhere [&_>_div]:min-w-0 compact:gap-kiosk-3 compact:p-kiosk-3 compact:[&_dt]:text-kiosk-md compact:[&_dd]:text-kiosk-md"
+            >
+              <Skeleton className="flex items-center justify-center [&_svg]:w-full [&_svg]:h-full shrink-0 w-kiosk-12 h-kiosk-12 p-kiosk-3 rounded-kiosk-sm bg-kiosk-service-card-number text-kiosk-service-card-accent" />
+              <div className="flex-1">
+                <dt>
+                  <Skeleton variant="text">{t(`serviceFlow.${key}`)}</Skeleton>
+                </dt>
+                <dd>
+                  <Skeleton variant="text">{value}</Skeleton>
+                </dd>
+              </div>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div className="flex flex-wrap gap-kiosk-4 [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6 justify-end [&_.button]:min-h-kiosk-16 [&_.button]:text-kiosk-lg">
+        <Skeleton
+          variant="button"
+          className="w-80 max-w-full min-h-kiosk-16 text-kiosk-lg compact:w-full"
+        >
+          {t('identity.continue')}
+        </Skeleton>
+      </div>
+    </div>
+  );
+}

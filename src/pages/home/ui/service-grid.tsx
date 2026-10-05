@@ -1,9 +1,8 @@
-import { styles } from './styles';
-import { layoutStyles } from '@/shared/lib/ui-styles';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { isSkeletonPreview } from '@/shared/lib/skeleton-preview';
 import {
+  citizenServiceRoute,
   localizedCatalogName,
   useServiceCategories,
   useServices,
@@ -37,7 +36,7 @@ export function ServiceGrid({ category, onClearCategory }: ServiceGridProps) {
   return (
     <ScrollArea
       as="section"
-      className={styles['service-grid']}
+      className="service-grid min-h-0 h-full overflow-auto p-kiosk-1 compact:h-auto compact:overflow-visible compact:flex-none compact:w-full"
       aria-label={t('home.services')}
     >
       {isLoading && (
@@ -71,7 +70,7 @@ export function ServiceGrid({ category, onClearCategory }: ServiceGridProps) {
           title={t('catalog.servicesEmptyTitle')}
           description={t('catalog.servicesEmptyDescription')}
         >
-          <div className={layoutStyles['actions']}>
+          <div className="actions flex flex-wrap gap-kiosk-3">
             {category && (
               <Button onClick={onClearCategory}>{t('categories.all')}</Button>
             )}
@@ -90,7 +89,7 @@ export function ServiceGrid({ category, onClearCategory }: ServiceGridProps) {
       {!isLoading && query.isSuccess && query.data.length > 0 && (
         <Fade
           key={category ?? 'all'}
-          className={styles['service-grid-content']}
+          className="service-grid-content grid grid-cols-[repeat(2,_minmax(0,_1fr))] auto-rows-[1fr] gap-kiosk-3 compact:grid-cols-[1fr]"
         >
           {query.data.map((service) => (
             <ServiceCard
@@ -98,7 +97,9 @@ export function ServiceGrid({ category, onClearCategory }: ServiceGridProps) {
               service={service}
               categoryName={categoryNames.get(service.category)}
               onSelect={() => {
-                void navigate(`/services/${service.id}`);
+                void navigate(
+                  `/services/${citizenServiceRoute(service.number) ?? service.id}`,
+                );
               }}
             />
           ))}

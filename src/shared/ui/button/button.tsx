@@ -4,7 +4,6 @@ import { useState, type ComponentPropsWithRef } from 'react';
 import { m } from 'framer-motion';
 import { getButtonMotion, useOpacityReducedMotion } from '@/shared/lib/motion';
 import { NativeButton } from './native-button';
-import { styles } from './styles';
 
 interface ButtonProps extends ComponentPropsWithRef<'button'> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -34,7 +33,18 @@ export function Button({
         ...props,
         type,
         disabled,
-        className: cn(styles.button, styles[`button--${variant}`], className),
+        className: cn(
+          'button border border-solid border-[transparent] rounded-kiosk-sm min-h-[56px] py-kiosk-3 px-kiosk-6 inline-flex items-center justify-center gap-kiosk-3 font-bold cursor-pointer leading-[1.3] no-underline [&:disabled]:cursor-not-allowed',
+          variant === 'danger' &&
+            'button--danger text-kiosk-danger-text bg-kiosk-danger-soft border-kiosk-danger-border',
+          variant === 'ghost' &&
+            'button--ghost [&:enabled:hover]:bg-kiosk-primary-soft text-kiosk-text bg-[transparent]',
+          variant === 'primary' &&
+            'button--primary text-kiosk-on-primary bg-kiosk-control-primary border-kiosk-control-primary-border [&:enabled:hover]:bg-none [&:enabled:hover]:bg-kiosk-control-primary-hover [&:disabled]:bg-none [&:disabled]:bg-kiosk-surface-muted [&:disabled]:text-kiosk-text-muted [&:disabled]:border-kiosk-border-strong',
+          variant === 'secondary' &&
+            'button--secondary text-kiosk-text bg-kiosk-surface border-kiosk-control-border [&:enabled:hover]:border-kiosk-control-primary [&:enabled:focus-visible]:border-kiosk-control-primary',
+          className,
+        ),
         onKeyDown(event) {
           onKeyDown?.(event);
           if (event.key === ' ' && !event.defaultPrevented && !disabled)

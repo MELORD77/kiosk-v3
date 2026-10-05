@@ -9,6 +9,7 @@ const schema = createIdentitySchema({
   pin: 'pin',
   series: 'series',
   number: 'number',
+  birthDate: 'birthDate',
 });
 
 describe('identity input', () => {
@@ -34,6 +35,7 @@ describe('identity input', () => {
       ...emptyIdentityInput('passport'),
       passportSeries: 'AB',
       passportNumber: '0123456',
+      birthDate: '15.04.1990',
     };
     expect(schema.safeParse(passport).success).toBe(true);
     for (const passportSeries of ['A', 'ABC', 'ab', 'АБ', 'A1']) {
@@ -64,6 +66,28 @@ describe('identity input', () => {
       pin: '',
       passportSeries: '',
       passportNumber: '',
+      birthDate: '',
     });
+  });
+  it('formats digit entry and validates real, nonfuture dates including leap years', () => {
+    expect(normalizeIdentityField('birthDate', '15041990')).toBe('15.04.1990');
+    const passport = {
+      ...emptyIdentityInput('passport'),
+      passportSeries: 'AA',
+      passportNumber: '1234567',
+    };
+    expect(
+      schema.safeParse({ ...passport, birthDate: '29.02.2000' }).success,
+    ).toBe(true);
+    for (const birthDate of [
+      '',
+      '29.02.2001',
+      '31.04.1990',
+      '00.01.1990',
+      '01.13.1990',
+      '01.01.2999',
+    ]) {
+      expect(schema.safeParse({ ...passport, birthDate }).success).toBe(false);
+    }
   });
 });

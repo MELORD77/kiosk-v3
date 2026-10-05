@@ -114,6 +114,13 @@ test('the service list remains keyboard-scrollable in both themes', async ({
   }
   await lastService.click();
   await expect(
+    page.getByText('About this service', { exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Enter manually', exact: true })
+    .click();
+  await expect(
     page.getByRole('button', { name: 'Passport', exact: true }),
   ).toBeVisible();
 });

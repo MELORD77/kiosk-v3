@@ -1,4 +1,3 @@
-import { styles } from './styles';
 import { cn } from '@/shared/lib/classnames';
 
 import { Skeleton } from '@/shared/ui/skeleton';
@@ -16,11 +15,11 @@ export function PageHeadingSkeleton({
 }: PageHeadingSkeletonProps) {
   return (
     <div className={cn('page-heading-group', className)} aria-hidden="true">
-      <div className={styles['page-heading']}>
+      <div className="page-heading text-kiosk-page-heading leading-[1.15] font-extrabold tracking-[-0.025em]">
         <Skeleton variant="text">{title}</Skeleton>
       </div>
       {description && (
-        <p className={styles['page-subtitle']}>
+        <p className="page-subtitle text-kiosk-text-muted text-kiosk-description mt-kiosk-3">
           <Skeleton variant="text">{description}</Skeleton>
         </p>
       )}

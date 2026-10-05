@@ -1,5 +1,3 @@
-import { styles } from './styles';
-import { layoutStyles } from '@/shared/lib/ui-styles';
 import type { ReactNode } from 'react';
 import { Fade } from '@/shared/ui/fade';
 
@@ -19,11 +17,11 @@ export function FormField({
   children,
 }: FormFieldProps) {
   return (
-    <div className={styles['form-field']}>
+    <div className="form-field grid gap-kiosk-2 [&_label]:font-bold">
       <label htmlFor={id}>{label}</label>
       {children}
       {hint && (
-        <p id={`${id}-hint`} className={layoutStyles['muted']}>
+        <p id={`${id}-hint`} className="muted text-kiosk-text-muted">
           {hint}
         </p>
       )}
@@ -32,7 +30,7 @@ export function FormField({
           as="p"
           kind="feedback"
           id={`${id}-error`}
-          className={styles['field-error']}
+          className="field-error text-kiosk-danger"
           role="alert"
         >
           {error}

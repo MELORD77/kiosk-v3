@@ -1,5 +1,3 @@
-import { styles } from './styles';
-import { layoutStyles } from '@/shared/lib/ui-styles';
 import { Skeleton } from '@/shared/ui/skeleton';
 
 interface FormFieldSkeletonProps {
@@ -16,15 +14,18 @@ export function FormFieldSkeleton({
   placeholder,
 }: FormFieldSkeletonProps) {
   return (
-    <div className={styles['form-field']} aria-hidden="true">
-      <div className={styles['form-field-label']}>
+    <div
+      className="form-field grid gap-kiosk-2 [&_label]:font-bold"
+      aria-hidden="true"
+    >
+      <div className="form-field-label font-bold">
         <Skeleton variant="text">{label}</Skeleton>
       </div>
       <Skeleton variant="input" className={inputClassName}>
         {placeholder}
       </Skeleton>
       {hint && (
-        <p className={layoutStyles['muted']}>
+        <p className="muted text-kiosk-text-muted">
           <Skeleton variant="text">{hint}</Skeleton>
         </p>
       )}

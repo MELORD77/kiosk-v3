@@ -31,7 +31,11 @@ test('keeps the service grid layout while waiting for the API', async ({
   try {
     await page.goto('/home');
     await expect(page.locator('.service-card-skeleton')).toHaveCount(6);
-    await expect(page.getByRole('status')).toContainText('Loading');
+    await expect(
+      page
+        .getByRole('region', { name: 'Services', exact: true })
+        .getByRole('status'),
+    ).toContainText('Loading');
     const skeletonTop = await page
       .locator('.service-card-skeleton')
       .first()
@@ -94,7 +98,7 @@ test('renders changed backend names, counts and order instead of static design c
   ).toContainText('24');
 });
 
-test('uses server filters, UUID routes and all four server translations', async ({
+test('uses server filters, named routes and all four server translations', async ({
   page,
 }, testInfo) => {
   const calls: URL[] = [];
@@ -122,10 +126,17 @@ test('uses server filters, UUID routes and all four server translations', async 
     await expect(page.getByText(title, { exact: true })).toBeVisible();
   }
   await page.getByText(service.lang.en, { exact: true }).click();
-  await expect(page).toHaveURL(new RegExp(`/services/${service.id}$`));
+  await expect(page).toHaveURL(/\/services\/criminal-record$/);
   await expect(
     page.getByRole('heading', { name: service.lang.en }),
   ).toBeVisible();
+  await expect(
+    page.getByText('About this service', { exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Enter manually', exact: true })
+    .click();
   await expect(page.getByLabel('PINFL', { exact: true })).toHaveValue('');
   await expect(
     page.getByRole('button', { name: 'Continue', exact: true }),
@@ -173,6 +184,7 @@ test('uses server filters, UUID routes and all four server translations', async 
   await expect(page.getByLabel('Passport number', { exact: true })).toHaveValue(
     '0000000',
   );
+  await page.getByLabel('Birth date', { exact: true }).fill('15.04.1990');
   await expect(
     page.getByRole('button', { name: 'Continue', exact: true }),
   ).toBeEnabled();

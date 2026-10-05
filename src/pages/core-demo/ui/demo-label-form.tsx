@@ -1,4 +1,3 @@
-import { layoutStyles } from '@/shared/lib/ui-styles';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
@@ -47,12 +46,12 @@ export function DemoLabelForm() {
 
   return (
     <section
-      className={layoutStyles['stack']}
+      className="stack grid gap-kiosk-6"
       aria-labelledby="demo-form-title"
     >
       <h2 id="demo-form-title">{t('demo.formTitle')}</h2>
       <form
-        className={layoutStyles['stack']}
+        className="stack grid gap-kiosk-6"
         noValidate
         onSubmit={(event) => {
           void form.handleSubmit(submit)(event);

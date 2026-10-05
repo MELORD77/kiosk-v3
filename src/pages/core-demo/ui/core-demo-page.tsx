@@ -1,6 +1,3 @@
-import { layoutStyles } from '@/shared/lib/ui-styles';
-import { cn } from '@/shared/lib/classnames';
-import { formFieldStyles } from '@/shared/ui/form-field';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { SelectField } from '@/shared/ui/select-field';
@@ -22,23 +19,17 @@ export function CoreDemoPage() {
   if (isSkeletonPreview(searchParams.toString()))
     return <CoreDemoPageSkeleton />;
   return (
-    <div
-      className={cn(
-        layoutStyles['page-container'],
-        layoutStyles['page-container--narrow'],
-        layoutStyles['stack'],
-      )}
-    >
+    <div className="page-container py-kiosk-10 px-kiosk-page-gutter page-container--narrow w-[min(100%,_1000px)] mx-auto stack grid gap-kiosk-6">
       <PageHeading
         title={t('demo.title')}
         description={t('demo.description')}
       />
       <section
-        className={layoutStyles['stack']}
+        className="stack grid gap-kiosk-6"
         aria-labelledby="demo-profiles-title"
       >
         <h2 id="demo-profiles-title">{t('demo.profiles')}</h2>
-        <label className={formFieldStyles['form-field']}>
+        <label className="form-field grid gap-kiosk-2 [&_label]:font-bold">
           {t('demo.scenario')}
           <SelectField
             value={scenario}

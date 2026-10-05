@@ -1,0 +1,5 @@
+Generated with the built-in Imagegen tool.
+Reference: user-supplied passport-reader illustration.
+Transparent background: true.
+
+Create a standalone production UI illustration asset based on the attached reference. Preserve the reference's semi-flat softly shaded blue/navy document scanner with an open generic passport on its illuminated blue glass scanning bed. Isolate ONLY scanner and passport with truly transparent background, no pale rectangular background panel, no text, no captions, no border. Center the full scanner uncropped with generous transparent padding around it. Same front three-quarter slightly overhead perspective, dark navy rounded base, subtle cyan light from glass, pale blue open cover with generic globe symbol, generic abstract lines on passport page, no real personal data or real government logos. Crisp polished high resolution, restrained shading and soft edges suitable for both light and dark kiosk UI. Do not add objects or hands. This is an extracted/recreated illustration, not a full mockup.

@@ -46,7 +46,7 @@
     "pinTitle": "JSHSHIR raqamingizni kiriting",
     "passportTitle": "Pasport ma’lumotlarini kiriting",
     "pinHint": "ID-karta orqa tomonidagi 14 xonali raqam",
-    "passportHint": "Pasportning 2 harfli seriyasi va 7 xonali raqamini kiriting",
+    "passportHint": "Seriya, pasport raqami va tug‘ilgan sanani kiriting",
     "pinLabel": "JSHSHIR",
     "seriesLabel": "Pasport seriyasi",
     "numberLabel": "Pasport raqami",
@@ -64,7 +64,14 @@
     "alphabetKeyboard": "Harfli klaviatura",
     "numberKeyboard": "Raqamli klaviatura",
     "nextTitle": "Kiritish formati to‘g‘ri",
-    "nextDescription": "Keyingi bosqich hozircha mavjud emas. Ma’lumotlaringiz yuborilmadi."
+    "nextDescription": "Keyingi bosqich hozircha mavjud emas. Ma’lumotlaringiz yuborilmadi.",
+    "birthDateLabel": "Tug‘ilgan sana",
+    "birthDatePlaceholder": "KK.OO.YYYY",
+    "birthDateError": "Tug‘ilgan sanani KK.OO.YYYY formatida to‘g‘ri kiriting",
+    "space": "Bo‘sh joy",
+    "shift": "Registrni almashtirish",
+    "nextField": "Keyingi maydon",
+    "requestError": "Shaxsni aniqlab bo‘lmadi"
   },
   "error": {
     "title": "Nimadir xato ketdi",
@@ -219,5 +226,39 @@
     "previewDescription": "Development sinov ekrani. Surat faqat xotirada saqlanadi va yuborilmaydi.",
     "start": "Kamerani yoqish",
     "photoAlt": "Olingan surat"
+  },
+  "serviceStatus": {
+    "ACTIVE": "Faol",
+    "IN_PROGRESS": "Tez kunda",
+    "MAINTENANCE": "Vaqtincha mavjud emas",
+    "IN_PROGRESSDescription": "Ushbu xizmat ishga tushirish uchun tayyorlanmoqda. Boshqa xizmatni tanlang.",
+    "MAINTENANCEDescription": "Ushbu xizmat vaqtincha mavjud emas. Keyinroq qayta urinib ko‘ring yoki boshqa xizmatni tanlang."
+  },
+  "serviceFlow": {
+    "department": "Mas’ul departament",
+    "forms": "Xizmat shakli",
+    "result": "Xizmat natijasi",
+    "traditional": "An’anaviy",
+    "electronic": "Elektron",
+    "overviewTitle": "Xizmat haqida",
+    "description": "Qisqacha ma’lumot",
+    "notProvided": "Ma’lumot hali taqdim etilmagan",
+    "conditionsNotice": "Ariza yuborishdan oldin xizmat shartlari bilan tanishing.",
+    "price": "To‘lov",
+    "free": "Bepul",
+    "documents": "Kerakli hujjatlar",
+    "identityRequirement": "Shaxsni tasdiqlash",
+    "methodTitle": "Ma’lumot kiritish usulini tanlang",
+    "manualTitle": "Qo‘lda kiritish",
+    "manualDescription": "JSHSHIR yoki pasport ma’lumotlarini ekran klaviaturasi orqali kiriting.",
+    "readerTitle": "Pasportni o‘qish",
+    "readerDescription": "Pasportdagi bosma ma’lumotlarni kiosk o‘quvchisi yordamida oling.",
+    "verificationNotice": "Ma’lumotni kiritish yoki o‘qishning o‘zi shaxsni tasdiqlamaydi.",
+    "readerInstruction": "Pasportning MRZ qismini o‘quvchiga qarating.",
+    "readerImageAlt": "Pasport o‘quvchisining tasviri",
+    "readerUnavailableTitle": "O‘quvchi ulanmagan",
+    "readerUnavailable": "Hozir pasportni o‘qish imkoni yo‘q. Ma’lumotlaringizni qo‘lda kiritishingiz mumkin.",
+    "mrzNotice": "O‘quvchi bosma MRZ ma’lumotlarini o‘qiydi. U pasport chipini o‘qimaydi va shaxsni tasdiqlamaydi.",
+    "startReading": "O‘qishni boshlash"
   }
 }

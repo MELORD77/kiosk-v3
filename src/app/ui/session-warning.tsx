@@ -1,5 +1,3 @@
-import { styles } from './styles';
-import { layoutStyles } from '@/shared/lib/ui-styles';
 import { useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/shared/ui/button';
@@ -25,7 +23,7 @@ export function SessionWarning({
   return (
     <Dialog
       open={open}
-      className={styles['idle-dialog']}
+      className="idle-dialog [&_h2]:text-kiosk-lg [&_p]:my-kiosk-4 [&_p]:text-kiosk-md [&_.actions_.button]:flex-1"
       role="alertdialog"
       titleId={titleId}
       descriptionId={descriptionId}
@@ -35,7 +33,7 @@ export function SessionWarning({
       <p id={descriptionId}>
         {t('session.description', { count: secondsLeft })}
       </p>
-      <div className={layoutStyles['actions']}>
+      <div className="actions flex flex-wrap gap-kiosk-3">
         <Button autoFocus onClick={onContinue}>
           {t('session.continue')}
         </Button>

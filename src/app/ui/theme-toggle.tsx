@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { resolveTheme, useThemeStore } from '@/shared/lib/theme';
 import { Button } from '@/shared/ui/button';
 import { ThemeIcon } from './theme-icon';
-import { styles } from './styles';
 
 const systemThemeQuery = '(prefers-color-scheme: dark)';
 
@@ -37,7 +36,7 @@ export function ThemeToggle() {
   return (
     <Button
       variant="secondary"
-      className={styles['theme-toggle']}
+      className="theme-toggle flex-none w-kiosk-16 min-h-kiosk-16 p-kiosk-4 rounded-kiosk-sm text-kiosk-control-primary [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6 compact:w-[56px] compact:min-h-[56px] compact:p-kiosk-3 compact:rounded-kiosk-sm"
       aria-label={t('theme.darkMode')}
       aria-pressed={isDark}
       title={actionLabel}

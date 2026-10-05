@@ -2,7 +2,7 @@
 
 A fresh Vite + React + TypeScript SPA for portrait (1080 x 1920) and landscape (1920 x 1080) information kiosks. Welcome and home follow the supplied `Kiosk design project.zip`. The old project was inspected for context only; no old code, assets, endpoints, certificates, or authentication flows were migrated.
 
-The catalog is connected to the supplied Kiosk API v3 contract. Categories, counts, localized names, and service UUIDs come from the backend. The approved identity entry screen accepts either a 14-digit PINFL or a passport series (two Latin letters) and number (seven digits). It checks input format locally; subsequent service steps, SMS, printer, camera, identity verification, and application submission integrations remain pending confirmed contracts.
+The catalog is connected to the supplied Kiosk API v3 contract. Categories, counts, localized names, and service UUIDs come from the backend. Selecting a service opens its overview, followed by a choice between manual entry and passport-reader entry. The service overview displays the localized responsible department, traditional/electronic formats, result, and price from the service-by-ID response. Missing metadata, required documents, and verification requirements show an unavailable message until their contracts are provided. Manual entry accepts either a 14-digit PINFL or a passport series (two Latin letters), number (seven digits), and date of birth and checks input format locally. The illustrated passport-reader screen offers manual fallback; hardware reading remains disabled until integration. Subsequent service steps, user lookup by UUID, SMS, identity verification, and application submission integrations remain pending confirmed contracts.
 
 ## Start
 
@@ -26,18 +26,24 @@ Warning duration must be less than the inactivity period. Default total inactivi
 
 ## Routes and display
 
+The service detail `price` is a structured object with `isFree`, `uzs`, `bhm`, and four-language `text`/`bhmText` fields. Paid services display the supplied amount text followed by BHM text in parentheses; the frontend does not calculate a new price. `isFree: true` displays the localized free label. Missing price or blank display text keeps the unavailable fallback; a single supplied display text is shown without empty parentheses. The overview skeleton uses the same price formatter.
+
+Service availability follows the catalog API's `status`: `ACTIVE` services can open, `IN_PROGRESS` cards show a localized coming-soon label, and `MAINTENANCE` cards show a temporary-unavailability label. Unavailable cards remain visible but disabled. Direct service URLs also check the detail response's status before showing the identity flow. No service numbers are hardcoded as active. Localized `documents` and `verification` metadata are displayed when supplied, with the existing unavailable fallback for missing or blank text. Citizen data endpoints and face-based sign-in remain pending a confirmed authentication contract and approved service interiors.
+
 - `/`: welcome and language selection.
 - `/home`: server service catalog and category navigation; `?category=...` selects a server filter.
-- `/services/:serviceId`: UUID-based service lookup and identity entry with touch keyboards; missing services show 404.
+- `/services/residence`, `/services/residents`, `/services/criminal-record`, `/services/release`: services 7, 8, 12, and 22. Named routes resolve the current server UUID from the catalog on entry and refresh, then fetch service details. Other services retain `/services/:serviceId`; missing services show 404.
 - `/core-demo`: **development only** integration exercise for query states and form validation.
 - `/face-preview`: **development only** camera and single-face capture preview; start the camera explicitly.
 - Unrecognized routes: 404.
 
 Auto orientation follows the viewport and updates when the screen rotates. Development controls can preview a fixed orientation; `VITE_KIOSK_ORIENTATION=portrait` or `landscape` locks the configured mode. Layouts rearrange content, not just rotate/scale a screenshot. Smaller browser previews remain scrollable and usable.
 
+Double-click with a mouse or quickly tap twice with one finger to toggle browser fullscreen on every kiosk screen. Release the finger between taps. Single taps and one-finger scrolling retain their normal behavior. Pinch-zoom and double-tap zoom are disabled so touch gestures keep the kiosk scale unchanged. The gesture uses the browser Fullscreen API directly during the interaction; unsupported or restricted browsers retain the ordinary view. Escape can also leave browser fullscreen.
+
 The ordinary kiosk view follows the design without a developer settings strip. In development, open `/home?devtools=1` to enable theme, orientation, and demo controls. The flag is read when the layout's controls first mount, remains active during in-app navigation, and is re-evaluated on a full reload. Production does not render these controls.
 
-Identity values stay in the form only. Changing identification method clears prior fields, errors, and the local result; changing service, returning home, finishing, or expiring the session removes the entered values. Continue validates the format and explains that the next service stage is pending; it sends no identity data to the catalog API and does not claim identity verification.
+Identity values stay in the form only. Changing identification method clears prior fields, errors, and the local result; returning to method selection, changing service, returning home, finishing, or expiring the session removes the entered values. Continue validates the format and explains that the next service stage is pending; it sends no identity data to the catalog API and does not claim identity verification.
 
 Framer Motion adds opacity-only feedback: content fades in over 160 ms, and button presses, field errors, status messages, and dialogs use 120 ms. Buttons keep their dimensions and native pointer, touch, Enter, and Space behavior. The shared motion policy follows reduced-motion preference changes immediately and disables these animations. Page and session removal never wait for an exit animation, so personal inputs disappear immediately on reset.
 
@@ -80,7 +86,7 @@ FSD layers are `app > pages > widgets > features > entities > shared`. Only used
 
 Light, dark, and system themes use semantic variables (`background`, `foreground`, `surface`, `muted`, `primary`, `border`, `danger`, `success`, `focus-ring`) in `src/app/styles`. Spacing, typography, radius, and shadows share tokens. System theme follows media changes; event subscriptions clean up. The initial HTML applies the saved preference before React starts.
 
-Presentation uses Tailwind utility recipes in the owning UI segment. Tailwind's `@theme inline` aliases reference the existing runtime tokens, preserving pixel spacing, rem typography, theme changes, and orientation-specific values. Custom media variants retain the original inclusive viewport boundaries. Shared primitives merge caller classes through `cn` so page-specific utilities can override base sizing and appearance. Native scrollbar styling, global accessibility rules, runtime tokens, and animation keyframes remain CSS. Semantic marker classes are retained for browser checks without duplicating their migrated styling.
+Presentation writes Tailwind utilities directly in component className attributes. Conditional variants stay beside their component JSX; separate style maps and exported utility recipes are not used. Tailwind's `@theme inline` aliases reference the existing runtime tokens, preserving pixel spacing, rem typography, theme changes, and orientation-specific values. Custom media variants retain the original inclusive viewport boundaries. Shared primitives merge caller classes through `cn` so page-specific utilities can override base sizing and appearance. Native scrollbar styling, global accessibility rules, runtime tokens, and animation keyframes remain CSS. Semantic marker classes are retained for browser checks without duplicating their migrated styling.
 
 Only theme, orientation, and language preferences persist. Session data stays in memory. End/timeout aborts session work, removes queries and mutations marked `meta: { sessionOwned: true }`, remounts transient page content, and returns to welcome. “Continue” dismisses the inactivity warning without losing current form data. Future authenticated data must be marked session-owned and use the session signal for mutations.
 
@@ -101,11 +107,15 @@ Only components used by the current screens are included. Service-specific cards
 
 `Skeleton` from `@/shared/ui/skeleton` provides text, icon, badge, button, input, and box shapes. Page-specific skeletons reuse the content's layout classes and responsive dimensions. Translated static text can be measured invisibly to preserve wrapping; personal input values are never used. Loading regions expose a translated status, while decorative placeholders are hidden from assistive technology and cannot receive focus. Animation follows the current theme and reduced-motion preference.
 
-Catalog categories and service cards show skeletons while their requests are pending. Service details reserve the full identity form layout, including the input, keypad, and actions. Static content renders immediately during normal use. In development, append `?skeleton=1` to `/`, `/home`, `/services/:serviceId`, or `/core-demo` to preview skeletons, including the header and session footer. Removing the parameter restores the normal view. Production ignores this preview parameter.
+Catalog categories and service cards show skeletons while their requests are pending. Service details reserve the overview layout, including the description, conditions, and actions. Static content renders immediately during normal use. In development, append `?skeleton=1` to `/`, `/home`, `/services/:serviceId`, or `/core-demo` to preview skeletons, including the header and session footer. Removing the parameter restores the normal view. Production ignores this preview parameter.
 
 Previews use available public catalog names and counts for matching text dimensions. Before the first server response, fallback labels reserve space; different server text lengths or category counts can still change wrapping. Browser verification compares matching content after fonts load at 1920 × 1080, 1080 × 1920, and 390 × 844, with block dimensions matching within one pixel in light and dark themes.
 
 ## API integration
+
+Manual passport entry requires a date of birth in `DD.MM.YYYY`, including calendar and future-date validation. The `react-simple-keyboard` package supplies numeric and full QWERTY layouts with matching character sizes and key heights. In landscape, fields and the keyboard occupy the right half, with the keyboard at the bottom and Continue on the left. Portrait and compact previews stack the form vertically; shorter previews reduce both keyboard layouts together.
+
+The citizen-service API slice provides the four documented GET adapters with `x-user-uuid` (64 hexadecimal characters), `x-app-lang`, cancellation, and session-owned query caching. It also provides `identifyCitizen` for `POST /api/v3/citizen/identify`, accepting either `pinfl` or combined `passportSerial` plus `birthDate`. Its successful `result` remains `unknown` until the UID response contract is supplied. The form continues to validate locally: automatic identification and subsequent citizen data retrieval are not activated with a guessed UID field. The supplied PINFL and passport examples returned HTTP 500 and 404 respectively during development verification, both with `result: null`.
 
 The supplied Kiosk API v3 catalog endpoints are connected through `entities/service-catalog`:
 

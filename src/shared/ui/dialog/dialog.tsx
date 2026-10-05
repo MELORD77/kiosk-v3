@@ -1,4 +1,3 @@
-import { styles } from './styles';
 import { cn } from '@/shared/lib/classnames';
 import { useEffect, useRef, type ReactNode } from 'react';
 
@@ -44,7 +43,10 @@ export function Dialog({
   return (
     <m.dialog
       ref={dialog}
-      className={cn(styles['dialog'], className)}
+      className={cn(
+        'dialog max-w-[min(600px,_calc(100%_-_var(--space-8)))] max-h-[calc(100dvh_-_var(--space-8))] w-full m-auto overflow-auto border border-solid border-kiosk-border rounded-kiosk-lg bg-kiosk-surface text-kiosk-text p-kiosk-10 [&::backdrop]:bg-kiosk-dialog-backdrop',
+        className,
+      )}
       role={role}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}

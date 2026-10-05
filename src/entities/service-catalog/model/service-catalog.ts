@@ -9,6 +9,12 @@ export const serviceLanguageSchema = z.object({
 
 export const serviceIdSchema = z.uuid();
 
+export const serviceStatusSchema = z.enum([
+  'ACTIVE',
+  'IN_PROGRESS',
+  'MAINTENANCE',
+]);
+
 export const serviceCategorySchema = z.object({
   key: z.string(),
   lang: serviceLanguageSchema,
@@ -19,12 +25,36 @@ export const serviceSchema = z.object({
   id: serviceIdSchema,
   number: z.number().int(),
   category: z.string(),
+  status: serviceStatusSchema,
   lang: serviceLanguageSchema,
+});
+
+export const serviceFormSchema = z.enum(['TRADITIONAL', 'ELECTRONIC']);
+
+export const servicePriceSchema = z.object({
+  isFree: z.boolean(),
+  uzs: z.number().nonnegative(),
+  bhm: z.number().nonnegative(),
+  text: serviceLanguageSchema,
+  bhmText: serviceLanguageSchema.nullable(),
+});
+
+export const serviceDetailSchema = serviceSchema.extend({
+  department: serviceLanguageSchema.nullish(),
+  forms: z.array(serviceFormSchema).optional(),
+  result: serviceLanguageSchema.nullish(),
+  price: servicePriceSchema.nullish(),
+  documents: serviceLanguageSchema.nullish(),
+  verification: serviceLanguageSchema.nullish(),
 });
 
 export type ServiceLanguage = z.infer<typeof serviceLanguageSchema>;
 export type ServiceCategory = z.infer<typeof serviceCategorySchema>;
 export type ServiceSummary = z.infer<typeof serviceSchema>;
+export type ServiceStatus = z.infer<typeof serviceStatusSchema>;
+export type ServiceForm = z.infer<typeof serviceFormSchema>;
+export type ServicePrice = z.infer<typeof servicePriceSchema>;
+export type ServiceDetail = z.infer<typeof serviceDetailSchema>;
 
 export function localizedCatalogName(
   lang: ServiceLanguage,

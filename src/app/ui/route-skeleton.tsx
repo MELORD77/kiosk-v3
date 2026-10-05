@@ -1,6 +1,3 @@
-import { layoutStyles } from '@/shared/lib/ui-styles';
-import { cn } from '@/shared/lib/classnames';
-import { styles } from './styles';
 import { useTranslation } from 'react-i18next';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Loader } from '@/shared/ui/loader';
@@ -11,31 +8,29 @@ export function RouteSkeleton() {
   const { t } = useTranslation();
   return (
     <div
-      className={cn(
-        layoutStyles['page-container'],
-        layoutStyles['page-container--narrow'],
-        layoutStyles['stack'],
-        'route-skeleton',
-      )}
+      className="page-container py-kiosk-10 px-kiosk-page-gutter page-container--narrow w-[min(100%,_1000px)] mx-auto stack grid gap-kiosk-6 route-skeleton"
       aria-busy="true"
     >
-      <Loader className={'sr-only'} />
+      <Loader className="sr-only" />
       <PageHeadingSkeleton
         title={t('demo.title')}
         description={t('demo.description')}
       />
-      <section className={layoutStyles['stack']} aria-hidden="true">
+      <section className="stack grid gap-kiosk-6" aria-hidden="true">
         <h2>
           <Skeleton variant="text">{t('demo.profiles')}</Skeleton>
         </h2>
         <FormFieldSkeleton label={t('demo.scenario')} />
-        <div className={styles['demo-profiles']}>
+        <div className="demo-profiles grid grid-cols-[repeat(2,_minmax(0,_1fr))] gap-kiosk-3 compact:grid-cols-[1fr]">
           {['portrait', 'landscape'].map((id) => (
-            <div key={id} className={styles['demo-profile']}>
+            <div
+              key={id}
+              className="demo-profile min-h-[96px] p-kiosk-4 rounded-kiosk-md bg-kiosk-surface border border-solid border-kiosk-border grid gap-kiosk-2 [&_h3]:text-kiosk-md"
+            >
               <h3>
                 <Skeleton variant="text">{t(`settings.${id}`)}</Skeleton>
               </h3>
-              <p className={layoutStyles['muted']}>
+              <p className="muted text-kiosk-text-muted">
                 <Skeleton variant="text">
                   {id === 'portrait' ? '1080 × 1920' : '1920 × 1080'}
                 </Skeleton>
@@ -44,11 +39,11 @@ export function RouteSkeleton() {
           ))}
         </div>
       </section>
-      <section className={layoutStyles['stack']} aria-hidden="true">
+      <section className="stack grid gap-kiosk-6" aria-hidden="true">
         <h2>
           <Skeleton variant="text">{t('demo.formTitle')}</Skeleton>
         </h2>
-        <div className={layoutStyles['stack']}>
+        <div className="stack grid gap-kiosk-6">
           <FormFieldSkeleton label={t('demo.label')} hint={t('demo.hint')} />
           <div>
             <Skeleton variant="button">{t('demo.submit')}</Skeleton>

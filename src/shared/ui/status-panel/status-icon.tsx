@@ -1,4 +1,3 @@
-import { styles } from './styles';
 export type StatusIconKind =
   'info' | 'empty' | 'error' | 'success' | 'not-found';
 
@@ -9,7 +8,7 @@ interface StatusIconProps {
 export function StatusIcon({ kind }: StatusIconProps) {
   return (
     <svg
-      className={styles['status-icon']}
+      className="status-icon w-kiosk-8 h-kiosk-8"
       viewBox="0 0 48 48"
       fill="none"
       stroke="currentColor"
