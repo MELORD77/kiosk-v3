@@ -16,7 +16,7 @@ export function NamedServicePage({ number }: { number: number }) {
   if (query.isPending) {
     return (
       <div
-        className="identity-page py-kiosk-8 px-kiosk-page-gutter flex-1 flex [@media(height<=1100px)]:py-kiosk-6"
+        className="identity-page py-kiosk-service-gap px-kiosk-page-gutter flex-1 min-w-0 flex"
         aria-busy="true"
       >
         <Loader className="sr-only" />
@@ -26,7 +26,7 @@ export function NamedServicePage({ number }: { number: number }) {
   }
   if (query.isError) {
     return (
-      <div className="identity-page py-kiosk-8 px-kiosk-page-gutter flex-1 flex [@media(height<=1100px)]:py-kiosk-6">
+      <div className="identity-page py-kiosk-service-gap px-kiosk-page-gutter flex-1 min-w-0 flex">
         <StatusPanel
           tone="error"
           title={t('catalog.serviceErrorTitle')}
@@ -44,7 +44,7 @@ export function NamedServicePage({ number }: { number: number }) {
   }
   if (!service) {
     return (
-      <div className="identity-page py-kiosk-8 px-kiosk-page-gutter flex-1 flex [@media(height<=1100px)]:py-kiosk-6">
+      <div className="identity-page py-kiosk-service-gap px-kiosk-page-gutter flex-1 min-w-0 flex">
         <StatusPanel icon="not-found" title={t('notFound.title')}>
           <Button onClick={() => void navigate('/home')}>
             {t('common.home')}

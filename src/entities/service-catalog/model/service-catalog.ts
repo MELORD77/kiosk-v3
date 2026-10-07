@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { toKarakalpakCatalogText, toUzbekUiText } from '@/shared/lib/i18n';
 
 export const serviceLanguageSchema = z.object({
   uz: z.string(),
@@ -68,7 +69,9 @@ export function localizedCatalogName(
       return lang.ru;
     case 'en':
       return lang.en;
+    case 'kk':
+      return toKarakalpakCatalogText(lang.uz) ?? toUzbekUiText(lang.uz);
     default:
-      return lang.uz;
+      return toUzbekUiText(lang.uz);
   }
 }

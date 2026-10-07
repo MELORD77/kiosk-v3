@@ -1,0 +1,17 @@
+
+ RUN  v5.0.3 C:/Users/u0098/Desktop/Projects/Kiosk_new
+
+stderr | tests/identify-ui.test.tsx > citizen identification integration > shows an HTTP failure and allows a retry
+Citizen identification failed { status: 500, message: undefined }
+
+··································································································································································································································································································································································
+
+ Test Files  35 passed (35)
+      Tests  354 passed (354)
+   Start at  16:15:52
+   Duration  21.58s (environment 41%, tests 30%, import 14%, transform 8%, setup 8%)
+
+Environment  jsdom was created 35 times · 52.21s total, 41% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+

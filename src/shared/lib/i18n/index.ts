@@ -5,10 +5,20 @@ import uz from './locales/uz.json';
 import uzc from './locales/uzc.json';
 import ru from './locales/ru.json';
 import en from './locales/en.json';
+import kk from './locales/kk.json';
+
+export { toUzbekUiText } from './uzbek-ui-text';
+export { toKarakalpakCatalogText } from './karakalpak-catalog-text';
 
 export const languages = [
-  { code: 'uz', label: 'O‘zbekcha', shortLabel: 'UZ', htmlLang: 'uz-Latn' },
+  { code: 'uz', label: 'Özbekça', shortLabel: 'UZ', htmlLang: 'uz-Latn' },
   { code: 'uzc', label: 'Ўзбекча', shortLabel: 'ЎЗ', htmlLang: 'uz-Cyrl' },
+  {
+    code: 'kk',
+    label: 'Qaraqalpaqsha',
+    shortLabel: 'QQ',
+    htmlLang: 'kaa-Latn',
+  },
   { code: 'ru', label: 'Русский', shortLabel: 'RU', htmlLang: 'ru' },
   { code: 'en', label: 'English', shortLabel: 'EN', htmlLang: 'en' },
 ] as const;
@@ -28,6 +38,7 @@ void i18n.use(initReactI18next).init({
     uzc: { translation: uzc },
     ru: { translation: ru },
     en: { translation: en },
+    kk: { translation: kk },
   },
   lng: savedLanguage && isLanguage(savedLanguage) ? savedLanguage : 'uz',
   fallbackLng: 'uz',

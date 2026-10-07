@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router';
 import { AppProviders } from '@/app/providers/app-providers';
 import { AppRouter } from '@/app/router/app-router';
 import { useKioskSessionStore } from '@/features/kiosk-session';
-import { i18n } from '@/shared/lib/i18n';
+import { i18n, toUzbekUiText } from '@/shared/lib/i18n';
 import type * as SharedApi from '@/shared/api';
 import {
   catalogEnvelope,
@@ -149,7 +149,14 @@ describe('catalog availability', () => {
         await i18n.changeLanguage(language);
       });
       expect(screen.getByText(documents[backendLanguage])).toBeVisible();
-      expect(screen.getByText(verification[backendLanguage])).toBeVisible();
+      const verificationText = verification[backendLanguage];
+      expect(
+        screen.getByText(
+          language === 'uz'
+            ? toUzbekUiText(verificationText)
+            : verificationText,
+        ),
+      ).toBeVisible();
     }
   });
 

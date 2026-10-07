@@ -1,9 +1,16 @@
 import type { ReactNode } from 'react';
 
 export type ServiceFlowIconName =
-  'document' | 'coins' | 'shield' | 'keyboard' | 'passport';
+  'document' | 'coins' | 'shield' | 'keyboard' | 'passport' | 'id-card';
 
 const drawings: Record<ServiceFlowIconName, ReactNode> = {
+  'id-card': (
+    <>
+      <rect x="2" y="5" width="16" height="14" rx="2" />
+      <circle cx="7" cy="10" r="2" />
+      <path d="M4 16c0-4 6-4 6 0M12 9h3M12 12h3M12 15h3M20 8c2 2 2 6 0 8" />
+    </>
+  ),
   document: (
     <>
       <path d="M6 3h8l4 4v14H6z" />

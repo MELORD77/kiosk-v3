@@ -26,7 +26,10 @@ export function IdentityFields({
 
   if (method === 'pin') {
     return (
-      <Fade key="pin">
+      <Fade
+        key="pin"
+        className="compact:[&_.form-field]:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] compact:[&_.form-field]:items-center compact:[&_label]:text-kiosk-description compact:[&_.field-error]:col-span-2"
+      >
         <FormField
           id="identity-pin"
           label={t('identity.pinLabel')}
@@ -36,9 +39,9 @@ export function IdentityFields({
             {...form.register('pin')}
             id="identity-pin"
             className={
-              "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+              "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
             }
-            inputMode="numeric"
+            inputMode="none"
             pattern="[0-9]*"
             autoComplete="off"
             spellCheck={false}
@@ -61,7 +64,7 @@ export function IdentityFields({
   return (
     <Fade
       key="passport"
-      className="identity-passport-fields grid grid-cols-[minmax(0,_1fr)_minmax(0,_2fr)] gap-kiosk-3 items-start [&_.form-field:last-child]:col-span-2"
+      className="identity-passport-fields short-wide:[&_.form-field]:gap-kiosk-1 short-wide:[&_label]:leading-tight short-wide:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)_minmax(0,1.5fr)] short-wide:[&_.form-field:last-child]:col-span-1 grid grid-cols-[minmax(0,_1fr)_minmax(0,_2fr)] gap-kiosk-3 items-start [&_.form-field:last-child]:col-span-2"
     >
       <FormField
         id="identity-series"
@@ -72,8 +75,9 @@ export function IdentityFields({
           {...form.register('passportSeries')}
           id="identity-series"
           className={
-            "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+            "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
           }
+          inputMode="none"
           autoCapitalize="characters"
           autoComplete="off"
           spellCheck={false}
@@ -98,9 +102,9 @@ export function IdentityFields({
           {...form.register('passportNumber')}
           id="identity-number"
           className={
-            "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+            "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
           }
-          inputMode="numeric"
+          inputMode="none"
           pattern="[0-9]*"
           autoComplete="off"
           spellCheck={false}
@@ -125,9 +129,9 @@ export function IdentityFields({
           {...form.register('birthDate')}
           id="identity-birth-date"
           className={
-            "identity-input min-h-[96px] rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 [@media(height<=1000px)]:min-h-kiosk-18 compact:text-kiosk-lg compact:min-h-kiosk-18"
+            "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
           }
-          inputMode="numeric"
+          inputMode="none"
           autoComplete="off"
           spellCheck={false}
           maxLength={10}

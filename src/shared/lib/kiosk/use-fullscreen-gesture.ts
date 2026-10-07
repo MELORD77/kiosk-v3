@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const tapDurationMs = 300;
-const doubleTapGapMs = 400;
+const repeatGapMs = 400;
 const movementPx = 24;
 const repeatDistancePx = 80;
 const compatibilityClickMs = 500;
@@ -14,6 +14,25 @@ interface Point {
 interface Tap {
   endedAt: number;
   center: Point;
+}
+
+interface Sequence extends Tap {
+  count: number;
+}
+
+function advanceSequence(
+  sequence: Sequence | null,
+  center: Point,
+  now: number,
+): Sequence {
+  if (
+    sequence &&
+    now - sequence.endedAt <= repeatGapMs &&
+    distance(center, sequence.center) <= repeatDistancePx
+  ) {
+    return { ...sequence, endedAt: now, count: sequence.count + 1 };
+  }
+  return { endedAt: now, center, count: 1 };
 }
 
 function distance(a: Point, b: Point) {
@@ -39,7 +58,9 @@ export function useFullscreenGesture() {
     let transitionPending = false;
     let startedAt = 0;
     let invalid = false;
-    let firstTap: Tap | null = null;
+    let touchSequence: Sequence | null = null;
+    let mouseSequence: Sequence | null = null;
+    let lastTouch: Tap | null = null;
     let suppressUntil = 0;
     let suppressedPoints: Point[] = [];
     const origins = new Map<number, Point>();
@@ -65,7 +86,8 @@ export function useFullscreenGesture() {
 
     function invalidate() {
       invalid = true;
-      firstTap = null;
+      touchSequence = null;
+      mouseSequence = null;
     }
 
     function checkMovement(touches: TouchList) {
@@ -82,6 +104,7 @@ export function useFullscreenGesture() {
 
     function handleStart(event: TouchEvent) {
       const now = performance.now();
+      mouseSequence = null;
       if (origins.size === 0) {
         startedAt = now;
         invalid = false;
@@ -109,6 +132,13 @@ export function useFullscreenGesture() {
       checkMovement(event.changedTouches);
       checkMovement(event.touches);
       if (now - startedAt > tapDurationMs) invalidate();
+      const [endedTouch] = Array.from(event.changedTouches);
+      if (endedTouch) {
+        lastTouch = {
+          endedAt: now,
+          center: { x: endedTouch.clientX, y: endedTouch.clientY },
+        };
+      }
       if (event.touches.length > 0) return;
 
       if (origins.size === 1 && !invalid) {
@@ -117,22 +147,17 @@ export function useFullscreenGesture() {
           x: points.reduce((sum, point) => sum + point.x, 0) / points.length,
           y: points.reduce((sum, point) => sum + point.y, 0) / points.length,
         };
-        if (
-          firstTap &&
-          now - firstTap.endedAt <= doubleTapGapMs &&
-          distance(center, firstTap.center) <= repeatDistancePx
-        ) {
-          firstTap = null;
+        touchSequence = advanceSequence(touchSequence, center, now);
+        if (touchSequence.count === 3) {
+          touchSequence = null;
           if (event.cancelable) event.preventDefault();
           suppressedPoints = points;
           suppressUntil = now + compatibilityClickMs;
           // touchend grants user activation; do not defer the API call.
           toggleFullscreen();
-        } else {
-          firstTap = { endedAt: now, center };
         }
       } else {
-        firstTap = null;
+        touchSequence = null;
       }
       origins.clear();
       invalid = false;
@@ -141,14 +166,22 @@ export function useFullscreenGesture() {
     function handleCancel() {
       origins.clear();
       invalid = false;
-      firstTap = null;
+      touchSequence = null;
+      mouseSequence = null;
+      lastTouch = null;
       suppressUntil = 0;
     }
 
     function handleClick(event: MouseEvent) {
+      const now = performance.now();
+      const center = { x: event.clientX, y: event.clientY };
+      const followsTouch =
+        lastTouch !== null &&
+        now - lastTouch.endedAt <= compatibilityClickMs &&
+        distance(lastTouch.center, center) <= repeatDistancePx;
       if (
-        performance.now() <= suppressUntil &&
-        isTouchClick(event) &&
+        now <= suppressUntil &&
+        (isTouchClick(event) || followsTouch) &&
         suppressedPoints.some(
           (point) =>
             distance(point, { x: event.clientX, y: event.clientY }) <=
@@ -158,20 +191,21 @@ export function useFullscreenGesture() {
         event.preventDefault();
         event.stopImmediatePropagation();
       }
+      if (isTouchClick(event) || followsTouch) return;
+      if (event.button !== 0 || event.detail === 0) {
+        mouseSequence = null;
+        return;
+      }
+      touchSequence = null;
+      mouseSequence = advanceSequence(mouseSequence, center, now);
+      if (mouseSequence.count === 3) {
+        mouseSequence = null;
+        toggleFullscreen();
+      }
     }
 
     function handleDoubleClick(event: MouseEvent) {
       if (event.cancelable) event.preventDefault();
-      const followsTouchGesture =
-        performance.now() <= suppressUntil &&
-        suppressedPoints.some(
-          (point) =>
-            distance(point, { x: event.clientX, y: event.clientY }) <=
-            repeatDistancePx,
-        );
-      if (isTouchClick(event) || followsTouchGesture) return;
-      firstTap = null;
-      toggleFullscreen();
     }
 
     function preventGestureZoom(event: Event) {

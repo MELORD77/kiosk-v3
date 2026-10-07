@@ -18,7 +18,7 @@ export function KioskHeaderSkeleton({
   const { t } = useTranslation();
   return (
     <header
-      className="kiosk-header flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface [border-bottom:1px_solid_var(--color-border)] medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap kiosk-header-skeleton"
+      className="kiosk-header shrink-0 flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface [border-bottom:1px_solid_var(--color-border)] medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap short:gap-kiosk-2 short:py-kiosk-2 kiosk-header-skeleton"
       aria-busy="true"
     >
       <Loader className="sr-only" />
@@ -28,7 +28,7 @@ export function KioskHeaderSkeleton({
       >
         <Skeleton
           variant="icon"
-          className="kiosk-emblem w-[64px] h-[64px] flex-none object-contain medium:w-[48px] medium:h-[48px] short-wide:w-[56px] short-wide:h-[56px] compact:w-[48px] compact:h-[48px]"
+          className="kiosk-emblem w-[64px] h-[64px] flex-none object-contain medium:w-[48px] medium:h-[48px] short-wide:w-[56px] short-wide:h-[56px] short:w-kiosk-12 short:h-kiosk-12 compact:w-[48px] compact:h-[48px]"
         />
         <div>
           <p className="brand-republic text-kiosk-text-muted text-kiosk-brand-republic font-semibold uppercase tracking-[0.06em]">

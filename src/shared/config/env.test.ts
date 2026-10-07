@@ -6,6 +6,7 @@ describe('kiosk configuration', () => {
   it('uses safe defaults and ignores unrelated environment values', () => {
     expect(parseEnv({ UNRELATED: 'value' })).toEqual({
       apiBaseUrl: undefined,
+      hardwareApiBaseUrl: undefined,
       routerMode: 'browser',
       kioskOrientation: 'auto',
       idleTimeoutMs: 120_000,
@@ -23,6 +24,7 @@ describe('kiosk configuration', () => {
       }),
     ).toEqual({
       apiBaseUrl: 'https://example.test/api/',
+      hardwareApiBaseUrl: undefined,
       routerMode: 'browser',
       kioskOrientation: 'landscape',
       idleTimeoutMs: 60_000,
@@ -47,6 +49,9 @@ describe('kiosk configuration', () => {
 
   it('rejects unsafe configuration without including its value', () => {
     expect(() =>
+      parseEnv({ VITE_HARDWARE_API_BASE_URL: 'file:///private-value' }),
+    ).toThrow('Invalid kiosk configuration: VITE_HARDWARE_API_BASE_URL.');
+    expect(() =>
       parseEnv({ VITE_API_BASE_URL: 'file:///private-value' }),
     ).toThrow('Invalid kiosk configuration: VITE_API_BASE_URL.');
     expect(() => parseEnv({ VITE_KIOSK_ORIENTATION: 'diagonal' })).toThrow(
@@ -58,5 +63,15 @@ describe('kiosk configuration', () => {
     expect(() => parseEnv({ VITE_IDLE_WARNING_MS: '120000' })).toThrow(
       'VITE_IDLE_WARNING_MS',
     );
+  });
+
+  it('keeps hardware and service API configuration separate', () => {
+    expect(
+      parseEnv({ VITE_HARDWARE_API_BASE_URL: '' }).hardwareApiBaseUrl,
+    ).toBeUndefined();
+    expect(
+      parseEnv({ VITE_HARDWARE_API_BASE_URL: 'http://192.168.5.126:8080' })
+        .hardwareApiBaseUrl,
+    ).toBe('http://192.168.5.126:8080');
   });
 });

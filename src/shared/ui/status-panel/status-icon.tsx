@@ -8,11 +8,15 @@ interface StatusIconProps {
 export function StatusIcon({ kind }: StatusIconProps) {
   return (
     <svg
-      className="status-icon w-kiosk-8 h-kiosk-8"
+      className={
+        kind === 'error'
+          ? 'status-icon w-kiosk-10 h-kiosk-10'
+          : 'status-icon w-kiosk-8 h-kiosk-8'
+      }
       viewBox="0 0 48 48"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth={kind === 'error' ? 3 : 2}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

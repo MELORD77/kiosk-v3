@@ -36,33 +36,58 @@ function touchEvent(type: string, active: Touch[], changed = active) {
   return event;
 }
 
-describe('double-click and single-finger fullscreen gesture', () => {
+function click(x = 100, detail = 1, touchSource = false, button = 0) {
+  const event = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    clientX: x,
+    clientY: 100,
+    detail,
+    button,
+  });
+  if (touchSource) {
+    Object.defineProperty(event, 'sourceCapabilities', {
+      value: { firesTouchEvents: true },
+    });
+  }
+  document.body.dispatchEvent(event);
+  return event;
+}
+
+function doubleClick() {
+  const event = new MouseEvent('dblclick', {
+    bubbles: true,
+    cancelable: true,
+    detail: 2,
+  });
+  document.body.dispatchEvent(event);
+  return event;
+}
+
+describe('triple-click and single-finger triple-tap fullscreen gesture', () => {
   let now = 0;
   const request = vi.fn<() => Promise<void>>();
   const exit = vi.fn<() => Promise<void>>();
   const first = finger(1);
   const second = finger(2, 150);
 
-  function tap() {
-    touchEvent('touchstart', [first]);
+  function tap(x = 100) {
+    const point = finger(1, x);
+    touchEvent('touchstart', [point]);
     now += 40;
-    return touchEvent('touchend', [], [first]);
+    return touchEvent('touchend', [], [point]);
   }
 
-  function doubleClick(touchSource = false) {
-    const event = new MouseEvent('dblclick', {
-      bubbles: true,
-      cancelable: true,
-      clientX: 100,
-      clientY: 100,
-    });
-    if (touchSource) {
-      Object.defineProperty(event, 'sourceCapabilities', {
-        value: { firesTouchEvents: true },
-      });
-    }
-    document.body.dispatchEvent(event);
-    return event;
+  function tripleTap() {
+    tap();
+    tap();
+    return tap();
+  }
+
+  function tripleClick() {
+    click();
+    click();
+    return click();
   }
 
   beforeEach(() => {
@@ -84,15 +109,33 @@ describe('double-click and single-finger fullscreen gesture', () => {
     });
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
+  afterEach(() => vi.restoreAllMocks());
+
+  it('preserves two mouse clicks and toggles synchronously only on the third', async () => {
+    renderHook(useFullscreenGesture);
+    expect(click().defaultPrevented).toBe(false);
+    expect(click(100, 2).defaultPrevented).toBe(false);
+    doubleClick();
+    expect(request).not.toHaveBeenCalled();
+    click(100, 3);
+    expect(request).toHaveBeenCalledTimes(1);
+    await Promise.resolve();
+    Object.defineProperty(document, 'fullscreenElement', {
+      configurable: true,
+      value: document.documentElement,
+    });
+    click();
+    click();
+    expect(exit).not.toHaveBeenCalled();
+    click();
+    expect(exit).toHaveBeenCalledTimes(1);
   });
 
-  it('enters synchronously after two fully released taps and exits on the next gesture', async () => {
+  it('preserves two touch taps and toggles synchronously only on the third', async () => {
     renderHook(useFullscreenGesture);
     expect(tap().defaultPrevented).toBe(false);
+    expect(tap().defaultPrevented).toBe(false);
     expect(request).not.toHaveBeenCalled();
-    now += 80;
     expect(tap().defaultPrevented).toBe(true);
     expect(request).toHaveBeenCalledTimes(1);
     await Promise.resolve();
@@ -100,189 +143,165 @@ describe('double-click and single-finger fullscreen gesture', () => {
       configurable: true,
       value: document.documentElement,
     });
-    now += 80;
     tap();
-    now += 80;
+    tap();
+    expect(exit).not.toHaveBeenCalled();
     tap();
     expect(exit).toHaveBeenCalledTimes(1);
   });
 
-  it('toggles synchronously on mouse double-click without waiting for touch', async () => {
+  it('never toggles for standalone double-click events', () => {
     renderHook(useFullscreenGesture);
-    expect(doubleClick().defaultPrevented).toBe(true);
-    expect(request).toHaveBeenCalledTimes(1);
-    await Promise.resolve();
-    Object.defineProperty(document, 'fullscreenElement', {
-      configurable: true,
-      value: document.documentElement,
-    });
     doubleClick();
-    expect(exit).toHaveBeenCalledTimes(1);
-  });
-
-  it('leaves ordinary single-finger taps and mouse clicks alone', () => {
-    renderHook(useFullscreenGesture);
-    tap();
-    const click = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      clientX: 100,
-      clientY: 100,
-    });
-    document.body.dispatchEvent(click);
-    expect(click.defaultPrevented).toBe(false);
+    doubleClick();
+    doubleClick();
     expect(request).not.toHaveBeenCalled();
   });
 
-  it('suppresses compatibility touch clicks after the completed double tap', () => {
+  it('does not count or suppress compatibility clicks from the first two touches', async () => {
     renderHook(useFullscreenGesture);
     tap();
+    expect(click(100, 1, true).defaultPrevented).toBe(false);
     tap();
-    const click = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      clientX: 100,
-      clientY: 100,
-    });
-    Object.defineProperty(click, 'sourceCapabilities', {
-      value: { firesTouchEvents: true },
-    });
-    document.body.dispatchEvent(click);
-    expect(click.defaultPrevented).toBe(true);
-  });
-
-  it('ignores synthesized double-clicks even after the fullscreen request settles', async () => {
-    renderHook(useFullscreenGesture);
-    tap();
+    expect(click(100, 2).defaultPrevented).toBe(false);
+    expect(request).not.toHaveBeenCalled();
     tap();
     await Promise.resolve();
-    Object.defineProperty(document, 'fullscreenElement', {
-      configurable: true,
-      value: document.documentElement,
-    });
-    doubleClick(true);
+    expect(click(100, 3, true).defaultPrevented).toBe(true);
+    click();
+    click();
     doubleClick();
     expect(request).toHaveBeenCalledTimes(1);
-    expect(exit).not.toHaveBeenCalled();
     now += 501;
-    doubleClick();
-    expect(exit).toHaveBeenCalledTimes(1);
+    tripleClick();
+    expect(request).toHaveBeenCalledTimes(2);
   });
 
-  it.each(['movement', 'third finger', 'cancel', 'replacement finger'])(
-    'rejects %s without triggering fullscreen',
-    (reason) => {
+  it.each(['mouse', 'touch'])(
+    'restarts %s sequences after timeout or movement outside the first tap area',
+    (input) => {
       renderHook(useFullscreenGesture);
-      tap();
-      touchEvent('touchstart', [first]);
-      let remaining = [first];
-      if (reason === 'movement') {
-        remaining = [finger(1, 130)];
-        expect(touchEvent('touchmove', remaining).defaultPrevented).toBe(false);
-      } else if (reason === 'third finger') {
-        remaining = [first, second, finger(3)];
-        touchEvent('touchstart', remaining, [finger(3)]);
-      } else if (reason === 'cancel') {
-        touchEvent('touchcancel', [], remaining);
-      } else {
-        touchEvent('touchstart', [first, second], [second]);
-        touchEvent('touchend', [second], [first]);
-        remaining = [second, finger(3)];
-        touchEvent('touchstart', remaining, [finger(3)]);
-      }
-      expect(touchEvent('touchend', [], remaining).defaultPrevented).toBe(
-        false,
-      );
-      tap();
+      const press = input === 'mouse' ? click : tap;
+      press();
+      press();
+      now += 401;
+      press();
+      press();
       expect(request).not.toHaveBeenCalled();
+      now += 401;
+      press();
+      press(170);
+      press(240);
+      expect(request).not.toHaveBeenCalled();
+      press(240);
+      press(240);
+      expect(request).toHaveBeenCalledTimes(1);
     },
   );
 
-  it('blocks pinch zoom until all fingers are released and preserves one-finger scrolling', () => {
+  it('ignores keyboard and non-primary mouse clicks and resets their sequence', () => {
     renderHook(useFullscreenGesture);
-    tap();
-    touchEvent('touchstart', [first]);
-    expect(
-      touchEvent('touchstart', [first, second], [second]).defaultPrevented,
-    ).toBe(true);
-    expect(
-      touchEvent('touchmove', [finger(1, 50), finger(2, 250)]).defaultPrevented,
-    ).toBe(true);
-    touchEvent('touchend', [first], [second]);
-    expect(touchEvent('touchmove', [first]).defaultPrevented).toBe(false);
-    touchEvent('touchend', [], [first]);
-    tap();
+    click();
+    click();
+    click(100, 0);
+    click();
+    click();
+    expect(request).not.toHaveBeenCalled();
+    click(100, 1, false, 2);
+    click();
+    click();
     expect(request).not.toHaveBeenCalled();
   });
 
-  it('blocks browser gesture zoom events', () => {
+  it.each(['movement', 'multi-touch', 'cancel', 'long press', 'blur'])(
+    'resets touch sequences on %s',
+    (reason) => {
+      renderHook(useFullscreenGesture);
+      tap();
+      tap();
+      touchEvent('touchstart', [first]);
+      if (reason === 'movement') {
+        expect(touchEvent('touchmove', [finger(1, 130)]).defaultPrevented).toBe(
+          false,
+        );
+      } else if (reason === 'multi-touch') {
+        expect(
+          touchEvent('touchstart', [first, second], [second]).defaultPrevented,
+        ).toBe(true);
+        expect(
+          touchEvent('touchmove', [first, finger(2, 300)]).defaultPrevented,
+        ).toBe(true);
+        touchEvent('touchend', [first], [second]);
+      } else if (reason === 'cancel') {
+        touchEvent('touchcancel', [], [first]);
+      } else if (reason === 'long press') {
+        now += 301;
+      } else {
+        window.dispatchEvent(new Event('blur'));
+      }
+      touchEvent('touchend', [], [first]);
+      tap();
+      tap();
+      expect(request).not.toHaveBeenCalled();
+      tap();
+      expect(request).toHaveBeenCalledTimes(1);
+    },
+  );
+
+  it('resets mouse sequences on blur and does not combine mouse with touch', () => {
     renderHook(useFullscreenGesture);
+    click();
+    click();
+    window.dispatchEvent(new Event('blur'));
+    click();
+    tap();
+    tap();
+    expect(request).not.toHaveBeenCalled();
+    now += 501;
+    click();
+    click();
+    expect(request).not.toHaveBeenCalled();
+    click();
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  it('prevents gesture zoom and removes every listener on unmount', () => {
+    const { unmount } = renderHook(useFullscreenGesture);
     for (const type of ['gesturestart', 'gesturechange']) {
       const event = new Event(type, { bubbles: true, cancelable: true });
       document.body.dispatchEvent(event);
       expect(event.defaultPrevented).toBe(true);
     }
-  });
-
-  it('rejects long presses, multi-finger taps, expired repeats and distant taps', () => {
-    renderHook(useFullscreenGesture);
-    tap();
-    touchEvent('touchstart', [first]);
-    now += 301;
-    touchEvent('touchend', [], [first]);
-    tap();
-    expect(request).not.toHaveBeenCalled();
-    touchEvent('touchstart', [first]);
-    now += 121;
-    touchEvent('touchstart', [first, second], [second]);
-    touchEvent('touchend', [], [first, second]);
-    tap();
-    expect(request).not.toHaveBeenCalled();
-    now += 401;
-    tap();
-    expect(request).not.toHaveBeenCalled();
-    touchEvent('touchstart', [finger(1, 400)]);
-    touchEvent('touchend', [], [finger(1, 400)]);
+    unmount();
+    tripleTap();
+    tripleClick();
+    const event = new Event('gesturestart', {
+      bubbles: true,
+      cancelable: true,
+    });
+    document.body.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
     expect(request).not.toHaveBeenCalled();
   });
 
-  it('handles denied and unsupported fullscreen APIs without breaking subsequent gestures', async () => {
+  it('handles denied, throwing and unsupported APIs without blocking later gestures', async () => {
     renderHook(useFullscreenGesture);
     request.mockRejectedValueOnce(new Error('Not allowed'));
-    tap();
-    tap();
+    tripleClick();
     await Promise.resolve();
-    expect(request).toHaveBeenCalledTimes(1);
     request.mockImplementationOnce(() => {
       throw new Error('Restricted');
     });
-    tap();
-    expect(() => tap()).not.toThrow();
+    expect(tripleClick).not.toThrow();
+    expect(request).toHaveBeenCalledTimes(2);
     Object.defineProperty(document.documentElement, 'requestFullscreen', {
       configurable: true,
       value: undefined,
     });
-    tap();
-    expect(() => tap()).not.toThrow();
+    expect(tripleClick).not.toThrow();
   });
 
-  it('cleans up listeners on unmount and resets interrupted gestures on blur', () => {
-    const { unmount } = renderHook(useFullscreenGesture);
-    tap();
-    window.dispatchEvent(new Event('blur'));
-    tap();
-    expect(request).not.toHaveBeenCalled();
-    unmount();
-    tap();
-    tap();
-    doubleClick();
-    const zoom = new Event('gesturestart', { bubbles: true, cancelable: true });
-    document.body.dispatchEvent(zoom);
-    expect(zoom.defaultPrevented).toBe(false);
-    expect(request).not.toHaveBeenCalled();
-  });
-
-  it('does not issue another fullscreen request while the transition is pending', async () => {
+  it('does not issue another request while pending and resets after each triple', async () => {
     let resolveRequest: (() => void) | undefined;
     request.mockReturnValueOnce(
       new Promise<void>((resolve) => {
@@ -290,14 +309,14 @@ describe('double-click and single-finger fullscreen gesture', () => {
       }),
     );
     renderHook(useFullscreenGesture);
-    tap();
-    tap();
-    tap();
-    tap();
+    tripleTap();
+    tripleTap();
     expect(request).toHaveBeenCalledTimes(1);
     resolveRequest?.();
     await Promise.resolve();
     tap();
+    tap();
+    expect(request).toHaveBeenCalledTimes(1);
     tap();
     expect(request).toHaveBeenCalledTimes(2);
   });

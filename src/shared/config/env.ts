@@ -5,6 +5,7 @@ const orientationSchema = z.enum(['auto', 'portrait', 'landscape']);
 const envSchema = z
   .object({
     VITE_API_BASE_URL: z.url({ protocol: /^https?$/ }).optional(),
+    VITE_HARDWARE_API_BASE_URL: z.url({ protocol: /^https?$/ }).optional(),
     VITE_ROUTER_MODE: z.enum(['browser', 'hash']).default('browser'),
     VITE_KIOSK_ORIENTATION: orientationSchema.default('auto'),
     VITE_IDLE_TIMEOUT_MS: z.coerce.number().int().positive().default(120_000),
@@ -20,6 +21,10 @@ export function parseEnv(source: Record<string, unknown>) {
   const result = envSchema.safeParse({
     VITE_API_BASE_URL:
       source.VITE_API_BASE_URL === '' ? undefined : source.VITE_API_BASE_URL,
+    VITE_HARDWARE_API_BASE_URL:
+      source.VITE_HARDWARE_API_BASE_URL === ''
+        ? undefined
+        : source.VITE_HARDWARE_API_BASE_URL,
     VITE_KIOSK_ORIENTATION: source.VITE_KIOSK_ORIENTATION,
     VITE_ROUTER_MODE: source.VITE_ROUTER_MODE,
     VITE_IDLE_TIMEOUT_MS: source.VITE_IDLE_TIMEOUT_MS,
@@ -35,6 +40,7 @@ export function parseEnv(source: Record<string, unknown>) {
 
   return Object.freeze({
     apiBaseUrl: result.data.VITE_API_BASE_URL,
+    hardwareApiBaseUrl: result.data.VITE_HARDWARE_API_BASE_URL,
     routerMode: result.data.VITE_ROUTER_MODE,
     kioskOrientation: result.data.VITE_KIOSK_ORIENTATION,
     idleTimeoutMs: result.data.VITE_IDLE_TIMEOUT_MS,

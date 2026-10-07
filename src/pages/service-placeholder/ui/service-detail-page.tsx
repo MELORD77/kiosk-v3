@@ -24,7 +24,7 @@ export function ServiceDetailPage({ serviceId }: { serviceId: string }) {
   if (query.isPending || isSkeletonPreview(search)) {
     return (
       <div
-        className="identity-page py-kiosk-8 px-kiosk-page-gutter flex-1 flex [@media(height<=1100px)]:py-kiosk-6"
+        className="identity-page py-kiosk-service-gap px-kiosk-page-gutter flex-1 min-w-0 flex"
         aria-busy="true"
       >
         <Loader className="sr-only" />
@@ -43,7 +43,7 @@ export function ServiceDetailPage({ serviceId }: { serviceId: string }) {
   if (query.isSuccess) {
     if (query.data.status !== 'ACTIVE') {
       return (
-        <div className="identity-page py-kiosk-8 px-kiosk-page-gutter flex-1 flex [@media(height<=1100px)]:py-kiosk-6">
+        <div className="identity-page py-kiosk-service-gap px-kiosk-page-gutter flex-1 min-w-0 flex">
           <section className="service-flow w-full max-w-360 mx-auto flex flex-col gap-kiosk-6 short:gap-kiosk-4">
             <div className="grid [&_h1]:font-extrabold [&_h1]:leading-[1.2] [&_p]:text-kiosk-text-muted gap-kiosk-2 [&_h1]:text-kiosk-lg [&_p]:text-kiosk-sm">
               <h1>{localizedCatalogName(query.data.lang, i18n.language)}</h1>
@@ -60,7 +60,7 @@ export function ServiceDetailPage({ serviceId }: { serviceId: string }) {
       );
     }
     return (
-      <div className="identity-page py-kiosk-8 px-kiosk-page-gutter flex-1 flex [@media(height<=1100px)]:py-kiosk-6">
+      <div className="identity-page py-kiosk-service-gap px-kiosk-page-gutter flex-1 min-w-0 flex">
         <ServiceFlow
           key={query.data.id}
           service={query.data}

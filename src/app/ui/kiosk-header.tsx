@@ -33,10 +33,10 @@ export function KioskHeader() {
     );
 
   return (
-    <header className="kiosk-header flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface [border-bottom:1px_solid_var(--color-border)] medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap">
+    <header className="kiosk-header shrink-0 flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface [border-bottom:1px_solid_var(--color-border)] medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap short:gap-kiosk-2 short:py-kiosk-2">
       <div className="kiosk-brand flex items-center gap-kiosk-4 min-w-0 medium:gap-kiosk-3">
         <img
-          className="kiosk-emblem w-[64px] h-[64px] flex-none object-contain medium:w-[48px] medium:h-[48px] short-wide:w-[56px] short-wide:h-[56px] compact:w-[48px] compact:h-[48px]"
+          className="kiosk-emblem w-[64px] h-[64px] flex-none object-contain medium:w-[48px] medium:h-[48px] short-wide:w-[56px] short-wide:h-[56px] short:w-kiosk-12 short:h-kiosk-12 compact:w-[48px] compact:h-[48px]"
           src={`${import.meta.env.BASE_URL}logo/logo-iiv.png`}
           alt={t('brand.emblem')}
         />

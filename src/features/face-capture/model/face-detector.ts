@@ -1,5 +1,12 @@
 import type * as FaceApi from 'face-api.js';
 
+export interface FaceBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 let modelPromise: Promise<typeof FaceApi> | undefined;
 
 function loadDetector() {
@@ -27,8 +34,17 @@ export async function detectFaces(canvas: HTMLCanvasElement) {
     canvas,
     new faceApi.TinyFaceDetectorOptions({
       inputSize: 416,
-      scoreThreshold: 0.5,
+      scoreThreshold: 0.4,
     }),
   );
-  return detections.length;
+  return detections.map(({ box }): FaceBox => {
+    const x = Math.max(0, Math.min(1, box.x / canvas.width));
+    const y = Math.max(0, Math.min(1, box.y / canvas.height));
+    return {
+      x,
+      y,
+      width: Math.max(0, Math.min(1 - x, box.width / canvas.width)),
+      height: Math.max(0, Math.min(1 - y, box.height / canvas.height)),
+    };
+  });
 }

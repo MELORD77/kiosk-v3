@@ -1,8 +1,10 @@
-import { skipToken, useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { citizenServiceKeys, requestCitizenService } from './citizen-request';
-import type { CitizenServiceParams } from './citizen-request';
+import { requestCitizenService } from './citizen-request';
+import type {
+  CitizenServiceRequest,
+  CitizenServiceLanguage,
+} from './citizen-request';
 
 const registrationSchema = z.object({
   cadaster: z.string().nullable(),
@@ -34,23 +36,16 @@ export const residenceSchema = z.object({
   pdfLink: z.string(),
 });
 export type Residence = z.infer<typeof residenceSchema>;
-export const residenceKeys = {
-  result: (params: CitizenServiceParams | null) =>
-    citizenServiceKeys.result(7, params),
-};
 export function fetchResidence(
-  params: CitizenServiceParams,
+  input: CitizenServiceRequest,
+  language: CitizenServiceLanguage,
   signal?: AbortSignal,
 ) {
-  return requestCitizenService('residence', params, residenceSchema, signal);
-}
-export function useResidence(params: CitizenServiceParams | null) {
-  return useQuery({
-    queryKey: residenceKeys.result(params),
-    queryFn: params
-      ? ({ signal }) => fetchResidence(params, signal)
-      : skipToken,
-    meta: { sessionOwned: true },
-    retry: false,
-  });
+  return requestCitizenService(
+    'residence',
+    input,
+    language,
+    residenceSchema,
+    signal,
+  );
 }

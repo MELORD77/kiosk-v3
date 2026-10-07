@@ -3,6 +3,7 @@ import type { z } from 'zod';
 import { env } from '@/shared/config';
 
 import { ApiError } from './api-error';
+import type { ApiServerMessage } from './api-error';
 
 export interface ApiClientOptions {
   baseUrl?: string;
@@ -11,6 +12,7 @@ export interface ApiClientOptions {
 
 export interface ApiRequestOptions<T> extends RequestInit {
   schema: z.ZodType<T>;
+  errorMessageSchema?: z.ZodType<ApiServerMessage>;
 }
 
 export function createApiClient({
@@ -21,7 +23,7 @@ export function createApiClient({
     path: string,
     options: ApiRequestOptions<T>,
   ): Promise<T> {
-    const { schema, ...requestOptions } = options;
+    const { schema, errorMessageSchema, ...requestOptions } = options;
     const url = baseUrl
       ? new URL(path, `${baseUrl.replace(/\/$/, '')}/`).toString()
       : path;
@@ -37,7 +39,22 @@ export function createApiClient({
     }
 
     requestOptions.signal?.throwIfAborted();
-    if (!response.ok) throw new ApiError('http', response.status);
+    if (!response.ok) {
+      let serverMessage: ApiServerMessage | undefined;
+      if (errorMessageSchema) {
+        try {
+          const body: unknown = JSON.parse(await response.text());
+          const parsed = errorMessageSchema.safeParse(body);
+          if (parsed.success) serverMessage = parsed.data;
+        } catch (error) {
+          if (error instanceof DOMException && error.name === 'AbortError')
+            throw error;
+          // Preserve the HTTP status even when the error body is unreadable.
+        }
+      }
+      requestOptions.signal?.throwIfAborted();
+      throw new ApiError('http', response.status, serverMessage);
+    }
 
     let data: unknown;
 

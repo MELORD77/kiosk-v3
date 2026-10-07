@@ -5,8 +5,9 @@ import { MemoryRouter } from 'react-router';
 import { AppProviders } from '@/app/providers/app-providers';
 import { AppRouter } from '@/app/router/app-router';
 import { useKioskSessionStore } from '@/features/kiosk-session';
-import { i18n } from '@/shared/lib/i18n';
+import { i18n, toUzbekUiText } from '@/shared/lib/i18n';
 import type * as SharedApi from '@/shared/api';
+import type * as SharedConfig from '@/shared/config';
 import { IdentityForm } from '@/pages/service-placeholder/ui/identity-form';
 import {
   catalogEnvelope,
@@ -14,6 +15,14 @@ import {
   catalogServices,
   serviceDetail,
 } from './fixtures/service-catalog';
+
+vi.mock('@/shared/config', async (importOriginal) => {
+  const original = await importOriginal<typeof SharedConfig>();
+  return {
+    ...original,
+    env: { ...original.env, hardwareApiBaseUrl: undefined },
+  };
+});
 
 vi.mock('@/shared/api', async (importOriginal) => {
   const original = await importOriginal<typeof SharedApi>();
@@ -81,6 +90,12 @@ async function enterManual(user: ReturnType<typeof userEvent.setup>) {
       exact: true,
     }),
   );
+  await user.click(
+    screen.getByRole('button', {
+      name: i18n.t('identity.pinMethod'),
+      exact: true,
+    }),
+  );
 }
 
 async function renderIdentity() {
@@ -116,7 +131,7 @@ describe('identity entry', () => {
     });
     expect(onIdentify).toHaveBeenCalledTimes(1);
     const submit = screen.getByRole('button', {
-      name: i18n.t('identity.continue'),
+      name: i18n.t('identity.sending'),
       exact: true,
     });
     expect(submit).toBeDisabled();
@@ -189,7 +204,7 @@ describe('identity entry', () => {
     const user = userEvent.setup();
     const pin = await renderIdentity();
     expect(pin).toHaveFocus();
-    expect(pin).toHaveAttribute('inputmode', 'numeric');
+    expect(pin).toHaveAttribute('inputmode', 'none');
     const one = screen.getByRole('button', { name: '1', exact: true });
     await user.click(one);
     expect(screen.getByRole('button', { name: '1', exact: true })).toBe(one);
@@ -206,13 +221,18 @@ describe('identity entry', () => {
     const number = screen.getByLabelText(i18n.t('identity.numberLabel'), {
       exact: true,
     });
+    const birthDate = screen.getByLabelText(i18n.t('identity.birthDateLabel'), {
+      exact: true,
+    });
+    expect(series).toHaveAttribute('inputmode', 'none');
+    expect(birthDate).toHaveAttribute('inputmode', 'none');
     expect(series).toHaveFocus();
     await user.click(screen.getByRole('button', { name: 'A', exact: true }));
     expect(series).toHaveFocus();
     await user.click(screen.getByRole('button', { name: 'D', exact: true }));
     expect(series).toHaveValue('AD');
     expect(number).toHaveFocus();
-    expect(number).toHaveAttribute('inputmode', 'numeric');
+    expect(number).toHaveAttribute('inputmode', 'none');
     expect(
       screen.getByRole('group', { name: i18n.t('identity.numberKeyboard') }),
     ).toBeInTheDocument();
@@ -241,7 +261,7 @@ describe('identity entry', () => {
     ).toHaveFocus();
   });
 
-  it('requires 14 digits, supports keypad editing and gives only a local format result', async () => {
+  it('requires 14 digits, supports keypad editing and shows server feedback', async () => {
     const user = userEvent.setup();
     const pin = await renderIdentity();
     const submit = screen.getByRole('button', {
@@ -287,7 +307,7 @@ describe('identity entry', () => {
     ).not.toBeInTheDocument();
     await user.click(submit);
     expect(
-      await screen.findByText(i18n.t('identity.nextTitle')),
+      await screen.findByText(i18n.t('identity.receivedTitle')),
     ).toBeInTheDocument();
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);
     expect(Object.values(window.localStorage).join('')).not.toContain(
@@ -305,7 +325,7 @@ describe('identity entry', () => {
     ).not.toBeInTheDocument();
     expect(submit).toBeEnabled();
     expect(
-      screen.queryByText(i18n.t('identity.nextTitle')),
+      screen.queryByText(i18n.t('identity.receivedTitle')),
     ).not.toBeInTheDocument();
     await user.click(
       screen.getByRole('button', {
@@ -386,7 +406,7 @@ describe('identity entry', () => {
     expect(birthDate).toHaveValue('15.04.1990');
     await user.click(submit);
     expect(
-      await screen.findByText(i18n.t('identity.nextTitle')),
+      await screen.findByText(i18n.t('identity.receivedTitle')),
     ).toBeInTheDocument();
     await user.click(
       screen.getByRole('button', {
@@ -398,7 +418,7 @@ describe('identity entry', () => {
       screen.getByLabelText(i18n.t('identity.pinLabel'), { exact: true }),
     ).toHaveValue('');
     expect(
-      screen.queryByText(i18n.t('identity.nextTitle')),
+      screen.queryByText(i18n.t('identity.receivedTitle')),
     ).not.toBeInTheDocument();
     expect(submit).toBeEnabled();
     await user.click(
@@ -494,14 +514,23 @@ describe('service preparation flow', () => {
     );
     renderRoute(`/services/${serviceDetail.id}`);
     expect(
-      await screen.findByRole('heading', { name: serviceDetail.lang[field] }),
+      await screen.findByRole('heading', {
+        name:
+          locale === 'uz'
+            ? toUzbekUiText(serviceDetail.lang[field])
+            : serviceDetail.lang[field],
+      }),
     ).toBeInTheDocument();
     for (const value of [
       serviceDetail.department[field],
       serviceDetail.result[field],
       `${serviceDetail.price.text[field]} (${serviceDetail.price.bhmText[field]})`,
     ]) {
-      expect(screen.getByText(value, { exact: true })).toBeInTheDocument();
+      expect(
+        screen.getByText(locale === 'uz' ? toUzbekUiText(value) : value, {
+          exact: true,
+        }),
+      ).toBeInTheDocument();
     }
     expect(screen.getAllByText(i18n.t('serviceFlow.notProvided'))).toHaveLength(
       2,
@@ -534,11 +563,17 @@ describe('service preparation flow', () => {
       screen.getByRole('button', { name: i18n.t('serviceFlow.startReading') }),
     ).toBeDisabled();
     expect(
-      screen.getByText(i18n.t('serviceFlow.mrzNotice')),
+      screen.getByText(i18n.t('passportReader.notice')),
     ).toBeInTheDocument();
     await user.click(
       screen.getByRole('button', {
         name: i18n.t('serviceFlow.manualTitle'),
+        exact: true,
+      }),
+    );
+    await user.click(
+      screen.getByRole('button', {
+        name: i18n.t('identity.pinMethod'),
         exact: true,
       }),
     );
@@ -552,6 +587,12 @@ describe('service preparation flow', () => {
     await user.click(
       screen.getByRole('button', {
         name: i18n.t('serviceFlow.manualTitle'),
+        exact: true,
+      }),
+    );
+    await user.click(
+      screen.getByRole('button', {
+        name: i18n.t('identity.pinMethod'),
         exact: true,
       }),
     );

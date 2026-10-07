@@ -1,0 +1,42 @@
+.kiosk-stage {
+  --kiosk-backdrop-base: color-mix(
+    in srgb,
+    var(--color-background) 94%,
+    var(--color-control-primary)
+  );
+  --kiosk-backdrop-glow: color-mix(
+    in srgb,
+    var(--color-primary) 10%,
+    transparent
+  );
+  --kiosk-backdrop-ornament: color-mix(
+    in srgb,
+    var(--color-primary) 18%,
+    transparent
+  );
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      var(--kiosk-backdrop-glow),
+      transparent 70%
+    ),
+    var(--kiosk-backdrop-base);
+}
+
+.kiosk-ornament {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--kiosk-backdrop-ornament),
+    transparent 24%,
+    transparent 76%,
+    var(--kiosk-backdrop-ornament)
+  );
+  mask-size: clamp(96px, 12vw, 192px);
+  mask-repeat: repeat;
+}

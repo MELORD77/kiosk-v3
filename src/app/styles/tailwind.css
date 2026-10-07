@@ -11,6 +11,8 @@
   --color-kiosk-primary-hover: var(--color-primary-hover);
   --color-kiosk-on-primary: var(--color-on-primary);
   --color-kiosk-primary-soft: var(--color-primary-soft);
+  --color-kiosk-accent: var(--color-accent);
+  --color-kiosk-accent-soft: var(--color-accent-soft);
   --color-kiosk-control-primary: var(--color-control-primary);
   --color-kiosk-control-primary-hover: var(--color-control-primary-hover);
   --color-kiosk-control-primary-border: var(--color-control-primary-border);
@@ -49,6 +51,10 @@
   --spacing-kiosk-12: var(--space-12);
   --spacing-kiosk-16: var(--space-16);
   --spacing-kiosk-18: var(--space-18);
+  --spacing-kiosk-service-gap: var(--service-gap);
+  --spacing-kiosk-service-input: var(--service-input-height);
+  --spacing-kiosk-service-key: var(--service-key-height);
+  --spacing-kiosk-service-image: var(--service-image-height);
   --text-kiosk-xs: var(--text-xs);
   --text-kiosk-sm: var(--text-sm);
   --text-kiosk-md: var(--text-md);
@@ -85,6 +91,12 @@
 
 @custom-variant short {
   @media (max-height: 900px) {
+    @slot;
+  }
+}
+
+@custom-variant roomy {
+  @media (min-width: 900px) and (min-height: 1000px) {
     @slot;
   }
 }

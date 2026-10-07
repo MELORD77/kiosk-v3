@@ -36,7 +36,7 @@ export function ServiceGrid({ category, onClearCategory }: ServiceGridProps) {
   return (
     <ScrollArea
       as="section"
-      className="service-grid min-h-0 h-full overflow-auto p-kiosk-1 compact:h-auto compact:overflow-visible compact:flex-none compact:w-full"
+      className="service-grid min-h-0 h-full overflow-auto p-kiosk-4 compact:h-auto compact:overflow-visible compact:flex-none compact:w-full"
       aria-label={t('home.services')}
     >
       {isLoading && (
@@ -89,7 +89,7 @@ export function ServiceGrid({ category, onClearCategory }: ServiceGridProps) {
       {!isLoading && query.isSuccess && query.data.length > 0 && (
         <Fade
           key={category ?? 'all'}
-          className="service-grid-content grid grid-cols-[repeat(2,_minmax(0,_1fr))] auto-rows-[1fr] gap-kiosk-3 compact:grid-cols-[1fr]"
+          className="service-grid-content grid grid-cols-[repeat(2,_minmax(0,_1fr))] auto-rows-[1fr] gap-kiosk-6 compact:grid-cols-[1fr]"
         >
           {query.data.map((service) => (
             <ServiceCard

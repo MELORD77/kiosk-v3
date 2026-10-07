@@ -1,8 +1,10 @@
-import { skipToken, useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { citizenServiceKeys, requestCitizenService } from './citizen-request';
-import type { CitizenServiceParams } from './citizen-request';
+import { requestCitizenService } from './citizen-request';
+import type {
+  CitizenServiceRequest,
+  CitizenServiceLanguage,
+} from './citizen-request';
 
 export const releaseSchema = z.object({
   isReleased: z.boolean(),
@@ -23,21 +25,16 @@ export const releaseSchema = z.object({
   ),
 });
 export type Release = z.infer<typeof releaseSchema>;
-export const releaseKeys = {
-  result: (params: CitizenServiceParams | null) =>
-    citizenServiceKeys.result(22, params),
-};
 export function fetchRelease(
-  params: CitizenServiceParams,
+  input: CitizenServiceRequest,
+  language: CitizenServiceLanguage,
   signal?: AbortSignal,
 ) {
-  return requestCitizenService('release', params, releaseSchema, signal);
-}
-export function useRelease(params: CitizenServiceParams | null) {
-  return useQuery({
-    queryKey: releaseKeys.result(params),
-    queryFn: params ? ({ signal }) => fetchRelease(params, signal) : skipToken,
-    meta: { sessionOwned: true },
-    retry: false,
-  });
+  return requestCitizenService(
+    'release',
+    input,
+    language,
+    releaseSchema,
+    signal,
+  );
 }

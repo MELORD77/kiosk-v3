@@ -37,7 +37,7 @@ export function SessionWarning({
         <Button autoFocus onClick={onContinue}>
           {t('session.continue')}
         </Button>
-        <Button variant="secondary" onClick={onEndSession}>
+        <Button variant="danger" onClick={onEndSession}>
           {t('common.finish')}
         </Button>
       </div>

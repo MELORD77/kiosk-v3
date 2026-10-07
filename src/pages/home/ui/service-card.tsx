@@ -33,7 +33,7 @@ export function ServiceCard({
   return (
     <Button
       variant="secondary"
-      className="service-card flex items-stretch justify-start flex-col text-left gap-kiosk-3 p-kiosk-4 min-h-[136px] h-auto self-stretch rounded-kiosk-md border border-solid border-kiosk-border shadow-kiosk-card [[data-orientation='portrait']_&]:min-h-[192px] medium:min-h-[136px] compact:min-h-[136px] compact:[[data-orientation='portrait']_&]:min-h-[136px] bg-none [&:disabled:hover]:bg-kiosk-surface [&[data-service-status='ACTIVE']]:border-kiosk-service-card-border [&:enabled:hover]:border-kiosk-service-card-accent [&:disabled:not([data-service-status='MAINTENANCE'])]:opacity-60! [&[data-service-status='MAINTENANCE']]:opacity-100!"
+      className="service-card  flex items-stretch justify-start flex-col text-left gap-kiosk-3 p-kiosk-4 min-h-[136px] h-auto self-stretch rounded-[var(--radius-service-card)] border border-solid border-kiosk-service-card-border shadow-kiosk-card [[data-orientation='portrait']_&]:min-h-[192px] medium:min-h-[136px] compact:min-h-[136px] compact:[[data-orientation='portrait']_&]:min-h-[136px] bg-none [&:disabled:hover]:bg-kiosk-surface [&:enabled:hover]:border-kiosk-service-card-accent [&:disabled:not([data-service-status='MAINTENANCE'])]:opacity-60! [&[data-service-status='MAINTENANCE']]:opacity-100!"
       data-service-status={service.status}
       disabled={!isAvailable}
       aria-label={serviceName}
@@ -44,7 +44,7 @@ export function ServiceCard({
         <span className="service-card-meta flex items-center min-w-0 gap-kiosk-2">
           <Badge
             tone="primary"
-            className="service-number py-kiosk-1 px-kiosk-2 min-w-[44px] min-h-[36px] grid place-items-center flex-none text-kiosk-md font-extrabold bg-kiosk-service-card-number text-kiosk-service-card-accent"
+            className="service-number py-kiosk-1 px-kiosk-2 min-w-11 min-h-4 grid place-items-center flex-none text-kiosk-md font-extrabold bg-kiosk-service-card-number text-kiosk-service-card-accent"
           >
             {String(service.number).padStart(2, '0')}
           </Badge>
@@ -56,7 +56,7 @@ export function ServiceCard({
         </span>
       </span>
       <span className="service-card-body flex items-center gap-kiosk-3 min-w-0 flex-1">
-        <span className="service-card-title text-kiosk-service-title font-bold leading-[1.3] min-w-0 flex-1 wrap-anywhere [[data-orientation='portrait']_&]:text-kiosk-service-title">
+        <span className="service-card-title font text-lg font-bold leading-[1.3] min-w-0 flex-1 wrap-anywhere [[data-orientation='portrait']_&]:text-kiosk-service-title">
           {serviceName}
         </span>
         {isAvailable && (

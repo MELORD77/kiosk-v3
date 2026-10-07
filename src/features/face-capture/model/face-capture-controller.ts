@@ -1,3 +1,5 @@
+import type { FaceBox } from './face-detector';
+
 export type FaceCaptureStatus =
   | 'loading'
   | 'noFace'
@@ -16,11 +18,13 @@ export type FaceCaptureStatus =
 export interface FaceCaptureState {
   status: FaceCaptureStatus;
   cameraEnabled: boolean;
+  faces: FaceBox[];
+  progress: number;
 }
 
 interface CaptureDependencies {
   loadModel: () => Promise<void>;
-  detect: (canvas: HTMLCanvasElement) => Promise<number>;
+  detect: (canvas: HTMLCanvasElement) => Promise<FaceBox[]>;
   getFrame: () => HTMLCanvasElement | null;
   onState: (state: FaceCaptureState) => void;
   onCapture: (blob: Blob) => void;
@@ -28,6 +32,26 @@ interface CaptureDependencies {
 }
 
 let controllerSequence = 0;
+const stabilityDuration = 1000;
+const pollInterval = 200;
+
+function similarFace(first: FaceBox, second: FaceBox) {
+  return (
+    Math.abs(first.x + first.width / 2 - second.x - second.width / 2) <= 0.08 &&
+    Math.abs(first.y + first.height / 2 - second.y - second.height / 2) <=
+      0.08 &&
+    Math.abs(first.width - second.width) <= 0.08 &&
+    Math.abs(first.height - second.height) <= 0.08
+  );
+}
+
+function validFace(face: FaceBox) {
+  return (
+    Object.values(face).every(Number.isFinite) &&
+    face.width > 0 &&
+    face.height > 0
+  );
+}
 
 export function stopCameraStream(stream: MediaStream) {
   for (const track of stream.getTracks()) track.stop();
@@ -56,7 +80,10 @@ export function createFaceCaptureController(deps: CaptureDependencies) {
   let disposed = false;
   let capturing = false;
   let timer: ReturnType<typeof setTimeout> | undefined;
-  let pendingDetection: Promise<number> | undefined;
+  let pendingDetection: Promise<FaceBox[]> | undefined;
+  let stableFace: FaceBox | undefined;
+  let stableSince = 0;
+  let stableSamples = 0;
   const streams = new Set<MediaStream>();
   const trackListeners = new Map<MediaStreamTrack, () => void>();
   const canvases = new Set<HTMLCanvasElement>();
@@ -80,8 +107,19 @@ export function createFaceCaptureController(deps: CaptureDependencies) {
     for (const canvas of canvases) release(canvas);
   }
 
-  function publish(status: FaceCaptureStatus, cameraEnabled = true) {
-    if (!disposed) deps.onState({ status, cameraEnabled });
+  function publish(
+    status: FaceCaptureStatus,
+    cameraEnabled = true,
+    faces: FaceBox[] = [],
+    progress = 0,
+  ) {
+    if (!disposed) deps.onState({ status, cameraEnabled, faces, progress });
+  }
+
+  function resetStability() {
+    stableFace = undefined;
+    stableSamples = 0;
+    stableSince = 0;
   }
 
   function cancel() {
@@ -97,20 +135,52 @@ export function createFaceCaptureController(deps: CaptureDependencies) {
   async function poll() {
     if (disposed || capturing) return;
     const canvas = deps.getFrame();
+    let shouldCapture = false;
     if (canvas) {
       canvases.add(canvas);
       try {
         pendingDetection = deps.detect(canvas);
-        const count = await pendingDetection;
-        if (!capturing) publish(faceStatus(count));
+        const faces = await pendingDetection;
+        if (disposed || capturing) return;
+        const face = faces[0];
+        if (faces.length === 1 && face && validFace(face)) {
+          if (!stableFace || !similarFace(stableFace, face)) {
+            stableFace = face;
+            stableSince = Date.now();
+            stableSamples = 0;
+          }
+          stableSamples += 1;
+          const progress = Math.min(
+            1,
+            (Date.now() - stableSince) / stabilityDuration,
+          );
+          publish('ready', true, faces, progress);
+          shouldCapture = progress === 1 && stableSamples >= 3;
+        } else {
+          resetStability();
+          publish(
+            faceStatus(faces.length === 1 ? 0 : faces.length),
+            true,
+            faces,
+          );
+        }
       } catch {
         if (!capturing && !disposed) fail('detectionError');
       } finally {
         pendingDetection = undefined;
         release(canvas);
       }
+    } else {
+      resetStability();
+      publish('loading');
     }
-    if (!disposed && !capturing) timer = setTimeout(() => void poll(), 350);
+    // Settle polling detection before capture waits for any in-flight work.
+    if (shouldCapture && !disposed) {
+      await capture();
+      return;
+    }
+    if (!disposed && !capturing)
+      timer = setTimeout(() => void poll(), pollInterval);
   }
 
   async function start() {
@@ -146,10 +216,17 @@ export function createFaceCaptureController(deps: CaptureDependencies) {
       }
       canvases.add(canvas);
       // Verification and encoding share this frozen, unmirrored frame.
-      const count = await deps.detect(canvas);
+      const faces = await deps.detect(canvas);
       if (disposed) return;
-      if (count !== 1) {
-        publish(faceStatus(count));
+      const face = faces[0];
+      if (faces.length !== 1 || !face || !validFace(face)) {
+        resetStability();
+        publish(faceStatus(faces.length === 1 ? 0 : faces.length), true, faces);
+        return;
+      }
+      if (stableFace && !similarFace(stableFace, face)) {
+        resetStability();
+        publish('ready', true, faces);
         return;
       }
       const blob = await encodeFrame(canvas);
@@ -162,7 +239,7 @@ export function createFaceCaptureController(deps: CaptureDependencies) {
     } finally {
       if (canvas) release(canvas);
       capturing = false;
-      if (!disposed) timer = setTimeout(() => void poll(), 350);
+      if (!disposed) timer = setTimeout(() => void poll(), pollInterval);
     }
   }
 

@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 import { AppProviders } from '@/app/providers/app-providers';
 import { AppRouter } from '@/app/router/app-router';
 import { useKioskSessionStore } from '@/features/kiosk-session';
-import { i18n } from '@/shared/lib/i18n';
+import { i18n, toUzbekUiText } from '@/shared/lib/i18n';
 import type { ServicePrice } from '@/entities/service-catalog';
 import type * as SharedApi from '@/shared/api';
 import { catalogEnvelope, serviceDetail } from './fixtures/service-catalog';
@@ -75,10 +75,14 @@ describe('structured service price', () => {
         name: i18n.t('identity.continue'),
         exact: true,
       });
+      const expectedPrice = `${price.text[field]} (${price.bhmText[field]})`;
       expect(
-        screen.getByText(`${price.text[field]} (${price.bhmText[field]})`, {
-          exact: true,
-        }),
+        screen.getByText(
+          locale === 'uz' ? toUzbekUiText(expectedPrice) : expectedPrice,
+          {
+            exact: true,
+          },
+        ),
       ).toBeInTheDocument();
     },
   );

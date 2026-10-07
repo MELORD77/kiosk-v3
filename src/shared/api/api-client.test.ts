@@ -5,6 +5,9 @@ import { createApiClient } from './api-client';
 import { ApiError, isRetryableApiError } from './api-error';
 
 const labelSchema = z.object({ label: z.string() });
+const errorMessageSchema = z
+  .object({ message: z.string() })
+  .transform(({ message }) => message);
 
 describe('fetch transport', () => {
   it('resolves the configured base URL and validates returned data', async () => {
@@ -74,6 +77,95 @@ describe('fetch transport', () => {
       kind: 'network',
       message: 'The server could not be reached.',
     });
+  });
+
+  it('retains only an endpoint-approved error message', async () => {
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          message: 'Temporarily unavailable',
+          result: 'private',
+        }),
+        { status: 503 },
+      ),
+    );
+    const error = await createApiClient({ fetcher })
+      .request('/sample', { schema: labelSchema, errorMessageSchema })
+      .catch((failure: unknown) => failure);
+    expect(error).toMatchObject({
+      kind: 'http',
+      status: 503,
+      serverMessage: 'Temporarily unavailable',
+      message: 'The request failed.',
+    });
+    expect(JSON.stringify(error)).not.toContain('private');
+    expect(fetcher).toHaveBeenCalledWith('/sample', {});
+  });
+
+  it.each(['not JSON', '', JSON.stringify({ message: 5 })])(
+    'preserves HTTP errors with malformed error messages: %s',
+    async (body) => {
+      const fetcher = vi
+        .fn<typeof fetch>()
+        .mockResolvedValue(new Response(body, { status: 503 }));
+      await expect(
+        createApiClient({ fetcher }).request('/sample', {
+          schema: labelSchema,
+          errorMessageSchema,
+        }),
+      ).rejects.toMatchObject({
+        kind: 'http',
+        status: 503,
+        serverMessage: undefined,
+      });
+    },
+  );
+
+  it('preserves HTTP status when reading its error body fails', async () => {
+    const response = new Response(null, { status: 503 });
+    vi.spyOn(response, 'text').mockRejectedValue(new Error('private'));
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(response);
+    await expect(
+      createApiClient({ fetcher }).request('/sample', {
+        schema: labelSchema,
+        errorMessageSchema,
+      }),
+    ).rejects.toMatchObject({
+      kind: 'http',
+      status: 503,
+      serverMessage: undefined,
+    });
+  });
+
+  it('preserves cancellation while reading an HTTP error body', async () => {
+    const controller = new AbortController();
+    const response = new Response(null, { status: 503 });
+    vi.spyOn(response, 'text').mockImplementation(async () => {
+      controller.abort();
+      throw new DOMException('Aborted', 'AbortError');
+    });
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(response);
+    await expect(
+      createApiClient({ fetcher }).request('/sample', {
+        schema: labelSchema,
+        errorMessageSchema,
+        signal: controller.signal,
+      }),
+    ).rejects.toMatchObject({ name: 'AbortError' });
+  });
+
+  it('preserves a body AbortError even without a caller signal', async () => {
+    const response = new Response(null, { status: 503 });
+    vi.spyOn(response, 'text').mockRejectedValue(
+      new DOMException('Aborted', 'AbortError'),
+    );
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(response);
+    await expect(
+      createApiClient({ fetcher }).request('/sample', {
+        schema: labelSchema,
+        errorMessageSchema,
+      }),
+    ).rejects.toMatchObject({ name: 'AbortError' });
   });
 
   it.each(['not JSON', JSON.stringify({ label: 4 })])(

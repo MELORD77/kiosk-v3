@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter, Route, Routes } from 'react-router';
+import { CoreDemoPage } from '@/pages/core-demo';
 import { AppProviders } from '@/app/providers/app-providers';
 import { AppRouter } from '@/app/router/app-router';
 import { App } from '@/app/app';
@@ -46,7 +47,10 @@ function renderRoute(path: string) {
   return render(
     <AppProviders>
       <MemoryRouter initialEntries={[path]}>
-        <AppRouter />
+        <Routes>
+          <Route path="/core-demo" element={<CoreDemoPage />} />
+          <Route path="*" element={<AppRouter />} />
+        </Routes>
       </MemoryRouter>
     </AppProviders>,
   );

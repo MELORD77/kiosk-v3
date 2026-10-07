@@ -1,8 +1,10 @@
-import { skipToken, useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { citizenServiceKeys, requestCitizenService } from './citizen-request';
-import type { CitizenServiceParams } from './citizen-request';
+import { requestCitizenService } from './citizen-request';
+import type {
+  CitizenServiceRequest,
+  CitizenServiceLanguage,
+} from './citizen-request';
 
 const nullableString = z.string().nullable();
 export const criminalRecordSchema = z.object({
@@ -34,28 +36,16 @@ export const criminalRecordSchema = z.object({
   ),
 });
 export type CriminalRecord = z.infer<typeof criminalRecordSchema>;
-export const criminalRecordKeys = {
-  result: (params: CitizenServiceParams | null) =>
-    citizenServiceKeys.result(12, params),
-};
 export function fetchCriminalRecord(
-  params: CitizenServiceParams,
+  input: CitizenServiceRequest,
+  language: CitizenServiceLanguage,
   signal?: AbortSignal,
 ) {
   return requestCitizenService(
     'criminal-record',
-    params,
+    input,
+    language,
     criminalRecordSchema,
     signal,
   );
-}
-export function useCriminalRecord(params: CitizenServiceParams | null) {
-  return useQuery({
-    queryKey: criminalRecordKeys.result(params),
-    queryFn: params
-      ? ({ signal }) => fetchCriminalRecord(params, signal)
-      : skipToken,
-    meta: { sessionOwned: true },
-    retry: false,
-  });
 }

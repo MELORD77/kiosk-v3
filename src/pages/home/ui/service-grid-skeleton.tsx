@@ -32,14 +32,14 @@ export function ServiceGridSkeleton({
   });
   return (
     <div
-      className="service-grid-content grid grid-cols-[repeat(2,_minmax(0,_1fr))] auto-rows-[1fr] gap-kiosk-3 compact:grid-cols-[1fr] service-grid-loading relative"
+      className="service-grid-content grid grid-cols-[repeat(2,_minmax(0,_1fr))] auto-rows-[1fr] gap-kiosk-6 compact:grid-cols-[1fr] service-grid-loading relative"
       aria-busy="true"
     >
       <Loader className="sr-only" />
       {items.map((item, index) => (
         <div
           key={index}
-          className="button font-bold leading-[1.3] no-underline [&:disabled]:cursor-not-allowed button--secondary text-kiosk-text [&:enabled:hover]:border-kiosk-control-primary [&:enabled:focus-visible]:border-kiosk-control-primary service-card-skeleton flex items-stretch justify-start flex-col text-left gap-kiosk-3 p-kiosk-4 min-h-[136px] h-auto self-stretch rounded-kiosk-md border border-solid border-kiosk-border shadow-kiosk-card bg-kiosk-surface cursor-default [[data-orientation='portrait']_&]:min-h-[192px] medium:min-h-[136px] compact:min-h-[136px] compact:[[data-orientation='portrait']_&]:min-h-[136px]"
+          className="button font-bold leading-[1.3] no-underline [&:disabled]:cursor-not-allowed button--secondary text-kiosk-text [&:enabled:hover]:border-kiosk-control-primary [&:enabled:focus-visible]:border-kiosk-control-primary service-card-skeleton flex items-stretch justify-start flex-col text-left gap-kiosk-3 p-kiosk-4 min-h-[136px] h-auto self-stretch rounded-[var(--radius-service-card)] border border-solid border-kiosk-service-card-border shadow-kiosk-card bg-kiosk-surface cursor-default [[data-orientation='portrait']_&]:min-h-[192px] medium:min-h-[136px] compact:min-h-[136px] compact:[[data-orientation='portrait']_&]:min-h-[136px]"
           aria-hidden="true"
         >
           <div className="service-card-top flex items-center justify-between gap-kiosk-3 shrink-0">

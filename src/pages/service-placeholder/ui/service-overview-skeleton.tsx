@@ -1,4 +1,5 @@
 import { Skeleton } from '@/shared/ui/skeleton';
+import { BackButtonSkeleton } from '@/shared/ui/back-button';
 import { useTranslation } from 'react-i18next';
 import { localizedCatalogName } from '@/entities/service-catalog';
 import type {
@@ -60,9 +61,9 @@ export function ServiceOverviewSkeleton({
       aria-hidden="true"
     >
       <div className="flex items-center gap-kiosk-4 [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6">
-        <Skeleton variant="button">{t('common.back')}</Skeleton>
+        <BackButtonSkeleton />
       </div>
-      <div className="grid [&_h1]:font-extrabold [&_h1]:leading-[1.2] [&_p]:text-kiosk-text-muted min-w-0 gap-kiosk-2 [&_h1]:text-kiosk-2xl [&_h1]:wrap-anywhere [&_p]:text-kiosk-lg compact:[&_h1]:text-kiosk-xl compact:[&_p]:text-kiosk-md">
+      <div className="grid [&_h1]:font-extrabold [&_h1]:leading-[1.2] [&_p]:text-kiosk-text-muted min-w-0 gap-kiosk-2 [&_h1]:text-kiosk-2xl [&_h1]:wrap-anywhere [&_p]:text-kiosk-lg compact:[&_h1]:text-kiosk-xl short-wide:[&_h1]:text-kiosk-xl compact:[&_p]:text-kiosk-description">
         <h1>
           <Skeleton variant="text" className="w-3/4">
             {serviceName ?? t('common.loading')}
@@ -72,11 +73,11 @@ export function ServiceOverviewSkeleton({
           <Skeleton variant="text">{t('serviceFlow.overviewTitle')}</Skeleton>
         </p>
       </div>
-      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start [[data-orientation='portrait']_&]:grid-cols-1 compact:grid-cols-1 gap-kiosk-4">
-        <div className="bg-kiosk-surface border rounded-kiosk-md p-kiosk-6 grid gap-kiosk-4 min-w-0 border-kiosk-control-border shadow-kiosk-card compact:p-kiosk-4">
-          <Skeleton className="flex items-center justify-center [&_svg]:w-full [&_svg]:h-full shrink-0 w-kiosk-12 h-kiosk-12 p-kiosk-3 rounded-kiosk-sm bg-kiosk-service-card-number text-kiosk-service-card-accent" />
-          <div className="grid [&_h2]:text-kiosk-service-title [&_h2]:font-bold [&_p]:text-kiosk-text-muted [&_p]:leading-[1.5] min-w-0 gap-kiosk-4 [&_p]:text-kiosk-lg [&_p]:wrap-anywhere compact:[&_p]:text-kiosk-md">
-            <dl className="grid gap-kiosk-4 [&_dt]:font-bold [&_dd]:text-kiosk-text-muted [&_dd]:leading-[1.5] min-w-0 [&_dt]:text-kiosk-lg [&_dt]:wrap-anywhere [&_dd]:text-kiosk-lg [&_dd]:whitespace-pre-line [&_dd]:wrap-anywhere compact:[&_dt]:text-kiosk-md compact:[&_dd]:text-kiosk-md">
+      <div className="grid roomy:flex-1 roomy:content-center grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start [[data-orientation='portrait']_&]:grid-cols-1 compact:grid-cols-1 gap-kiosk-2">
+        <div className="bg-kiosk-surface border rounded-kiosk-md p-kiosk-6 flex items-start gap-kiosk-4 min-w-0 border-kiosk-control-border shadow-kiosk-card compact:p-kiosk-2">
+          <Skeleton className="flex items-center justify-center [&_svg]:w-full [&_svg]:h-full shrink-0 w-kiosk-12 h-kiosk-12 compact:hidden short-wide:hidden p-kiosk-3 rounded-kiosk-sm bg-kiosk-service-card-number text-kiosk-service-card-accent" />
+          <div className="grid [&_h2]:text-kiosk-service-title [&_h2]:font-bold [&_p]:text-kiosk-text-muted [&_p]:leading-[1.3] min-w-0 gap-kiosk-4 [&_p]:text-kiosk-lg [&_p]:wrap-anywhere compact:[&_p]:text-kiosk-description">
+            <dl className="grid gap-kiosk-4 compact:grid-cols-2 [&_dt]:font-bold [&_dd]:text-kiosk-text-muted [&_dd]:leading-[1.3] min-w-0 [&_dt]:text-kiosk-lg [&_dt]:wrap-anywhere [&_dd]:text-kiosk-lg [&_dd]:whitespace-pre-line [&_dd]:wrap-anywhere compact:[&_dt]:text-kiosk-description compact:[&_dd]:text-kiosk-description">
               {metadata.map(({ key, value }) => (
                 <div key={key}>
                   <dt>
@@ -97,13 +98,13 @@ export function ServiceOverviewSkeleton({
             </p>
           </div>
         </div>
-        <dl className="grid min-w-0 gap-kiosk-3">
+        <dl className="grid min-w-0 gap-kiosk-3 short-wide:grid-cols-2 compact:grid-cols-2">
           {requirements.map(({ key, value }) => (
             <div
               key={key}
-              className="flex items-center gap-kiosk-4 p-kiosk-4 border rounded-kiosk-md bg-kiosk-surface [&_dt]:font-bold [&_dd]:text-kiosk-text-muted min-w-0 border-kiosk-control-border [&_dt]:text-kiosk-lg [&_dt]:wrap-anywhere [&_dd]:text-kiosk-lg [&_dd]:leading-[1.5] [&_dd]:whitespace-pre-line [&_dd]:wrap-anywhere [&_>_div]:min-w-0 compact:gap-kiosk-3 compact:p-kiosk-3 compact:[&_dt]:text-kiosk-md compact:[&_dd]:text-kiosk-md"
+              className="flex items-center gap-kiosk-4 p-kiosk-4 border rounded-kiosk-md bg-kiosk-surface [&_dt]:font-bold [&_dd]:text-kiosk-text-muted min-w-0 border-kiosk-control-border [&_dt]:text-kiosk-lg [&_dt]:wrap-anywhere [&_dd]:text-kiosk-lg [&_dd]:leading-[1.3] [&_dd]:whitespace-pre-line [&_dd]:wrap-anywhere [&_>_div]:min-w-0 compact:gap-kiosk-3 compact:p-kiosk-2 compact:[&_dt]:text-kiosk-description compact:[&_dd]:text-kiosk-description"
             >
-              <Skeleton className="flex items-center justify-center [&_svg]:w-full [&_svg]:h-full shrink-0 w-kiosk-12 h-kiosk-12 p-kiosk-3 rounded-kiosk-sm bg-kiosk-service-card-number text-kiosk-service-card-accent" />
+              <Skeleton className="flex items-center justify-center [&_svg]:w-full [&_svg]:h-full shrink-0 w-kiosk-12 h-kiosk-12 compact:hidden short-wide:hidden p-kiosk-3 rounded-kiosk-sm bg-kiosk-service-card-number text-kiosk-service-card-accent" />
               <div className="flex-1">
                 <dt>
                   <Skeleton variant="text">{t(`serviceFlow.${key}`)}</Skeleton>
@@ -116,7 +117,7 @@ export function ServiceOverviewSkeleton({
           ))}
         </dl>
       </div>
-      <div className="flex flex-wrap gap-kiosk-4 [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6 justify-end [&_.button]:min-h-kiosk-16 [&_.button]:text-kiosk-lg">
+      <div className="mt-auto flex flex-wrap gap-kiosk-4 [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6 justify-end [&_.button]:min-h-kiosk-16 [&_.button]:text-kiosk-lg">
         <Skeleton
           variant="button"
           className="w-80 max-w-full min-h-kiosk-16 text-kiosk-lg compact:w-full"

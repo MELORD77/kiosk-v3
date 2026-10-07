@@ -1,0 +1,9 @@
+Generated with built-in image_gen; transparent background.
+Reference: passport-reader.png, used for style only.
+
+Use case: scientific-educational. Create a transparent PNG kiosk helper illustration matching the reference scanner's polished softly shaded semi-flat blue/navy 3D style, cool cyan accent, rounded edges. Subject: back side of a generic Uzbekistan-style ID card, frontal near-flat view slight perspective, wide horizontal card filling canvas with generous transparent padding. On left show a stylized non-functional QR placeholder, on its right clearly show the exact small label 'PERSONAL NUMBER' above '00000000000000' (exactly 14 zeros). Highlight only this field with a strong cyan rounded outline and a small blue numbered circular badge '1'. Other fields are abstract pale blue bars, bottom two machine-readable rows are generic chevrons and zeros, small 'SAMPLE' watermark. No real identity, no real photo, no official emblem, no real functional QR. No scanner device, no extra surrounding captions, no background. Must clearly teach that PINFL is on back of ID card to the right of QR. Keep text upright, large legible highlighted number, isolated document, restrained blue monochrome palette consistent with reference. Actual alpha transparency.
+
+Field placement reference: https://ipsd.uz/wp-content/uploads/2024/06/pinfl-_lat.pdf
+
+Final corrective edit (built-in image_gen):
+Make one precise edit of the highlighted example number in this image. Replace all current zeros with the exact grouped fourteen-digit example '0000 0000 0000 00'. This is four zeros, space, four zeros, space, four zeros, space, two zeros. Use smaller typography to fit all four groups easily inside cyan highlighted rectangle. Count14 totaldigits. Must show all4groups exactly. Keep PERSONAL NUMBER label, QR, badge1,SAMPLE,otherart,color,cardlayoutandtruealpha unchanged.

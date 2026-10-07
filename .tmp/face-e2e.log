@@ -1,0 +1,41 @@
+[WebServer] (node:40144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 8 workers
+
+(node:20640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44868) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:40412) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   1 [landscape] › tests\e2e\face-verification.spec.ts:164:1 › camera failure retries and cancels without submitting a photo or requesting service data (4ms)
+  x   3 [landscape] › tests\e2e\face-verification.spec.ts:122:3 › face verification gates service data and resets in dark (3ms)
+  x   2 [portrait] › tests\e2e\face-verification.spec.ts:206:1 › face verification copy renders in all five languages (6ms)
+  x   6 [portrait] › tests\e2e\face-verification.spec.ts:122:3 › face verification gates service data and resets in dark (3ms)
+  x   4 [landscape] › tests\e2e\face-verification.spec.ts:122:3 › face verification gates service data and resets in light (3ms)
+  x   7 [portrait] › tests\e2e\face-verification.spec.ts:122:3 › face verification gates service data and resets in light (3ms)
+  x   5 [landscape] › tests\e2e\face-verification.spec.ts:206:1 › face verification copy renders in all five languages (5ms)
+  x   8 [portrait] › tests\e2e\face-verification.spec.ts:164:1 › camera failure retries and cancels without submitting a photo or requesting service data (4ms)
+(node:33556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:47752) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  11 [compact] › tests\e2e\face-verification.spec.ts:122:3 › face verification gates service data and resets in dark (2ms)
+  x  10 [compact] › tests\e2e\face-verification.spec.ts:164:1 › camera failure retries and cancels without submitting a photo or requesting service data (3ms)
+  x   9 [compact] › tests\e2e\face-verification.spec.ts:122:3 › face verification gates service data and resets in light (3ms)
+  x  12 [compact] › tests\e2e\face-verification.spec.ts:206:1 › face verification copy renders in all five languages (2ms)
