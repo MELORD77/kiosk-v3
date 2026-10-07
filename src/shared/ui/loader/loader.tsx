@@ -19,7 +19,7 @@ export function Loader({ className }: LoaderProps) {
       aria-busy="true"
     >
       <span
-        className="loader-spinner w-kiosk-8 h-kiosk-8 flex-none border-[length:var(--space-1)] border-solid border-kiosk-border border-t-kiosk-primary rounded-[50%] animate-kiosk-loader"
+        className="loader-spinner w-kiosk-8 h-kiosk-8 flex-none border-[length:var(--border-width-loader)] border-solid border-kiosk-border border-t-kiosk-primary rounded-[50%] animate-kiosk-loader"
         aria-hidden="true"
       />
       <span>{t('common.loading')}</span>

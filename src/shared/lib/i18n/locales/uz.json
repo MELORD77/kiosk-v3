@@ -294,7 +294,7 @@
     "idCardUnavailableTitle": "ID-kartani öqiş hozirça mavjud emas",
     "idCardUnavailableDescription": "Ma’lumotlarni qölda kiriting.",
     "idCardRead": "NFC orqali öqiş",
-    "readerVerificationUnavailable": "Pasport öquvçisi hujjatni öqiy oladi. Xizmatdan foydalaniş uçun pasport ma’lumotlarini qö‘lda kiriting."
+    "readerVerificationUnavailable": "Pasport öquvçisi hujjatni öqiy oladi. Xizmatdan foydalaniş uçun pasport ma’lumotlarini qölda kiriting."
   },
   "passportReader": {
     "title": "Pasport yoki ID-kartani öqiş",
@@ -390,7 +390,7 @@
     "readyTitle": "Yuz suratini oling",
     "readyDescription": "Kamerani yoqing va unga töğri qarang. Suratingiz avtomatik olinadi va tekşirişga yuboriladi. Şaxsingiz tasdiqlangaç xizmat ma’lumotlari oçiladi.",
     "pendingTitle": "Şaxsingiz tekşirilmoqda",
-    "pendingDescription": "Pasport ma’lumotlaringiz va suratingiz tekşirilmoqda. Iltimos, kuting.",
+    "pendingDescription": "Hujjat ma’lumotlaringiz va suratingiz tekşirilmoqda. Iltimos, kuting.",
     "mismatchTitle": "Şaxs mos kelmadi",
     "mismatchDescription": "Yuz surati kiritilgan ma’lumotlarga mos kelmadi. Qayta suratga tuşing yoki ma’lumotlarni tekşiriş uçun orqaga qayting.",
     "errorTitle": "Şaxsni tasdiqlab bölmadi",
@@ -400,5 +400,31 @@
     "networkError": "Serverga ulanib bölmadi. Ulanişni tekşiring va qayta urinib köring.",
     "validationError": "Tekşiriş javobi kutilgan formatda emas. Qayta urinib köring.",
     "photoError": "Suratni tayyorlab bölmadi. Qayta suratga tuşing."
+  },
+  "operatorCall": {
+    "title": "Operatorga qönğiroq",
+    "handset": "Operator bilan gaplaşiş uçun trubkani kötaring.",
+    "start": "Qönğiroqni boşlaş",
+    "end": "Qönğiroqni tugatiş",
+    "close": "Yopiş",
+    "enableSound": "Ovozni yoqiş",
+    "soundBlocked": "Operator ovozini eşitiş uçun «Ovozni yoqiş»ni bosing.",
+    "status": {
+      "idle": "Qönğiroqqa tayyor",
+      "starting": "Qönğiroq boşlanmoqda",
+      "ringing": "Operator javobi kutilmoqda",
+      "connecting": "Operatorga ulanmoqda",
+      "connected": "Operator bilan ulandi",
+      "ended": "Qönğiroq tugadi",
+      "error": "Qönğiroq qilib bölmadi"
+    },
+    "errors": {
+      "microphoneDenied": "Mikrofonga ruxsat berilmadi. Ruxsat bering va qayta urinib köring.",
+      "microphoneUnavailable": "Mikrofon işlamayapti. Trubkani tekşiring va qayta urinib köring.",
+      "unsupported": "Bu qurilmada ovozli qönğiroq mavjud emas.",
+      "connection": "Qönğiroq ulan olmadi. Qayta urinib köring.",
+      "unavailable": "Operator xizmati mavjud emas. Keyinroq qayta urinib köring.",
+      "busy": "Boşqa qönğiroq davom etmoqda. Keyinroq qayta urinib köring."
+    }
   }
 }

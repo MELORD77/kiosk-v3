@@ -38,14 +38,14 @@ export function ResultSection({
     <section
       aria-labelledby={headingId}
       className={cn(
-        'relative isolate min-w-0 overflow-hidden grid content-start gap-kiosk-3 border border-kiosk-border bg-kiosk-surface rounded-kiosk-lg shadow-kiosk-card p-kiosk-4',
+        'relative isolate min-w-0 overflow-hidden grid content-start gap-kiosk-4 border border-kiosk-border bg-kiosk-surface rounded-kiosk-lg shadow-kiosk-card p-kiosk-6 compact:p-kiosk-4',
         className,
       )}
     >
       <div
         aria-hidden="true"
         className={cn(
-          'pointer-events-none absolute -z-10 top-kiosk-4 right-kiosk-4 grid place-items-center w-12 h-12 rounded-kiosk-sm border',
+          'pointer-events-none absolute -z-10 top-kiosk-6 right-kiosk-6 grid place-items-center w-12 h-12 rounded-kiosk-sm border compact:top-kiosk-4 compact:right-kiosk-4',
           cornerStyles[tone],
         )}
       >

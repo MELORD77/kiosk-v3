@@ -123,9 +123,9 @@ export function ServiceOverview({
           ))}
         </dl>
       </div>
-      <div className="mt-auto flex flex-wrap gap-kiosk-4 [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6 justify-end [&_.button]:min-h-kiosk-16 [&_.button]:text-kiosk-lg">
+      <div className="mt-auto grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-kiosk-2 [[data-orientation='portrait']_&]:grid-cols-1 compact:grid-cols-1 [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6 [&_.button]:min-h-kiosk-16 [&_.button]:text-kiosk-lg">
         <Button
-          className="w-80 max-w-full min-h-kiosk-16 text-kiosk-lg compact:w-full"
+          className="col-start-2 w-full min-h-kiosk-16 text-kiosk-lg [[data-orientation='portrait']_&]:col-start-1 compact:col-start-1"
           onClick={onContinue}
         >
           {t('identity.continue')}

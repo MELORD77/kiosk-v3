@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useKioskSessionStore, useSessionIdle } from '@/features/kiosk-session';
-import { useFullscreenGesture, useKioskOrientation } from '@/shared/lib/kiosk';
+import { OperatorCallDialog } from '@/features/operator-call';
+import { useKioskOrientation } from '@/shared/lib/kiosk';
 import { BackNavigationProvider } from '@/shared/lib/back-navigation';
 import { ScrollArea } from '@/shared/ui/scroll-area';
 import { isSkeletonPreview } from '@/shared/lib/skeleton-preview';
@@ -18,12 +19,30 @@ import { KioskBackdrop } from './kiosk-backdrop';
 import '../styles/kiosk-backdrop.css';
 
 export function KioskLayout() {
-  useFullscreenGesture();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const client = useQueryClient();
   const orientation = useKioskOrientation();
   const isActive = useKioskSessionStore((state) => state.isActive);
+  const sessionId = useKioskSessionStore((state) => state.sessionId);
+  const sessionSignal = useKioskSessionStore((state) => state.signal);
+  const [callSessionId, setCallSessionId] = useState<number | null>(null);
+  const callOpener = useRef<{
+    element: HTMLButtonElement;
+    sessionId: number;
+  } | null>(null);
+  useEffect(() => {
+    if (callSessionId !== null) return;
+    const opener = callOpener.current;
+    callOpener.current = null;
+    if (
+      isActive &&
+      opener?.sessionId === sessionId &&
+      opener.element.isConnected
+    ) {
+      opener.element.focus();
+    }
+  }, [callSessionId, isActive, sessionId]);
   const endSession = useKioskSessionStore((state) => state.endSession);
   const handleEndSession = useCallback(() => {
     clearSessionCache(client);
@@ -69,9 +88,23 @@ export function KioskLayout() {
           (isSkeletonPreview(search) ? (
             <KioskFooterSkeleton />
           ) : (
-            <KioskFooter onEndSession={handleEndSession} />
+            <KioskFooter
+              onEndSession={handleEndSession}
+              onCallOperator={(element) => {
+                callOpener.current = { element, sessionId };
+                setCallSessionId(sessionId);
+              }}
+            />
           ))}
         {import.meta.env.DEV && <DeveloperControls />}
+        {isActive && callSessionId === sessionId && (
+          <OperatorCallDialog
+            key={sessionId}
+            open
+            sessionSignal={sessionSignal}
+            onClose={() => setCallSessionId(null)}
+          />
+        )}
         <SessionWarning
           open={idle.isWarning}
           secondsLeft={idle.secondsLeft}

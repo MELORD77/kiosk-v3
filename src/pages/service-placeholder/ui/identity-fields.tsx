@@ -1,8 +1,10 @@
+import { useWatch } from 'react-hook-form';
 import type { UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FormField } from '@/shared/ui/form-field';
 import { TextField } from '@/shared/ui/text-field';
 import { Fade } from '@/shared/ui/fade';
+import { isValidIdentityField } from '../model/identity-schema';
 import type { IdentityField, IdentityInput } from '../model/identity-schema';
 
 interface IdentityFieldsProps {
@@ -19,6 +21,7 @@ export function IdentityFields({
   onEdit,
 }: IdentityFieldsProps) {
   const { t } = useTranslation();
+  const values = useWatch({ control: form.control });
   const pinError = form.formState.errors.pin?.message;
   const seriesError = form.formState.errors.passportSeries?.message;
   const numberError = form.formState.errors.passportNumber?.message;
@@ -37,9 +40,10 @@ export function IdentityFields({
         >
           <TextField
             {...form.register('pin')}
+            data-valid={isValidIdentityField('pin', values.pin ?? '')}
             id="identity-pin"
             className={
-              "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
+              'identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg'
             }
             inputMode="none"
             pattern="[0-9]*"
@@ -73,9 +77,13 @@ export function IdentityFields({
       >
         <TextField
           {...form.register('passportSeries')}
+          data-valid={isValidIdentityField(
+            'passportSeries',
+            values.passportSeries ?? '',
+          )}
           id="identity-series"
           className={
-            "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
+            'identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg'
           }
           inputMode="none"
           autoCapitalize="characters"
@@ -100,9 +108,13 @@ export function IdentityFields({
       >
         <TextField
           {...form.register('passportNumber')}
+          data-valid={isValidIdentityField(
+            'passportNumber',
+            values.passportNumber ?? '',
+          )}
           id="identity-number"
           className={
-            "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
+            'identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg'
           }
           inputMode="none"
           pattern="[0-9]*"
@@ -127,9 +139,10 @@ export function IdentityFields({
       >
         <TextField
           {...form.register('birthDate')}
+          data-valid={isValidIdentityField('birthDate', values.birthDate ?? '')}
           id="identity-birth-date"
           className={
-            "identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums [&:focus]:border-kiosk-primary [&.identity-input[aria-invalid='true']]:border-kiosk-danger [&.identity-input[aria-invalid='true']:focus-visible]:outline-kiosk-danger tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg"
+            'identity-input py-kiosk-2 leading-tight short-wide:text-kiosk-sm min-h-kiosk-service-input rounded-kiosk-md text-center text-kiosk-page-heading font-bold tabular-nums tracking-[0.08em] px-kiosk-3 [&::placeholder]:text-kiosk-text-muted [&::placeholder]:opacity-60 compact:text-kiosk-lg'
           }
           inputMode="none"
           autoComplete="off"

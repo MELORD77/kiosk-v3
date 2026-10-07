@@ -13,7 +13,7 @@ export function WelcomeBackdrop() {
         <div className="absolute inset-6 rounded-full border border-welcome-accent opacity-20 motion-safe:animate-welcome-orbit motion-safe:[animation-direction:reverse] motion-safe:[animation-duration:40s]" />
         <div className="absolute top-1/2 left-1/2 size-4/5 -translate-x-1/2 -translate-y-1/2 perspective-distant">
           <img
-            className="size-full object-contain opacity-15 motion-safe:animate-welcome-emblem-turn"
+            className="size-full object-contain opacity-45 [[data-theme='dark']_&]:opacity-15 motion-safe:animate-welcome-emblem-turn"
             src={`${import.meta.env.BASE_URL}logo/logo-iiv.png`}
             alt=""
             draggable={false}

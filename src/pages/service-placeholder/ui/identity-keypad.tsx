@@ -65,8 +65,10 @@ export function IdentityKeypad({
   return (
     <div
       className={cn(
-        'identity-keyboard w-full [&_.hg-rows]:flex [&_.hg-rows]:flex-col [&_.hg-rows]:gap-kiosk-2 short-wide:[&_.hg-rows]:gap-kiosk-1 [&_.hg-row]:flex [&_.hg-row]:gap-kiosk-2 [&_.hg-button]:min-w-kiosk-12 [&_.hg-button]:flex-1 [&_.hg-button]:h-kiosk-service-key [&_.hg-button]:rounded-kiosk-sm [&_.hg-button]:border-2 [&_.hg-button]:border-kiosk-control-border [&_.hg-button]:bg-kiosk-surface-muted [&_.hg-button]:text-kiosk-text [&_.hg-button]:text-kiosk-2xl [&_.hg-button]:font-bold [&_.hg-button]:cursor-pointer [&_.hg-button]:leading-none [&_.hg-button:hover]:border-kiosk-primary [&_.hg-button:focus-visible]:outline-2 [&_.hg-button:focus-visible]:outline-offset-2 [&_.hg-button:focus-visible]:outline-kiosk-primary motion-safe:[&_.hg-button.hg-activeButton]:opacity-75 [&_.hg-button>span]:pointer-events-none [&_.identity-key-action]:text-kiosk-md [&_.hg-button-bksp]:text-kiosk-xl [&_.hg-button-space]:grow-[5] compact:[&_.hg-button]:text-kiosk-xl compact:[&_.identity-key-action]:text-kiosk-sm',
-        alphabet ? 'overflow-x-auto' : 'overflow-visible',
+        'identity-keyboard w-full [&_.hg-rows]:flex [&_.hg-rows]:flex-col [&_.hg-rows]:gap-kiosk-2 short-wide:[&_.hg-rows]:gap-kiosk-1 [&_.hg-row]:flex [&_.hg-row]:gap-kiosk-2 [&_.hg-button]:min-w-kiosk-12 [&_.hg-button]:flex-1 [&_.hg-button]:rounded-kiosk-sm [&_.hg-button]:border-2 [&_.hg-button]:border-kiosk-control-border [&_.hg-button]:bg-kiosk-surface-muted [&_.hg-button]:text-kiosk-text [&_.hg-button]:text-kiosk-2xl [&_.hg-button]:font-bold [&_.hg-button]:cursor-pointer [&_.hg-button]:leading-none [&_.hg-button:hover]:border-kiosk-primary [&_.hg-button:focus-visible]:outline-2 [&_.hg-button:focus-visible]:outline-offset-2 [&_.hg-button:focus-visible]:outline-kiosk-primary motion-safe:[&_.hg-button.hg-activeButton]:opacity-75 [&_.hg-button>span]:pointer-events-none [&_.identity-key-action]:text-kiosk-md [&_.hg-button-bksp]:text-kiosk-xl [&_.hg-button-space]:grow-[5] compact:[&_.hg-button]:text-kiosk-xl compact:[&_.identity-key-action]:text-kiosk-sm',
+        alphabet
+          ? 'overflow-x-auto [&_.hg-button]:h-kiosk-service-key'
+          : 'overflow-visible [&_.hg-button]:h-[calc(var(--service-key-height)*1.3)]',
       )}
       role="group"
       aria-label={t(

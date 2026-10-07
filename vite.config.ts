@@ -28,6 +28,18 @@ export default defineConfig(({ mode, command, isPreview }) => {
       host: true,
       proxy: hardwareTarget
         ? {
+            '^/device-api/api/call/(start|signal|poll|hangup)$': {
+              target: hardwareTarget,
+              changeOrigin: true,
+              rewrite: (path) => path.replace(/^\/device-api/, ''),
+              bypass: (request) =>
+                request.method === 'POST' ? undefined : false,
+              configure: (proxy) => {
+                proxy.on('proxyReq', (request) =>
+                  request.removeHeader('origin'),
+                );
+              },
+            },
             '^/device-api/api/passport/(info|read|stop)$': {
               target: hardwareTarget,
               changeOrigin: true,

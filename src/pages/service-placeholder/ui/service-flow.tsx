@@ -40,6 +40,7 @@ export function ServiceFlow({
     emptyIdentityInput('passport'),
   );
   const [documentError, setDocumentError] = useState<unknown>();
+  const [unavailable, setUnavailable] = useState(false);
   const failedAttempts = useRef(0);
   const { mutateAsync, data, reset } = useRequestCitizenService();
 
@@ -154,16 +155,22 @@ export function ServiceFlow({
       serviceName={serviceName}
       initialValues={document}
       error={documentError}
-      onChange={() => setDocumentError(undefined)}
+      unavailable={unavailable}
+      onChange={() => {
+        setDocumentError(undefined);
+        setUnavailable(false);
+      }}
       onBack={() => {
         setDocument(emptyIdentityInput('passport'));
         setDocumentError(undefined);
+        setUnavailable(false);
         setStep('method');
       }}
       onSubmit={(values) => {
         setDocument(values);
         setDocumentError(undefined);
         if ([7, 8, 12, 22].includes(service.number)) setStep('face');
+        else setUnavailable(true);
       }}
     />
   );

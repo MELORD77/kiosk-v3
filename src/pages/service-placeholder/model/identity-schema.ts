@@ -18,7 +18,7 @@ export function createIdentitySchema(messages: IdentityMessages) {
     })
     .superRefine((input, context) => {
       if (input.method === 'pin') {
-        if (!/^\d{14}$/.test(input.pin)) {
+        if (!isValidIdentityField('pin', input.pin)) {
           context.addIssue({
             code: 'custom',
             path: ['pin'],
@@ -27,21 +27,21 @@ export function createIdentitySchema(messages: IdentityMessages) {
         }
         return;
       }
-      if (!/^[A-Z]{2}$/.test(input.passportSeries)) {
+      if (!isValidIdentityField('passportSeries', input.passportSeries)) {
         context.addIssue({
           code: 'custom',
           path: ['passportSeries'],
           message: messages.series,
         });
       }
-      if (!/^\d{7}$/.test(input.passportNumber)) {
+      if (!isValidIdentityField('passportNumber', input.passportNumber)) {
         context.addIssue({
           code: 'custom',
           path: ['passportNumber'],
           message: messages.number,
         });
       }
-      if (!isValidBirthDate(input.birthDate)) {
+      if (!isValidIdentityField('birthDate', input.birthDate)) {
         context.addIssue({
           code: 'custom',
           path: ['birthDate'],
@@ -54,6 +54,22 @@ export function createIdentitySchema(messages: IdentityMessages) {
 export type IdentityInput = z.infer<ReturnType<typeof createIdentitySchema>>;
 export type IdentityField =
   'pin' | 'passportSeries' | 'passportNumber' | 'birthDate';
+
+export function isValidIdentityField(
+  field: IdentityField,
+  value: string,
+): boolean {
+  switch (field) {
+    case 'pin':
+      return /^\d{14}$/.test(value);
+    case 'passportSeries':
+      return /^[A-Z]{2}$/.test(value);
+    case 'passportNumber':
+      return /^\d{7}$/.test(value);
+    case 'birthDate':
+      return isValidBirthDate(value);
+  }
+}
 
 export function emptyIdentityInput(
   method: IdentityInput['method'] = 'pin',

@@ -7,9 +7,13 @@ import { useBackNavigation } from '@/shared/lib/back-navigation';
 
 interface KioskFooterProps {
   onEndSession: () => void;
+  onCallOperator: (opener: HTMLButtonElement) => void;
 }
 
-export function KioskFooter({ onEndSession }: KioskFooterProps) {
+export function KioskFooter({
+  onEndSession,
+  onCallOperator,
+}: KioskFooterProps) {
   const { t, i18n } = useTranslation();
   const navigation = useBackNavigation();
   return (
@@ -45,10 +49,14 @@ export function KioskFooter({ onEndSession }: KioskFooterProps) {
           ))}
         </div>
       )}
-      <div className="footer-emergency flex items-center min-w-0 h-auto min-h-kiosk-footer-control-height max-w-lg py-kiosk-2 px-kiosk-footer-capsule-padding border-2 border-solid border-kiosk-danger-border rounded-kiosk-footer-pill-radius gap-kiosk-footer-capsule-gap bg-kiosk-danger-soft text-kiosk-danger-text text-kiosk-md leading-[1.3] [&_strong]:text-kiosk-danger [&_strong]:text-kiosk-footer-number-size [&_strong]:font-extrabold [&_strong]:tabular-nums [&_strong]:leading-[1] [&_strong]:flex-none [&_span]:min-w-0 [&_span]:wrap-anywhere [[data-orientation='portrait']_&]:basis-[100%] [[data-orientation='portrait']_&]:order-[1] [[data-orientation='portrait']_&]:justify-center footer-wrap:basis-[100%] footer-wrap:order-[1] footer-wrap:justify-center compact:h-auto compact:min-h-kiosk-footer-control-height compact:py-kiosk-3 compact:px-kiosk-4 compact:gap-kiosk-3 compact:text-kiosk-sm compact:[&_strong]:text-kiosk-footer-number-size short-wide:basis-0 short-wide:order-none short-wide:flex-1 short-wide:justify-center short-wide:px-kiosk-3 short-wide:gap-kiosk-2 short-wide:text-kiosk-sm short-wide:[&_strong]:text-kiosk-lg short-wide:min-h-kiosk-12 compact:py-kiosk-2">
+      <Button
+        variant="danger"
+        onClick={(event) => onCallOperator(event.currentTarget)}
+        className="footer-emergency flex items-center justify-start text-left font-normal min-w-0 h-auto min-h-kiosk-footer-control-height max-w-lg py-kiosk-2 px-kiosk-footer-capsule-padding border-2 border-solid border-kiosk-danger-border rounded-kiosk-footer-pill-radius gap-kiosk-footer-capsule-gap bg-kiosk-danger-soft text-kiosk-danger-text text-kiosk-md leading-[1.3] [&_strong]:text-kiosk-danger [&_strong]:text-kiosk-footer-number-size [&_strong]:font-extrabold [&_strong]:tabular-nums [&_strong]:leading-[1] [&_strong]:flex-none [&_span]:min-w-0 [&_span]:wrap-anywhere [[data-orientation='portrait']_&]:basis-[100%] [[data-orientation='portrait']_&]:order-[1] [[data-orientation='portrait']_&]:justify-center footer-wrap:basis-[100%] footer-wrap:order-[1] footer-wrap:justify-center compact:h-auto compact:min-h-kiosk-footer-control-height compact:py-kiosk-3 compact:px-kiosk-4 compact:gap-kiosk-3 compact:text-kiosk-sm compact:[&_strong]:text-kiosk-footer-number-size short-wide:basis-0 short-wide:order-none short-wide:flex-1 short-wide:justify-center short-wide:px-kiosk-3 short-wide:gap-kiosk-2 short-wide:text-kiosk-sm short-wide:[&_strong]:text-kiosk-lg short-wide:min-h-kiosk-12 compact:py-kiosk-2"
+      >
         <strong>102</strong>
         <span>{t('footer.emergency')}</span>
-      </div>
+      </Button>
       <Button
         variant="primary"
         className="footer-finish flex-none min-h-kiosk-footer-control-height h-auto max-w-full pt-kiosk-2 pr-kiosk-6 pb-kiosk-2 pl-kiosk-4 rounded-kiosk-footer-pill-radius gap-kiosk-3 text-kiosk-footer-text-size font-semibold [&_svg]:w-kiosk-6 [&_svg]:h-kiosk-6 [&_svg]:flex-none compact:min-w-0 compact:max-w-full compact:h-auto compact:min-h-[max(48px,_3rem)] compact:px-kiosk-3 compact:gap-kiosk-2 compact:text-kiosk-sm compact:[&_svg]:w-kiosk-6 compact:[&_svg]:h-kiosk-6 short-wide:text-kiosk-sm short-wide:px-kiosk-3 short-wide:min-h-kiosk-12"

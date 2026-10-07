@@ -15,7 +15,7 @@ export function WelcomePageSkeleton() {
         className="welcome-copy flex flex-col items-start gap-kiosk-8 [[data-orientation='portrait']_&]:grid [[data-orientation='portrait']_&]:grid-cols-[1fr_1fr] [[data-orientation='portrait']_&]:gap-kiosk-6 [[data-orientation='portrait']_&]:items-end short-wide:gap-kiosk-6 compact:gap-kiosk-3 compact:[[data-orientation='portrait']_&]:grid-cols-[1fr]"
         aria-hidden="true"
       >
-        <div className="welcome-title text-kiosk-welcome-title font-extrabold tracking-[-0.035em] leading-[0.95] max-w-[7ch] compact:max-w-none [[data-orientation='portrait']_&]:text-kiosk-welcome-title compact:text-[clamp(2rem,5dvh,3.5rem)] compact:[[data-orientation='portrait']_&]:text-[clamp(2rem,5dvh,3.5rem)]">
+        <div className="welcome-title text-kiosk-welcome-title font-extrabold tracking-[-0.035em] leading-tight max-w-[7ch] compact:max-w-none [[data-orientation='portrait']_&]:text-kiosk-welcome-title compact:text-[clamp(2rem,5dvh,3.5rem)] compact:[[data-orientation='portrait']_&]:text-[clamp(2rem,5dvh,3.5rem)]">
           <Skeleton variant="text">{t('welcome.uz')}</Skeleton>
         </div>
         <div className="welcome-translations grid gap-kiosk-2 text-kiosk-text-muted text-kiosk-welcome-secondary font-medium [[data-orientation='portrait']_&]:text-kiosk-welcome-secondary compact:text-kiosk-sm compact:grid-cols-2 compact:w-full">
@@ -50,7 +50,7 @@ export function WelcomePageSkeleton() {
               className="button border border-solid items-center gap-kiosk-3 font-bold cursor-pointer leading-[1.3] no-underline [&:disabled]:cursor-not-allowed button--secondary text-kiosk-text bg-kiosk-surface border-kiosk-control-border [&:enabled:hover]:border-kiosk-control-primary [&:enabled:focus-visible]:border-kiosk-control-primary language-card rounded-kiosk-md min-h-[clamp(56px,10dvh,112px)] py-kiosk-4 px-kiosk-6 flex justify-between shadow-kiosk-card text-left [[data-orientation='portrait']_&]:min-h-[clamp(56px,10dvh,112px)] medium:p-kiosk-4 short-wide:py-kiosk-2 compact:min-h-[clamp(56px,7dvh,84px)] compact:[[data-orientation='portrait']_&]:min-h-[clamp(56px,7dvh,84px)] compact:py-kiosk-2"
             >
               <span className="flex min-w-0 items-center gap-kiosk-4 compact:gap-kiosk-3">
-                <span className="language-flag block h-kiosk-16 w-kiosk-16 shrink-0 overflow-hidden rounded-full border-2 border-kiosk-border-strong bg-kiosk-surface p-1 compact:h-kiosk-12 compact:w-kiosk-12">
+                <span className="language-flag block h-kiosk-16 w-kiosk-16 shrink-0 overflow-hidden rounded-full border-2 border-kiosk-border-strong bg-kiosk-surface-muted p-1 compact:h-kiosk-12 compact:w-kiosk-12">
                   <Skeleton
                     variant="icon"
                     className="h-full w-full rounded-full"

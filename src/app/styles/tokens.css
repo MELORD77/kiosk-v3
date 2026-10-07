@@ -1,13 +1,19 @@
 :root {
   color-scheme: light;
-  --color-background: #f5fafdb2;
+  --color-background: #8f95953d;
   --color-surface: #ffffff;
   --color-shell-surface: #ffffff;
   --color-surface-muted: #edf0f3;
   --color-text: #1c252e;
   --color-text-muted: #637381;
-  --color-border: #a7ccf1b5;
+  --color-border: #a7ccf1;
   --color-border-strong: #486481;
+  --border-width-default: 2px;
+  --border-width-strong: 4px;
+  --border-width-loader: 8px;
+  --service-card-dots-opacity: 0.4;
+  --service-card-dot-radius: 1.25px;
+  --service-card-dot-fade: 1.875px;
   --color-primary: #0fa0df;
   --color-primary-hover: #00628f;
   --color-on-primary: #ffffff;
@@ -34,8 +40,8 @@
   --color-warning-soft: #fff1d6;
   --color-warning-border: #e6c68d;
   --color-scrollbar-track: var(--color-surface-muted);
-  --color-scrollbar-thumb: var(--color-text-muted);
-  --color-scrollbar-thumb-hover: var(--color-primary);
+  --color-scrollbar-thumb: var(--color-primary);
+  --color-scrollbar-thumb-hover: var(--color-primary-hover);
   --color-selected-badge: rgb(0 31 71 / 18%);
   --color-dialog-backdrop: rgb(0 0 0 / 55%);
   --shadow-card:
@@ -128,6 +134,12 @@
   --color-text-muted: #a8b4c0;
   --color-border: #2d4c69;
   --color-border-strong: #71808e;
+  --border-width-default: 1px;
+  --border-width-strong: 2px;
+  --border-width-loader: 4px;
+  --service-card-dots-opacity: 0.14;
+  --service-card-dot-radius: 1px;
+  --service-card-dot-fade: 1.5px;
   --color-primary: #62b9ea;
   --color-primary-hover: #83caf2;
   --color-on-primary: #ffffff;

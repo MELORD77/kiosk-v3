@@ -400,5 +400,31 @@
     "networkError": "Cannot connect to the server. Check the connection and try again.",
     "validationError": "The verification response has an unexpected format. Please try again.",
     "photoError": "The photo could not be prepared. Take another photo."
+  },
+  "operatorCall": {
+    "title": "Call operator",
+    "handset": "Lift the handset to speak with the operator.",
+    "start": "Start call",
+    "end": "End call",
+    "close": "Close",
+    "enableSound": "Enable sound",
+    "soundBlocked": "Tap Enable sound to hear the operator.",
+    "status": {
+      "idle": "Ready to call",
+      "starting": "Starting the call",
+      "ringing": "Waiting for an operator",
+      "connecting": "Connecting to the operator",
+      "connected": "Connected to the operator",
+      "ended": "Call ended",
+      "error": "Unable to make the call"
+    },
+    "errors": {
+      "microphoneDenied": "Microphone access was denied. Allow microphone access and try again.",
+      "microphoneUnavailable": "The microphone is unavailable. Check the handset and try again.",
+      "unsupported": "Audio calls are unavailable on this device.",
+      "connection": "The call could not connect. Please try again.",
+      "unavailable": "The operator service is unavailable. Please try again later.",
+      "busy": "Another call is already in progress. Please try again later."
+    }
   }
 }

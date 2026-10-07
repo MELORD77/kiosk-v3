@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { createApiClient } from '@/shared/api';
+import { ApiError, createApiClient } from '@/shared/api';
 import type { ApiRequestOptions } from '@/shared/api';
 import { env } from '@/shared/config';
 
@@ -14,6 +14,16 @@ const hardwareErrorCodeSchema = z.enum([
   'invalid_mrz',
   'origin_not_allowed',
   'timeout',
+  'call_busy',
+  'call_not_available',
+  'call_pairing_locked',
+  'call_code_invalid',
+  'call_session_invalid',
+  'call_ended',
+  'call_not_joined',
+  'call_signal_invalid',
+  'call_sequence_invalid',
+  'call_event_gap',
 ]);
 export type HardwareErrorCode = z.infer<typeof hardwareErrorCodeSchema>;
 
@@ -30,6 +40,8 @@ export class HardwareError extends Error {
 export const hardwareKeys = {
   all: ['session', 'kiosk-hardware'] as const,
   passportRead: () => [...hardwareKeys.all, 'passport-read'] as const,
+  operatorCall: (operation: 'start' | 'signal' | 'poll' | 'hangup') =>
+    [...hardwareKeys.all, 'operator-call', operation] as const,
 };
 
 const failureSchema = z.object({
@@ -71,6 +83,7 @@ export async function requestHardware<T extends { ok: true }>(
         credentials: 'omit',
         signal: controller.signal,
         schema: z.union([failureSchema, options.schema]),
+        errorMessageSchema: failureSchema.transform((failure) => failure.error),
       },
     );
     if (!result.ok) throw new HardwareError(result.error);
@@ -78,6 +91,10 @@ export async function requestHardware<T extends { ok: true }>(
   } catch (error) {
     options.signal?.throwIfAborted();
     if (timedOut) throw new HardwareError('timeout');
+    if (error instanceof ApiError && typeof error.serverMessage === 'string') {
+      const code = hardwareErrorCodeSchema.safeParse(error.serverMessage);
+      if (code.success) throw new HardwareError(code.data);
+    }
     throw error;
   } finally {
     clearTimeout(timeout);

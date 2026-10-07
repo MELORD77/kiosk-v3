@@ -79,8 +79,8 @@ export function IdentityFormSkeleton({
                 variant="button"
                 className={
                   index === 9 || index === 11
-                    ? 'button border border-solid border-[transparent] inline-flex items-center justify-center gap-kiosk-3 font-bold cursor-pointer leading-[1.3] no-underline [&:disabled]:cursor-not-allowed identity-key min-h-kiosk-service-key rounded-kiosk-md p-kiosk-3 [&_svg]:w-kiosk-8 [&_svg]:h-kiosk-8 identity-key--action text-kiosk-md compact:text-kiosk-sm'
-                    : 'button border border-solid border-[transparent] inline-flex items-center justify-center gap-kiosk-3 font-bold cursor-pointer leading-[1.3] no-underline [&:disabled]:cursor-not-allowed identity-key min-h-kiosk-service-key rounded-kiosk-md text-kiosk-2xl p-kiosk-3 [&_svg]:w-kiosk-8 [&_svg]:h-kiosk-8 compact:text-kiosk-xl'
+                    ? 'button border border-solid border-[transparent] inline-flex items-center justify-center gap-kiosk-3 font-bold cursor-pointer leading-[1.3] no-underline [&:disabled]:cursor-not-allowed identity-key min-h-[calc(var(--service-key-height)*1.3)] rounded-kiosk-md p-kiosk-3 [&_svg]:w-kiosk-8 [&_svg]:h-kiosk-8 identity-key--action text-kiosk-md compact:text-kiosk-sm'
+                    : 'button border border-solid border-[transparent] inline-flex items-center justify-center gap-kiosk-3 font-bold cursor-pointer leading-[1.3] no-underline [&:disabled]:cursor-not-allowed identity-key min-h-[calc(var(--service-key-height)*1.3)] rounded-kiosk-md text-kiosk-2xl p-kiosk-3 [&_svg]:w-kiosk-8 [&_svg]:h-kiosk-8 compact:text-kiosk-xl'
                 }
               >
                 {key}

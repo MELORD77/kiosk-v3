@@ -16,11 +16,12 @@
   }
   *::-webkit-scrollbar-thumb {
     min-height: var(--space-12);
-    border: 2px solid var(--color-scrollbar-track);
+    border: var(--border-width-strong) solid var(--color-scrollbar-track);
     border-radius: var(--radius-sm);
     background: var(--color-scrollbar-thumb);
   }
-  *::-webkit-scrollbar-thumb:hover {
+  *::-webkit-scrollbar-thumb:hover,
+  *::-webkit-scrollbar-thumb:active {
     background: var(--color-scrollbar-thumb-hover);
   }
 }

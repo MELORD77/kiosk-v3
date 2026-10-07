@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type RefObject } from 'react';
 
 const tapDurationMs = 300;
 const repeatGapMs = 400;
@@ -53,7 +53,7 @@ function isTouchClick(event: MouseEvent) {
   return false;
 }
 
-export function useFullscreenGesture() {
+export function useFullscreenGesture(targetRef: RefObject<HTMLElement | null>) {
   useEffect(() => {
     let transitionPending = false;
     let startedAt = 0;
@@ -64,6 +64,13 @@ export function useFullscreenGesture() {
     let suppressUntil = 0;
     let suppressedPoints: Point[] = [];
     const origins = new Map<number, Point>();
+
+    function isTarget(event: Event) {
+      return (
+        event.target instanceof Node &&
+        targetRef.current?.contains(event.target) === true
+      );
+    }
 
     function toggleFullscreen() {
       if (transitionPending) return;
@@ -109,6 +116,7 @@ export function useFullscreenGesture() {
         startedAt = now;
         invalid = false;
       }
+      if (!isTarget(event)) invalidate();
       for (const touch of Array.from(event.changedTouches)) {
         origins.set(touch.identifier, { x: touch.clientX, y: touch.clientY });
       }
@@ -173,6 +181,10 @@ export function useFullscreenGesture() {
     }
 
     function handleClick(event: MouseEvent) {
+      if (!isTarget(event)) {
+        invalidate();
+        return;
+      }
       const now = performance.now();
       const center = { x: event.clientX, y: event.clientY };
       const followsTouch =
@@ -248,5 +260,5 @@ export function useFullscreenGesture() {
       document.removeEventListener('gesturechange', preventGestureZoom, true);
       window.removeEventListener('blur', handleCancel);
     };
-  }, []);
+  }, [targetRef]);
 }

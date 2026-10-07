@@ -8,6 +8,7 @@ interface CitizenIdentityFormProps {
   serviceName: string;
   initialValues: IdentityInput;
   error?: unknown;
+  unavailable?: boolean;
   onBack: () => void;
   onSubmit: (values: IdentityInput) => void;
   onChange: () => void;
@@ -17,12 +18,13 @@ export function CitizenIdentityForm({
   serviceName,
   initialValues,
   error,
+  unavailable = false,
   onBack,
   onSubmit,
   onChange,
 }: CitizenIdentityFormProps) {
   const { t, i18n } = useTranslation();
-  let description: string | undefined;
+  let description = unavailable ? t('serviceResult.unavailable') : undefined;
   if (error instanceof ApiError) {
     const fallback =
       error.status === 404

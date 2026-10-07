@@ -18,7 +18,7 @@ export function KioskHeaderSkeleton({
   const { t } = useTranslation();
   return (
     <header
-      className="kiosk-header shrink-0 flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface [border-bottom:1px_solid_var(--color-border)] medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap short:gap-kiosk-2 short:py-kiosk-2 kiosk-header-skeleton"
+      className="kiosk-header shrink-0 flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface border-b border-solid border-kiosk-border medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap short:gap-kiosk-2 short:py-kiosk-2 kiosk-header-skeleton"
       aria-busy="true"
     >
       <Loader className="sr-only" />

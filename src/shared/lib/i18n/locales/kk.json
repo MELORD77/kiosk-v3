@@ -400,5 +400,31 @@
     "networkError": "Serverge jalǵanıw múmkin bolmadı. Baylanıstı tekseriñ hám qayta sınap kóriñ.",
     "validationError": "Tekseriw juwabı kútilgen formatta emes. Qayta sınap kóriñ.",
     "photoError": "Süwretti tayarlaw múmkin bolmadı. Qayta süwretke tüsiñ."
+  },
+  "operatorCall": {
+    "title": "Operatorǵa qońıraw",
+    "handset": "Operator menen sóylesiw ushın trubkanı kóteriń.",
+    "start": "Qońırawdı baslaw",
+    "end": "Qońırawdı tamamlaw",
+    "close": "Jabıw",
+    "enableSound": "Dawıstı qosıw",
+    "soundBlocked": "Operatordı esitiw ushın «Dawıstı qosıw»dı basıń.",
+    "status": {
+      "idle": "Qońırawǵa tayar",
+      "starting": "Qońıraw baslanbaqta",
+      "ringing": "Operatordıń juwabı kútilmekte",
+      "connecting": "Operatorǵa jalǵanbaqta",
+      "connected": "Operator menen jalǵandı",
+      "ended": "Qońıraw tamamlandı",
+      "error": "Qońıraw ámelge aspadı"
+    },
+    "errors": {
+      "microphoneDenied": "Mikrofonǵa ruqsat berilmedi. Ruqsat beriń hám qayta urınıp kóriń.",
+      "microphoneUnavailable": "Mikrofon islemeydi. Trubkanı tekseriń hám qayta urınıp kóriń.",
+      "unsupported": "Bul qurılmada dawıslı qońırawlar joq.",
+      "connection": "Qońıraw jalǵanbadı. Qayta urınıp kóriń.",
+      "unavailable": "Operator xızmeti házir joq. Keyinirek qayta urınıp kóriń.",
+      "busy": "Basqa qońıraw dawam etpekte. Keyinirek qayta urınıp kóriń."
+    }
   }
 }

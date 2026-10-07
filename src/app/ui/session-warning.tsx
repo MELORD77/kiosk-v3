@@ -34,11 +34,11 @@ export function SessionWarning({
         {t('session.description', { count: secondsLeft })}
       </p>
       <div className="actions flex flex-wrap gap-kiosk-3">
-        <Button autoFocus onClick={onContinue}>
-          {t('session.continue')}
-        </Button>
         <Button variant="danger" onClick={onEndSession}>
           {t('common.finish')}
+        </Button>
+        <Button autoFocus onClick={onContinue}>
+          {t('session.continue')}
         </Button>
       </div>
     </Dialog>

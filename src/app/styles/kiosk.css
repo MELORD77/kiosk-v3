@@ -1,3 +1,10 @@
+:root:not([data-theme='dark']) .welcome-languages {
+  --color-control-border: var(--color-service-card-border);
+  --color-border-strong: var(--color-service-card-border);
+  --border-width-default: 1px;
+  --border-width-strong: 1px;
+}
+
 .identity-page {
   min-height: 0;
   --service-gap: clamp(var(--space-2), 1.5dvh, 24px);
@@ -16,6 +23,27 @@
   --text-2xl: clamp(1.5rem, 3.5dvh, 2.25rem);
   --text-page-heading: clamp(1.25rem, 3dvh, 2.25rem);
   --text-description: clamp(1rem, 2dvh, 1.25rem);
+}
+
+.identity-input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.identity-input[data-valid='true'] {
+  border-color: var(--color-success);
+}
+
+.identity-input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.identity-input[data-valid='true']:focus-visible {
+  border-color: color-mix(in srgb, var(--color-success) 75%, var(--color-text));
+}
+
+.identity-input[aria-invalid='true']:focus-visible {
+  border-color: color-mix(in srgb, var(--color-danger) 75%, var(--color-text));
 }
 
 .identity-document-guide-image {

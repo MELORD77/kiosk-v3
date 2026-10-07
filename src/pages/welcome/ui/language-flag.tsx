@@ -20,7 +20,7 @@ export function LanguageFlag({ language }: LanguageFlagProps) {
   return (
     <span
       aria-hidden="true"
-      className="language-flag block h-kiosk-16 w-kiosk-16 shrink-0 overflow-hidden rounded-full border-2 border-kiosk-border-strong bg-kiosk-surface p-1 compact:h-kiosk-12 compact:w-kiosk-12"
+      className="language-flag block h-kiosk-16 w-kiosk-16 shrink-0 overflow-hidden rounded-full border-2 border-kiosk-border-strong bg-kiosk-surface-muted p-1 compact:h-kiosk-12 compact:w-kiosk-12"
     >
       <img
         src={flags[language]}

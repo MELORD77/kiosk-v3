@@ -25,6 +25,14 @@
     var(--kiosk-backdrop-base);
 }
 
+:root[data-theme='light'] .kiosk-stage {
+  --kiosk-backdrop-ornament: color-mix(
+    in srgb,
+    var(--color-primary) 55%,
+    transparent
+  );
+}
+
 .kiosk-ornament {
   position: absolute;
   inset: 0;

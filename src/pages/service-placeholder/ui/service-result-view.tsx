@@ -25,7 +25,7 @@ export function ServiceResultView({ data }: ServiceResultViewProps) {
       break;
   }
   return (
-    <div className="grid grid-cols-2 items-start gap-kiosk-3 [[data-orientation='portrait']_&]:grid-cols-1 compact:grid-cols-1 [&>.status-panel]:col-span-full">
+    <div className="mb-kiosk-8 pb-5 grid grid-cols-2 items-stretch gap-kiosk-4 [[data-orientation='portrait']_&]:grid-cols-1 compact:grid-cols-1 [&>.status-panel]:col-span-full">
       {content}
     </div>
   );

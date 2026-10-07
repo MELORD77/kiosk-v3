@@ -261,7 +261,7 @@ describe('identity entry', () => {
     ).toHaveFocus();
   });
 
-  it('requires 14 digits, supports keypad editing and shows server feedback', async () => {
+  it('requires 14 digits, supports keypad editing and shows unsupported service feedback', async () => {
     const user = userEvent.setup();
     const pin = await renderIdentity();
     const submit = screen.getByRole('button', {
@@ -307,7 +307,7 @@ describe('identity entry', () => {
     ).not.toBeInTheDocument();
     await user.click(submit);
     expect(
-      await screen.findByText(i18n.t('identity.receivedTitle')),
+      await screen.findByText(i18n.t('serviceResult.unavailable')),
     ).toBeInTheDocument();
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);
     expect(Object.values(window.localStorage).join('')).not.toContain(
@@ -325,7 +325,7 @@ describe('identity entry', () => {
     ).not.toBeInTheDocument();
     expect(submit).toBeEnabled();
     expect(
-      screen.queryByText(i18n.t('identity.receivedTitle')),
+      screen.queryByText(i18n.t('serviceResult.unavailable')),
     ).not.toBeInTheDocument();
     await user.click(
       screen.getByRole('button', {
@@ -406,7 +406,7 @@ describe('identity entry', () => {
     expect(birthDate).toHaveValue('15.04.1990');
     await user.click(submit);
     expect(
-      await screen.findByText(i18n.t('identity.receivedTitle')),
+      await screen.findByText(i18n.t('serviceResult.unavailable')),
     ).toBeInTheDocument();
     await user.click(
       screen.getByRole('button', {
@@ -418,7 +418,7 @@ describe('identity entry', () => {
       screen.getByLabelText(i18n.t('identity.pinLabel'), { exact: true }),
     ).toHaveValue('');
     expect(
-      screen.queryByText(i18n.t('identity.receivedTitle')),
+      screen.queryByText(i18n.t('serviceResult.unavailable')),
     ).not.toBeInTheDocument();
     expect(submit).toBeEnabled();
     await user.click(
@@ -563,7 +563,7 @@ describe('service preparation flow', () => {
       screen.getByRole('button', { name: i18n.t('serviceFlow.startReading') }),
     ).toBeDisabled();
     expect(
-      screen.getByText(i18n.t('passportReader.notice')),
+      screen.getByText(i18n.t('serviceFlow.readerVerificationUnavailable')),
     ).toBeInTheDocument();
     await user.click(
       screen.getByRole('button', {

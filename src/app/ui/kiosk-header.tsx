@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getKioskDateParts } from '@/shared/lib/date';
 import { useLocation } from 'react-router';
 import { isSkeletonPreview } from '@/shared/lib/skeleton-preview';
+import { useFullscreenGesture } from '@/shared/lib/kiosk';
 import { KioskHeaderSkeleton } from './kiosk-header-skeleton';
 import { ThemeToggle } from './theme-toggle';
 
 export function KioskHeader() {
+  const emblemRef = useRef<HTMLImageElement>(null);
+  useFullscreenGesture(emblemRef);
   const { t } = useTranslation();
   const { search } = useLocation();
   const [now, setNow] = useState(() => new Date());
@@ -33,9 +36,10 @@ export function KioskHeader() {
     );
 
   return (
-    <header className="kiosk-header shrink-0 flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface [border-bottom:1px_solid_var(--color-border)] medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap short:gap-kiosk-2 short:py-kiosk-2">
+    <header className="kiosk-header shrink-0 flex items-center justify-between gap-kiosk-6 min-h-[96px] py-kiosk-3 px-kiosk-page-gutter bg-kiosk-shell-surface border-b border-solid border-kiosk-border medium:min-h-[80px] medium:gap-kiosk-4 short-wide:min-h-[80px] short-wide:py-kiosk-2 compact:items-start compact:flex-wrap short:gap-kiosk-2 short:py-kiosk-2">
       <div className="kiosk-brand flex items-center gap-kiosk-4 min-w-0 medium:gap-kiosk-3">
         <img
+          ref={emblemRef}
           className="kiosk-emblem w-[64px] h-[64px] flex-none object-contain medium:w-[48px] medium:h-[48px] short-wide:w-[56px] short-wide:h-[56px] short:w-kiosk-12 short:h-kiosk-12 compact:w-[48px] compact:h-[48px]"
           src={`${import.meta.env.BASE_URL}logo/logo-iiv.png`}
           alt={t('brand.emblem')}

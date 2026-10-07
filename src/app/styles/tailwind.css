@@ -89,6 +89,27 @@
   --animate-kiosk-skeleton: skeleton-pulse 1.5s ease-in-out infinite alternate;
 }
 
+/* Keep existing border utilities and their variants theme-aware. */
+@utility border {
+  border-width: var(--border-width-default);
+}
+
+@utility border-2 {
+  border-width: var(--border-width-strong);
+}
+
+@utility border-t {
+  border-top-width: var(--border-width-default);
+}
+
+@utility border-b {
+  border-bottom-width: var(--border-width-default);
+}
+
+@utility border-l {
+  border-left-width: var(--border-width-default);
+}
+
 @custom-variant short {
   @media (max-height: 900px) {
     @slot;

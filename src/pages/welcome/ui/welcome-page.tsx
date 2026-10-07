@@ -32,7 +32,7 @@ export function WelcomePage() {
         <WelcomeBackdrop />
         <h1
           id="welcome-title"
-          className="welcome-title text-kiosk-welcome-title font-extrabold tracking-[-0.035em] leading-[0.95] max-w-[7ch] compact:max-w-none [[data-orientation='portrait']_&]:text-kiosk-welcome-title compact:text-[clamp(2rem,5dvh,3.5rem)] compact:[[data-orientation='portrait']_&]:text-[clamp(2rem,5dvh,3.5rem)] relative z-10 motion-safe:animate-welcome-reveal"
+          className="welcome-title text-kiosk-welcome-title font-extrabold tracking-[-0.035em] leading-tight max-w-[7ch] compact:max-w-none [[data-orientation='portrait']_&]:text-kiosk-welcome-title compact:text-[clamp(2rem,5dvh,3.5rem)] compact:[[data-orientation='portrait']_&]:text-[clamp(2rem,5dvh,3.5rem)] relative z-10 motion-safe:animate-welcome-reveal"
           lang="uz-Latn"
         >
           {t('welcome.uz')}
